@@ -2,7 +2,7 @@ package com.example.bazaarbargains;
 
 public class Users {
 
-    String firstnName;
+    String firstName;
     String lastName;
     String userName;
     String password;
@@ -11,8 +11,8 @@ public class Users {
     public Users() {
     }
 
-    public Users(String firstnName, String lastName, String userName, String password) {
-        this.firstnName = firstnName;
+    public Users(String firstName, String lastName, String userName, String password) {
+        this.firstName = firstName;
         this.lastName = lastName;
         this.userName = userName;
 
@@ -20,12 +20,12 @@ public class Users {
     }
 
 
-    public String getFirstnName() {
-        return firstnName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFirstnName(String firstnName) {
-        this.firstnName = firstnName;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
     public String getLastName() {

@@ -1,5 +1,6 @@
 package com.example.bazaarbargains;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -10,6 +11,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class loginActivity extends AppCompatActivity {
 
@@ -71,9 +78,53 @@ public class loginActivity extends AppCompatActivity {
 
     }
 
+    //This method will go through the data in the firebase to verifying the
+    //details user entered to login
     private void verifyingLogin(String userName, String password) {
 
-        
+        final DatabaseReference dbref;
+        dbref = FirebaseDatabase.getInstance().getReference();
+        dbref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //Checking if the user name exists in firebase
+                if (snapshot.child(parentDBName).child(userName).exists()) {
+                    Users userData = snapshot.child(parentDBName).child(userName).getValue(Users.class);
+
+                    //Checking if the username and password are correct by searching through firebase
+                    if (userData.getUserName().equals(userName)) {
+                        if (userData.getPassword().equals(password)) {
+                            Toast.makeText(loginActivity.this, "LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
+                            loadingbar.dismiss();
+
+                            //NEED TO PUT HOMEPAGE LINK HERE SO IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
+                            Intent intent = new Intent(loginActivity.this, ForgotPasswordActivity.class);
+                            startActivity(intent);
+                        }
+                    } else {
+
+                        //if the password is incorrect then displaying the message and dismissing the loading bar
+                        loadingbar.dismiss();
+                        Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                else
+                {
+                    //Displaying msg if user name doesnt exits in firebase
+                    loadingbar.dismiss();
+                    Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
 
