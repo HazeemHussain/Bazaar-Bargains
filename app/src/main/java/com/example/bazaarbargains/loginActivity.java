@@ -56,6 +56,7 @@ public class loginActivity extends AppCompatActivity {
 
     }
 
+    //Checking if the user name and passwords field are empty
     private void checkingLoginFields() {
         String userName = inputUserName.getText().toString();
         String password = inputPassword.getText().toString();
