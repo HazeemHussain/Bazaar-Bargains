@@ -23,17 +23,15 @@ import java.util.HashMap;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-    ActivityForgotPasswordBinding binding;
+
     private Button registerBtn;
     private EditText inputUsername, inputPassword;
     private String DBName = "Users"; //Name of the database parent
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        binding = ActivityForgotPasswordBinding.inflate(getLayoutInflater());
         setContentView(R.layout.activity_forgot_password);
 
 
@@ -49,61 +47,53 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void checkingInputFields() {
-        String userName = binding.inputUsername.getText().toString();
-        String password = binding.inputPassword.getText().toString();
+        String username = inputUsername.getText().toString();
+        String pass = inputPassword.getText().toString();
 
-        if (userName.isEmpty()) {
+        if (username.isEmpty()) {
             Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
-        } else if (password.isEmpty()) {
+        } else if (pass.isEmpty()) {
             Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR NEW PASSWORD", Toast.LENGTH_SHORT).show();
         } else {
-            updatingPassword(userName, password);
+            updatingPassword(username, pass);
         }
     }
 
     private void updatingPassword(String userName, String password) {
         final DatabaseReference ref;
-        ref = FirebaseDatabase.getInstance().getReference(DBName);
+        ref = FirebaseDatabase.getInstance().getReference("Users");
         HashMap user = new HashMap();
         user.put("password", password);
 
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if (snapshot.child(DBName).child(userName).exists()) {
-                    Users userData = snapshot.child(DBName).child(userName).getValue(Users.class);
 
-                    //Checking if the username and password are correct by searching through firebase
-                    if (userData.getUserName().equals(userName)) {
+                if (snapshot.exists()) {
+                    String name = snapshot.child("userName").getValue().toString();
 
-                        ref.child(userName).updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    if (name.equals(userName)) {
+                        ref.child("password").setValue(password).addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
-                                    binding.password.setText("");
-                                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN RESET", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
                                 }
                             }
                         });
-
-
-                        Intent intent = new Intent(ForgotPasswordActivity.this, loginActivity.class);
-                        startActivity(intent);
                     }
-
                 } else {
-
-                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
-                    //Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
-
+                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
-                Toast.makeText(ForgotPasswordActivity.this, "DATABASE CONNECTION ERROR", Toast.LENGTH_SHORT).show();
+
             }
         });
+
 
     }
 
