@@ -26,6 +26,7 @@ public class loginActivity extends AppCompatActivity {
     private ProgressDialog loadingbar;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,7 @@ public class loginActivity extends AppCompatActivity {
             Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
         } else {
 
-            loadingbar.setTitle("LOGIN ACCOUNT");
+            loadingbar.setTitle("LOGGING IN");
             loadingbar.setMessage("VERIFYING YOUR DETAILS, PLEASE BE PATIENT");
             loadingbar.setCanceledOnTouchOutside(false);
             loadingbar.show();
@@ -97,8 +98,9 @@ public class loginActivity extends AppCompatActivity {
                     //Checking if the username and password are correct by searching through firebase
                     if (userData.getUserName().equals(userName)) {
                         if (userData.getPassword().equals(password)) {
-                            Toast.makeText(loginActivity.this, "LOGIN SUCCESSFULL", Toast.LENGTH_SHORT).show();
                             loadingbar.dismiss();
+                            Toast.makeText(loginActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+
 
                             //NEED TO PUT HOMEPAGE LINK HERE SO IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
                             Intent intent = new Intent(loginActivity.this, ForgotPasswordActivity.class);
@@ -117,6 +119,7 @@ public class loginActivity extends AppCompatActivity {
                     loadingbar.dismiss();
                     Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
                     Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
+
                 }
             }
 
