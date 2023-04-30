@@ -63,50 +63,39 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void updatingPassword(String userName, String password) {
         final DatabaseReference ref;
+
+        //getting the reference by going into users and getting the user name
         ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userName);
         HashMap user = new HashMap();
         user.put("password", password);
 
-        ref.child(userName).updateChildren(user).addOnSuccessListener(new OnSuccessListener() {
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onSuccess(Object o) {
-                Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //checking if the username the user entered on the app exists on firebase
+                if (snapshot.exists()) {
+                    // String value = snapshot.getValue(String.class);
+
+                    //If the username exists then changing the password to the new one
+                    ref.child("password").setValue(password);
+
+                    //Displaying message
+                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ForgotPasswordActivity.this, loginActivity.class);
+                    startActivity(intent);
+                } else {
+
+                    //If the username is not found
+                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
+                }
             }
-        }).addOnFailureListener(new OnFailureListener() {
+
             @Override
-            public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ForgotPasswordActivity.this, "Error in updating password", Toast.LENGTH_SHORT).show();
+            public void onCancelled(@NonNull DatabaseError error) {
+
             }
         });
-//        ref.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//
-//                if (snapshot.exists()) {
-//                    String name = snapshot.child(userName).getValue().toString();
-//                    System.out.println(name);
-//
-//                    if (name.equals(userName)) {
-//                        ref.child("password").updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
-//                                }
-//                            }
-//                        });
-//                    }
-//                } else {
-//                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
-//                }
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
 
 
     }
