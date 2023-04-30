@@ -12,6 +12,8 @@ import android.widget.Toast;
 
 import com.example.bazaarbargains.databinding.ActivityForgotPasswordBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -47,8 +49,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
     }
 
     private void checkingInputFields() {
-        String username = inputUsername.getText().toString();
-        String pass = inputPassword.getText().toString();
+        String username = inputUsername.getText().toString().trim();
+        String pass = inputPassword.getText().toString().trim();
 
         if (username.isEmpty()) {
             Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
@@ -61,38 +63,50 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     private void updatingPassword(String userName, String password) {
         final DatabaseReference ref;
-        ref = FirebaseDatabase.getInstance().getReference("Users");
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userName);
         HashMap user = new HashMap();
         user.put("password", password);
 
-        ref.addValueEventListener(new ValueEventListener() {
+        ref.child(userName).updateChildren(user).addOnSuccessListener(new OnSuccessListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                if (snapshot.exists()) {
-                    String name = snapshot.child("userName").getValue().toString();
-
-                    if (name.equals(userName)) {
-                        ref.child("password").setValue(password).addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
-                }
-
+            public void onSuccess(Object o) {
+                Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
             }
-
+        }).addOnFailureListener(new OnFailureListener() {
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onFailure(@NonNull Exception e) {
+                Toast.makeText(ForgotPasswordActivity.this, "Error in updating password", Toast.LENGTH_SHORT).show();
             }
         });
+//        ref.addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//
+//                if (snapshot.exists()) {
+//                    String name = snapshot.child(userName).getValue().toString();
+//                    System.out.println(name);
+//
+//                    if (name.equals(userName)) {
+//                        ref.child("password").updateChildren(user).addOnCompleteListener(new OnCompleteListener<Void>() {
+//                            @Override
+//                            public void onComplete(@NonNull Task<Void> task) {
+//                                if (task.isSuccessful()) {
+//                                    Toast.makeText(ForgotPasswordActivity.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
+//                                }
+//                            }
+//                        });
+//                    }
+//                } else {
+//                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
+//                }
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
 
     }
