@@ -21,6 +21,12 @@
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity
+            android:name=".mainPage"
+            android:exported="false" />
+        <activity
+            android:name=".checkout"
+            android:exported="false" />
+        <activity
             android:name=".loginActivity"
             android:exported="false" />
         <activity
