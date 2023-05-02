@@ -22,6 +22,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class checkout  extends AppCompatActivity {
 
+    int i = 0;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
