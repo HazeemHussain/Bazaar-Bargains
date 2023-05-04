@@ -16,6 +16,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class mainPage  extends AppCompatActivity  {
     private Button button;
+
+    Button showItemButton;
+
     RecyclerView recyview;
     shoeAdapter adapter;
 
@@ -29,6 +32,7 @@ public class mainPage  extends AppCompatActivity  {
         recyview.setLayoutManager(new LinearLayoutManager(this));
 
         recyview.setItemAnimator(null);
+
         FirebaseRecyclerOptions<itemShoe> options =
         new FirebaseRecyclerOptions.Builder<itemShoe>()
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Shoes"), itemShoe.class)
@@ -38,6 +42,7 @@ public class mainPage  extends AppCompatActivity  {
         recyview.setAdapter(adapter);
 
         button = (Button) findViewById(R.id.cartButton);
+
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
@@ -45,6 +50,8 @@ public class mainPage  extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+
 
     }
 

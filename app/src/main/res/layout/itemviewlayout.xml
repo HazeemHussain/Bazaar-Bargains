@@ -13,8 +13,8 @@
         android:contentDescription="shoe"
         android:src="@drawable/it1" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/viewbutton"
         android:layout_width="150dp"
         android:layout_height="50dp"
         android:layout_weight="1"
