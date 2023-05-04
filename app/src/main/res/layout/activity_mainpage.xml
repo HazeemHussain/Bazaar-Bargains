@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<RelativeLayout
+    android:id="@+id/itemPageLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -25,7 +26,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/himessage"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -41,7 +42,7 @@
                     app:layout_constraintVertical_bias="0.0" />
 
                 <Button
-                    android:id="@+id/button"
+                    android:id="@+id/cartButton"
                     android:layout_width="167dp"
                     android:layout_height="160dp"
                     android:scaleX=".3"
@@ -49,20 +50,20 @@
                     android:text="cart"
                     app:icon="@drawable/shopping_cart"
                     app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintStart_toEndOf="@+id/himessage"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
-                    android:id="@+id/imageView2"
+                    android:id="@+id/profilepic"
                     android:layout_width="45dp"
                     android:layout_height="68dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="13dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textView8"
-                    app:layout_constraintEnd_toStartOf="@+id/textView8"
+                    app:layout_constraintBottom_toBottomOf="@+id/himessage"
+                    app:layout_constraintEnd_toStartOf="@+id/himessage"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textView8"
+                    app:layout_constraintTop_toTopOf="@+id/himessage"
                     app:srcCompat="@drawable/newpropic" />
 
                 <TextView
@@ -70,8 +71,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Shop  Explore"
-                    app:layout_constraintStart_toStartOf="@+id/textView8"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintStart_toStartOf="@+id/himessage"
+                    app:layout_constraintTop_toBottomOf="@+id/himessage" />
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -83,7 +84,7 @@
                     android:layout_marginBottom="27dp"
                     app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textView8"
+                    app:layout_constraintStart_toEndOf="@+id/himessage"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/btn1" />
 
@@ -124,6 +125,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     android:text="Trending"
+                    android:textColor="#222222"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -135,13 +137,14 @@
                     android:layout_height="wrap_content"
                     android:padding="20dp"
                     android:text="On sale"
+                    android:textColor="#222222"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewShoes"
                     tools:layout_editor_absoluteX="-39dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/recyclerViewShoes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
@@ -159,4 +162,4 @@
         </LinearLayout>
     </ScrollView>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
