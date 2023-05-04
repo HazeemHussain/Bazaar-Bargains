@@ -1,8 +1,10 @@
 package com.example.bazaarbargains;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -29,6 +31,20 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
         holder.price.setText("$"+ itemShoe.getPrice());
         Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
 
+        holder.veiwbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
+
+                 intent.putExtra("itemname", itemShoe.getName());
+                intent.putExtra("itemprice", itemShoe.getPrice());
+                intent.putExtra("itemimage", itemShoe.getImage());
+
+                    holder.itemView.getContext().startActivity(intent);
+
+            }
+        });
+
     }
 
     @NonNull
@@ -41,12 +57,16 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
     class veiwshoeholder extends RecyclerView.ViewHolder
     {
         ImageView image2;
-        TextView name, price;
+        TextView name, price, veiwbut;
+
         public veiwshoeholder(@NonNull View itemView) {
             super(itemView);
             image2=(ImageView) itemView.findViewById(R.id.imageView1);
             name = (TextView)itemView.findViewById(R.id.itemName);
             price = (TextView)itemView.findViewById(R.id.itemPrice);
+            veiwbut = (TextView)itemView.findViewById(R.id.viewbutton);
+
+
         }
     }
 }
