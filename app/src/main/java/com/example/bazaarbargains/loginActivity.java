@@ -101,10 +101,13 @@ public class loginActivity extends AppCompatActivity {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
 
-
-                            //NEED TO PUT HOMEPAGE LINK HERE SO IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
-                            Intent intent = new Intent(loginActivity.this, ForgotPasswordActivity.class);
+                            //IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
+                            Intent intent = new Intent(loginActivity.this, mainPage.class);
                             startActivity(intent);
+                            
+                        } else if (!userData.getPassword().equals(password)) {
+                            loadingbar.dismiss();
+                            Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
                         }
                     } else {
 
