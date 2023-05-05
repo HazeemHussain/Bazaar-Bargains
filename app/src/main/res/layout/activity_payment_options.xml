@@ -54,16 +54,24 @@
         />
 
     <Button
+        android:id="@+id/confirm_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:visibility="gone"
+
+        />
+
+    <Button
         android:id="@+id/back_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Back"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"/>
-
+        android:visibility="gone"
+        />
 
         <EditText
-            android:id="@+id/visa_card_number"
+            android:id="@+id/card_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Visa Card Number"
@@ -84,10 +92,6 @@
             android:visibility="gone"/>
 
 
-
-
-
-
         <EditText
             android:id="@+id/paypal_username"
             android:layout_width="match_parent"
@@ -101,32 +105,6 @@
             android:layout_height="wrap_content"
             android:hint="PayPal Password"
             android:visibility="gone"/>
-
-
-
-
-
-        <EditText
-            android:id="@+id/MasterCard_card_number"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Master Card Number"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/expiry_date"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Expiration Date"
-            android:visibility="gone"/>
-
-        <EditText
-            android:id="@+id/CVV_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Security Code"
-            android:visibility="gone"/>
-
 
 
 
