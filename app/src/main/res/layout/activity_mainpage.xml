@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/itemPageLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#ffffff"
-             android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -70,8 +70,8 @@
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="89dp"
+                    android:layout_height="26dp"
                     android:text="Shop  Explore"
                     app:layout_constraintStart_toStartOf="@+id/textGst"
                     app:layout_constraintTop_toBottomOf="@+id/textGst" />
@@ -107,8 +107,13 @@
                     android:padding="10dp"
                     android:selectAllOnFocus="false"
                     android:singleLine="false"
+
                     android:hint="Find Your Style"
-                    android:textColor="@color/material_dynamic_neutral30"
+
+
+                    android:text="Find Your Style"
+                    android:textColor="@color/black"
+
                     app:layout_constraintBottom_toTopOf="@+id/textView11"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.181"
@@ -182,4 +187,4 @@
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>
