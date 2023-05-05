@@ -64,7 +64,7 @@ public class mainPage  extends AppCompatActivity  {
                 .setQuery(FirebaseDatabase.getInstance().getReference().child("Shoes"), itemShoe.class)
                 .build();
 
-        adapter = new shoeAdapter(options);
+        adapter = new shoeAdapter(options,1);
         recyview.setAdapter(adapter);
 
         button = (Button) findViewById(R.id.cartButton);
@@ -72,7 +72,7 @@ public class mainPage  extends AppCompatActivity  {
         button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
-                Intent intent = new Intent(mainPage.this, checkout.class );
+                Intent intent = new Intent(mainPage.this, cartRecList.class );
                 startActivity(intent);
             }
         });
