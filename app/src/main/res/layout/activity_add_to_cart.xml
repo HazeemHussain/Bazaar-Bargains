@@ -46,7 +46,8 @@
             android:layout_toRightOf="@+id/cartButton"
             android:layout_alignTop="@+id/cartButton"
             android:layout_marginLeft="10dp"
-            app:nbMaxTextLenght="2"/>
+            app:nbMaxTextLength="2"
+            />
 
     </FrameLayout>
 
