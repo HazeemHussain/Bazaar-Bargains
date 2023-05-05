@@ -63,10 +63,12 @@ public class loginActivity extends AppCompatActivity {
         String password = inputPassword.getText().toString();
 
         if (userName.isEmpty()) {
-            Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+            inputUserName.setError("ENTER YOUR USERNAME");
+           // Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
 
         } else if (password.isEmpty()) {
-            Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
+            inputPassword.setError("ENTER YOUR PASSWORD");
+            //Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR PASSWORD", Toast.LENGTH_SHORT).show();
         } else {
 
             loadingbar.setTitle("LOGGING IN");
@@ -121,7 +123,7 @@ public class loginActivity extends AppCompatActivity {
                     //Displaying msg if user name doesnt exits in firebase
                     loadingbar.dismiss();
                     Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
-                    Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
 
                 }
             }
