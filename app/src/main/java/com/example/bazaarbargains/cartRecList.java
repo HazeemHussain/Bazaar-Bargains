@@ -59,6 +59,19 @@ public class cartRecList extends AppCompatActivity {
 
         totaltot.setText(formattedValue1);
 
+        TextView textView = findViewById(R.id.textView2);
+
+        textView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Get a reference to the Firebase Realtime Database node you want to delete
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
+
+                // Remove the node from the database
+                databaseRef.removeValue();
+            }
+        });
+
         payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
