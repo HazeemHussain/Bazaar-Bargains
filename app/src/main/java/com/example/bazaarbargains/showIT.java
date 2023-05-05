@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.google.firebase.database.DatabaseReference;
@@ -15,7 +16,7 @@ public class showIT extends AppCompatActivity {
 
     private TextView desName,desPrice,quant,addtocartbut,cartTotal;
     private ImageView addbut,minusbut,imageitemView;
-    int  quantity = 0;
+    int  quantity = 1;
     float totalprice = 0;
 
     public static float myFloatVariable;
@@ -48,6 +49,8 @@ public class showIT extends AppCompatActivity {
 
         Glide.with(this).load(data2).into(imageitemView);
 
+
+        quant.setText(Integer.toString(quantity));
 
 
         minusbut.setOnClickListener(new View.OnClickListener() {
@@ -88,6 +91,7 @@ public class showIT extends AppCompatActivity {
                 myFloatVariable = totalprice;
               //  cartTotal.setText((Float.toString(totalprice)));
 
+                Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
 
 
             }
