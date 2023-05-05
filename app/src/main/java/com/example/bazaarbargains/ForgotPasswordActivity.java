@@ -53,9 +53,11 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         String pass = inputPassword.getText().toString().trim();
 
         if (username.isEmpty()) {
-            Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+            inputUsername.setError("PLEASE ENTER YOUR USERNAME");
         } else if (pass.isEmpty()) {
-            Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR NEW PASSWORD", Toast.LENGTH_SHORT).show();
+            inputPassword.setError("PLEASE ENTER YOUR PASSWORD");
+            //Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR NEW PASSWORD", Toast.LENGTH_SHORT).show();
         } else {
             updatingPassword(username, pass);
         }

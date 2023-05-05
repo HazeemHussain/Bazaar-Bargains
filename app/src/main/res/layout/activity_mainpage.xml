@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     android:id="@+id/itemPageLayout"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:background="#ffffff"
-             android:layout_height="match_parent">
+    android:layout_height="match_parent">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -26,7 +26,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/himessage"
+                    android:id="@+id/textGst"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -49,8 +49,10 @@
                     android:scaleY=".3"
                     android:text="cart"
                     app:icon="@drawable/shopping_cart"
-                    app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
-                    app:layout_constraintStart_toEndOf="@+id/himessage"
+
+                    app:layout_constraintBottom_toTopOf="@+id/SearchField"
+                    app:layout_constraintStart_toEndOf="@+id/textGst"
+
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageView
@@ -59,20 +61,20 @@
                     android:layout_height="68dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="13dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/himessage"
-                    app:layout_constraintEnd_toStartOf="@+id/himessage"
+                    app:layout_constraintBottom_toBottomOf="@+id/textGst"
+                    app:layout_constraintEnd_toStartOf="@+id/textGst"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/himessage"
+                    app:layout_constraintTop_toTopOf="@+id/textGst"
                     app:srcCompat="@drawable/newpropic" />
 
                 <TextView
                     android:id="@+id/textView9"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="89dp"
+                    android:layout_height="26dp"
                     android:text="Shop  Explore"
-                    app:layout_constraintStart_toStartOf="@+id/himessage"
-                    app:layout_constraintTop_toBottomOf="@+id/himessage" />
+                    app:layout_constraintStart_toStartOf="@+id/textGst"
+                    app:layout_constraintTop_toBottomOf="@+id/textGst" />
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -82,34 +84,57 @@
                     android:layout_marginTop="39dp"
                     android:layout_marginEnd="25dp"
                     android:layout_marginBottom="27dp"
-                    app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
+                    app:layout_constraintBottom_toTopOf="@+id/SearchField"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/himessage"
+                    app:layout_constraintStart_toEndOf="@+id/textGst"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/btn1" />
 
+
                 <EditText
-                    android:id="@+id/editTextTextPersonName"
-                    android:layout_width="298dp"
-                    android:layout_height="48dp"
-                    android:layout_marginStart="74dp"
+                    android:id="@+id/SearchField"
+                    android:layout_width="279dp"
+                    android:layout_height="47dp"
+                    android:layout_marginStart="5dp"
                     android:layout_marginTop="8dp"
-                    android:layout_marginEnd="39dp"
+                    android:layout_marginEnd="70dp"
                     android:layout_marginBottom="16dp"
                     android:background="@drawable/sbut"
                     android:drawableStart="@drawable/search"
-                    android:drawablePadding="10dp"
+                    android:drawablePadding="5dp"
                     android:ems="10"
                     android:inputType="textPersonName"
                     android:padding="10dp"
                     android:selectAllOnFocus="false"
                     android:singleLine="false"
+
+                    android:hint="Find Your Style"
+
+
                     android:text="Find Your Style"
-                    android:textColor="@color/material_dynamic_neutral30"
+                    android:textColor="@color/black"
+
                     app:layout_constraintBottom_toTopOf="@+id/textView11"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.181"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView9" />
+
+                <Button
+                    android:id="@+id/SearchButton"
+                    android:layout_width="87dp"
+                    android:layout_height="52dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="16dp"
+
+                    android:text="Search"
+                    android:textColor="#222222"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    app:layout_constraintEnd_toEndOf="parent"
+
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/imageView4" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/constraintLayout"
@@ -129,7 +154,7 @@
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+                    app:layout_constraintTop_toBottomOf="@+id/SearchField" />
 
                 <TextView
                     android:id="@+id/textView13"
@@ -162,4 +187,4 @@
         </LinearLayout>
     </ScrollView>
 
-</RelativeLayout>
+</LinearLayout>

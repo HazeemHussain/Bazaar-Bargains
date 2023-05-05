@@ -2,25 +2,26 @@ package com.example.bazaarbargains;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class showIT extends AppCompatActivity {
 
-    private TextView desName,desPrice,quant,addtocartbut;
+    private TextView desName,desPrice,quant,addtocartbut,cartTotal;
     private ImageView addbut,minusbut,imageitemView;
     int  quantity = 0;
+    float totalprice = 0;
+
+    public static float myFloatVariable;
+
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
+
 
 
 
@@ -48,6 +49,7 @@ public class showIT extends AppCompatActivity {
         Glide.with(this).load(data2).into(imageitemView);
 
 
+
         minusbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -66,11 +68,28 @@ public class showIT extends AppCompatActivity {
             }
         });
 
-        addbut.setOnClickListener(new View.OnClickListener() {
+        addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                quantity++;
-                quant.setText(Integer.toString(quantity));
+                String strNumber = Integer.toString(quantity);
+                float numberAsFloat = Float.parseFloat(data1);
+
+                DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart");
+
+                // Create a new checkout item
+                String itemId = cartRef.push().getKey();
+
+                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2);
+
+                // Add the checkout item to the cart
+                cartRef.child(itemId).setValue(checkoutItem);
+
+                totalprice = quantity*numberAsFloat;
+                myFloatVariable = totalprice;
+              //  cartTotal.setText((Float.toString(totalprice)));
+
+
+
             }
         });
 
@@ -90,6 +109,7 @@ public class showIT extends AppCompatActivity {
         addbut=findViewById((R.id.addbut));
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
+        cartTotal=findViewById((R.id.cartTota));
 
 
 
