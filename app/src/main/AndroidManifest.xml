@@ -21,6 +21,12 @@
             android:name=".AddToCart"
             android:exported="false" />
         <activity
+            android:name=".cartRecList"
+            android:exported="false" />
+        <activity
+            android:name=".cartAdapter"
+            android:exported="false" />
+        <activity
             android:name=".ForgotPasswordActivity"
             android:exported="false" />
         <activity
