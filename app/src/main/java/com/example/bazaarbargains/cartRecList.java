@@ -59,9 +59,9 @@ public class cartRecList extends AppCompatActivity {
 
         totaltot.setText(formattedValue1);
 
-        TextView textView = findViewById(R.id.textView2);
 
-        textView.setOnClickListener(new View.OnClickListener() {
+
+        payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Get a reference to the Firebase Realtime Database node you want to delete
@@ -69,16 +69,11 @@ public class cartRecList extends AppCompatActivity {
 
                 // Remove the node from the database
                 databaseRef.removeValue();
-            }
-        });
-
-        payNowBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
                 Intent intent = new Intent(cartRecList.this, payment_options.class);
                 startActivity(intent);
             }
         });
+
 
         database.addValueEventListener(new ValueEventListener() {
             @Override
