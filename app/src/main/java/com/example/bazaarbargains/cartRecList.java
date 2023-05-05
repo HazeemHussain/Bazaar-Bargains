@@ -64,13 +64,14 @@ public class cartRecList extends AppCompatActivity {
         payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                
                 //Getting database reference from firebase to delete the items from the cart once the user has clicked
                 //on pay now button
                 DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
                 databaseRef.removeValue();
 
                 //Moving the user to payment options class
+
                 Intent intent = new Intent(cartRecList.this, payment_options.class);
                 startActivity(intent);
 
