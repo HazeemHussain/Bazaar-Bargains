@@ -88,7 +88,7 @@ public class mainPage  extends AppCompatActivity  {
                         .setQuery(ref.orderByChild("name").startAt(searchText).endAt(searchText + "/uf8ff"), itemShoe.class)
                         .build();
 
-        adapter = new shoeAdapter(options);
+//        adapter = new shoeAdapter(options);
         recyview.setAdapter(adapter);
 
 

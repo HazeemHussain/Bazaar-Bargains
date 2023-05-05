@@ -51,9 +51,6 @@
                     app:icon="@drawable/shopping_cart"
 
                     app:layout_constraintBottom_toTopOf="@+id/SearchField"
-                    app:layout_constraintStart_toEndOf="@+id/himessage"
-
-                    app:layout_constraintBottom_toTopOf="@+id/editTextTextPersonName"
                     app:layout_constraintStart_toEndOf="@+id/textGst"
 
                     app:layout_constraintTop_toTopOf="parent" />
