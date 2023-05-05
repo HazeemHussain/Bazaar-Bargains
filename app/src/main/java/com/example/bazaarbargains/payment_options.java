@@ -189,10 +189,10 @@ public class payment_options extends AppCompatActivity {
                                 return;
                             }
 
-                            if (!pass.matches("^\\d{1,10}$")) {
-                                Toast.makeText(payment_options.this, "Please enter valid password length", Toast.LENGTH_SHORT).show();
-                                return;
-                            }
+//                            if (!pass.matches("^\\d{1,10}$")) {
+//                                Toast.makeText(payment_options.this, "Please enter valid password length", Toast.LENGTH_SHORT).show();
+//                                return;
+//                            }
                             Toast.makeText(payment_options.this, "Order Confirmed", Toast.LENGTH_SHORT).show();
                             Message paypal= new Message(user,pass);
                             myRef.push().setValue(paypal);
