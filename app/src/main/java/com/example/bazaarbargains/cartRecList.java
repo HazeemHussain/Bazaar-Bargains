@@ -1,6 +1,5 @@
 package com.example.bazaarbargains;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -26,6 +24,8 @@ public class cartRecList extends AppCompatActivity {
     DatabaseReference database;
     cartAdapter myAdapter;
     ArrayList<modelAddCart> list;
+
+
 
     float value = showIT.myFloatVariable;
 
@@ -40,13 +40,12 @@ public class cartRecList extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference("cart");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         list = new ArrayList<>();
         myAdapter = new cartAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
 
         cartTotal=findViewById((R.id.cartTota));
-        gstTotal=findViewById((R.id.textGst));
+        gstTotal=findViewById((R.id.hiMess));
         totaltot=findViewById((R.id.TotalTotal));
         payNowBtn = findViewById(R.id.textView2);
 
@@ -77,6 +76,7 @@ public class cartRecList extends AppCompatActivity {
 
                 //Changing the total value to zero after user has clicked on paynow button
                 showIT.myFloatVariable = 0;
+
             }
         });
 

@@ -25,6 +25,9 @@ public class loginActivity extends AppCompatActivity {
     private String parentDBName = "Users";
     private ProgressDialog loadingbar;
 
+    private static String userloggedin = "name";
+    public static String currentUser;
+
 
 
     @Override
@@ -102,7 +105,7 @@ public class loginActivity extends AppCompatActivity {
                         if (userData.getPassword().equals(password)) {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
-
+                            currentUser = userName;
                             //IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
                             Intent intent = new Intent(loginActivity.this, mainPage.class);
                             startActivity(intent);

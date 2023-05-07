@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-//        home_btn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(MainActivity.this, mainPage.class );
-//                startActivity(intent);
-//            }
-//        });
+  /*  home_btn.setOnClickListener(new View.OnClickListener() {
+         @Override
+         public void onClick(View view) {
+             Intent intent = new Intent(MainActivity.this, mainPage.class );
+             startActivity(intent);
+           }
+        });*/
 
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
