@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/applogo"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="30dp"
         android:layout_marginEnd="10dp"
 
         android:drawableLeft="@drawable/baseline_person_24"
@@ -50,7 +50,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="22dp"
 
-        android:drawableLeft="@drawable/baseline_info_24"
+        android:drawableLeft="@drawable/baseline_person_24"
         android:drawablePadding="10dp"
 
         android:layout_marginEnd="10dp"
@@ -72,7 +72,7 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="22dp"
 
-        android:drawableLeft="@drawable/baseline_info_24"
+        android:drawableLeft="@drawable/baseline_person_24"
         android:drawablePadding="10dp"
 
         android:layout_marginEnd="10dp"
@@ -107,6 +107,20 @@
         android:textSize="18sp"
         android:textStyle="bold" /> />
 
+    <!--    Check Box field-->
+
+    <CheckBox
+        android:id="@+id/showPassword_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_marginLeft="13dp"
+        android:layout_below="@id/password"
+        android:layout_marginTop="3dp"
+
+        android:text="Show Password"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
 
     <!--    Register Button-->
@@ -117,14 +131,12 @@
         android:layout_below="@id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="40dp"
 
-        android:text="Confirm"
+        android:text="REGISTER"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
-
-    <!--    Forgot Password button-->
     <Button
         android:id="@+id/haveAnAccountBtn"
         android:layout_width="331dp"
@@ -137,6 +149,7 @@
 
         android:padding="10dp"
         android:text="Already have an account? Login!"
+        android:textSize="15sp"
         android:textAlignment="center"
         android:textStyle="bold"
 
