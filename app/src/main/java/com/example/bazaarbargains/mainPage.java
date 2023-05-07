@@ -6,24 +6,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class mainPage  extends AppCompatActivity  {
@@ -33,6 +25,7 @@ public class mainPage  extends AppCompatActivity  {
 
     RecyclerView recyview;
     shoeAdapter adapter;
+    String currentUser = loginActivity.currentUser;
 
     private Button searchBtn;
     private EditText searchBar;
@@ -47,7 +40,12 @@ public class mainPage  extends AppCompatActivity  {
          searchBtn = (Button) findViewById(R.id.SearchButton);
          searchBar = (EditText) findViewById(R.id.SearchField);
 
-         searchBtn.setOnClickListener(new View.OnClickListener() {
+        TextView hiText = findViewById(R.id.hiMess);
+        hiText.setText("Hi "+currentUser+"!");
+
+
+
+        searchBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  searchingData();
@@ -55,7 +53,7 @@ public class mainPage  extends AppCompatActivity  {
          });
 
         recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
-        recyview.setLayoutManager(new LinearLayoutManager(this));
+        recyview.setLayoutManager(new GridLayoutManager(this,2));
 
         recyview.setItemAnimator(null);
 

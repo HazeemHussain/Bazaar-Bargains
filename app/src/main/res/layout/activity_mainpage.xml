@@ -26,7 +26,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textGst"
+                    android:id="@+id/hiMess"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="24dp"
@@ -51,7 +51,7 @@
                     app:icon="@drawable/shopping_cart"
 
                     app:layout_constraintBottom_toTopOf="@+id/SearchField"
-                    app:layout_constraintStart_toEndOf="@+id/textGst"
+                    app:layout_constraintStart_toEndOf="@+id/hiMess"
 
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -61,11 +61,11 @@
                     android:layout_height="68dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="13dp"
-                    app:layout_constraintBottom_toBottomOf="@+id/textGst"
-                    app:layout_constraintEnd_toStartOf="@+id/textGst"
+                    app:layout_constraintBottom_toBottomOf="@+id/hiMess"
+                    app:layout_constraintEnd_toStartOf="@+id/hiMess"
                     app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/textGst"
+                    app:layout_constraintTop_toTopOf="@+id/hiMess"
                     app:srcCompat="@drawable/newpropic" />
 
                 <TextView
@@ -73,8 +73,8 @@
                     android:layout_width="89dp"
                     android:layout_height="26dp"
                     android:text="Shop  Explore"
-                    app:layout_constraintStart_toStartOf="@+id/textGst"
-                    app:layout_constraintTop_toBottomOf="@+id/textGst" />
+                    app:layout_constraintStart_toStartOf="@+id/hiMess"
+                    app:layout_constraintTop_toBottomOf="@+id/hiMess" />
 
                 <ImageView
                     android:id="@+id/imageView4"
@@ -86,7 +86,7 @@
                     android:layout_marginBottom="27dp"
                     app:layout_constraintBottom_toTopOf="@+id/SearchField"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/textGst"
+                    app:layout_constraintStart_toEndOf="@+id/hiMess"
                     app:layout_constraintTop_toTopOf="parent"
                     app:srcCompat="@drawable/btn1" />
 
@@ -146,38 +146,43 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
-                    android:text="Trending"
+                    android:text="Category"
                     android:textColor="#222222"
                     android:textSize="24sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/SearchField" />
 
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="16dp"
+                    app:layout_constraintBottom_toTopOf="@+id/textView13"
+                    app:layout_constraintTop_toBottomOf="@+id/textView11">
+
+                </androidx.recyclerview.widget.RecyclerView>
+
                 <TextView
                     android:id="@+id/textView13"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:padding="20dp"
-                    android:text="On sale"
+                    android:text="Trending"
                     android:textColor="#222222"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerViewShoes"
-                    tools:layout_editor_absoluteX="-39dp" />
+                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                    tools:layout_editor_absoluteX="0dp" />
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/recyclerViewShoes"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
-                    app:layout_constraintTop_toBottomOf="@+id/textView11">
-
-                </androidx.recyclerview.widget.RecyclerView>
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    app:layout_constraintTop_toBottomOf="@+id/textView13" />
+                    android:layout_marginTop="24dp"
+                    app:layout_constraintTop_toBottomOf="@+id/textView13"
+                    tools:layout_editor_absoluteX="0dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

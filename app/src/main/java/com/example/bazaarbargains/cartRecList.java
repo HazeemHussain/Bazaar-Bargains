@@ -1,6 +1,5 @@
 package com.example.bazaarbargains;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -15,7 +14,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -46,7 +44,7 @@ public class cartRecList extends AppCompatActivity {
         recyclerView.setAdapter(myAdapter);
 
         cartTotal=findViewById((R.id.cartTota));
-        gstTotal=findViewById((R.id.textGst));
+        gstTotal=findViewById((R.id.hiMess));
         totaltot=findViewById((R.id.TotalTotal));
         payNowBtn = findViewById(R.id.textView2);
 
@@ -59,24 +57,15 @@ public class cartRecList extends AppCompatActivity {
 
         totaltot.setText(formattedValue1);
 
-        TextView textView = findViewById(R.id.textView2);
 
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Get a reference to the Firebase Realtime Database node you want to delete
-                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
-
-                // Remove the node from the database
-                databaseRef.removeValue();
-            }
-        });
 
         payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(cartRecList.this, payment_options.class);
                 startActivity(intent);
+                DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("cart");
+                dbr.removeValue();
             }
         });
 
