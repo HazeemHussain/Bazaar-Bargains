@@ -56,7 +56,7 @@ public class showIT extends AppCompatActivity {
         minusbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (quantity > 0) {
+                if (quantity > 1) {
                     quantity--;
                     quant.setText(Integer.toString(quantity));
                 }

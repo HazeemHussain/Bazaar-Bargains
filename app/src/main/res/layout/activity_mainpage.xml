@@ -154,7 +154,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/SearchField" />
 
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/recyclerView"
+                    android:id="@+id/catrecyclerView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginTop="16dp"
@@ -173,7 +173,7 @@
                     android:textColor="#222222"
                     android:textSize="24sp"
                     android:textStyle="bold"
-                    app:layout_constraintTop_toBottomOf="@+id/recyclerView"
+                    app:layout_constraintTop_toBottomOf="@+id/catrecyclerView"
                     tools:layout_editor_absoluteX="0dp" />
 
                 <androidx.recyclerview.widget.RecyclerView

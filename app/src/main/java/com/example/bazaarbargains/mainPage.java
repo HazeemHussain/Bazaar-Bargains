@@ -17,14 +17,23 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+
 
 public class mainPage  extends AppCompatActivity  {
     private Button button;
 
     Button showItemButton;
 
+    ArrayList<String> category;
+
     RecyclerView recyview;
+
+    RecyclerView catRv;
+
     shoeAdapter adapter;
+
+    categoryAdapter adap;
     String currentUser = loginActivity.currentUser;
 
     private Button searchBtn;
@@ -43,8 +52,18 @@ public class mainPage  extends AppCompatActivity  {
         TextView hiText = findViewById(R.id.hiMess);
         hiText.setText("Hi "+currentUser+"!");
 
+        catRv = findViewById(R.id.catrecyclerView);
 
+        category = new ArrayList<>();
+        category.add("Shoes");
+        category.add("Hats");
+        category.add("Tops");
+        category.add("Bottoms");
 
+        adap = new categoryAdapter(this,category);
+
+        catRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        catRv.setAdapter(adap);
         searchBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {

@@ -25,6 +25,8 @@ public class cartRecList extends AppCompatActivity {
     cartAdapter myAdapter;
     ArrayList<modelAddCart> list;
 
+
+
     float value = showIT.myFloatVariable;
 
     TextView cartTotal,gstTotal,totaltot, payNowBtn;
@@ -38,7 +40,6 @@ public class cartRecList extends AppCompatActivity {
         database = FirebaseDatabase.getInstance().getReference("cart");
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         list = new ArrayList<>();
         myAdapter = new cartAdapter(this,list);
         recyclerView.setAdapter(myAdapter);
