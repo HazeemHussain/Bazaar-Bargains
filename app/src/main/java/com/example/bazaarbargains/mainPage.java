@@ -45,6 +45,7 @@ public class mainPage  extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
+
         //Calling search button and search fields
          searchBtn = (Button) findViewById(R.id.SearchButton);
          searchBar = (EditText) findViewById(R.id.SearchField);

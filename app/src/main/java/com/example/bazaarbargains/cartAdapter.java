@@ -21,6 +21,8 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
 
     ArrayList<modelAddCart> list;
 
+    public static float myFloat;
+
 
     public cartAdapter(Context context, ArrayList<modelAddCart> list) {
         this.context = context;
@@ -44,6 +46,10 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
        holder.name.setText(modelAddCar.getItemName());
        holder.price.setText("$"+ modelAddCar.getitemPrice());
         holder.quantity.setText("Total Quantity: "+ modelAddCar.getQuantity());
+
+        myFloat+= Float.parseFloat(modelAddCar.getPerItemCost());
+
+
 
         Glide.with(holder.image2.getContext()).load(modelAddCar.getUrl()).into(holder.image2);
 
