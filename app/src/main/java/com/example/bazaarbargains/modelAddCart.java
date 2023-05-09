@@ -6,16 +6,24 @@ public class modelAddCart {
     private String quantity;
     private String url;
 
-    public modelAddCart(String itemName, String quantity,String itemPrice, String url) {
+    private String perItemCost;
+
+
+
+    public modelAddCart(String itemName, String quantity, String itemPrice, String url, String perItemCost) {
         this.itemPrice = itemPrice;
         this.itemName = itemName;
         this.quantity = quantity;
         this.url = url;
+        this.perItemCost = perItemCost;
     }
     public modelAddCart() {
 
     }
 
+    public String getPerItemCost() {
+        return perItemCost;
+    }
 
     public String getItemName() {
         return itemName;

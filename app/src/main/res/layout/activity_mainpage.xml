@@ -73,6 +73,8 @@
                     android:layout_width="89dp"
                     android:layout_height="26dp"
                     android:text="Shop  Explore"
+
+                    android:textColor="#100F0F"
                     app:layout_constraintStart_toStartOf="@+id/hiMess"
                     app:layout_constraintTop_toBottomOf="@+id/hiMess" />
 
@@ -121,16 +123,19 @@
                     android:id="@+id/SearchButton"
                     android:layout_width="87dp"
                     android:layout_height="52dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
 
+                    android:layout_marginTop="28dp"
+                    android:layout_marginEnd="16dp"
                     android:text="Search"
                     android:textColor="#222222"
                     android:textSize="11sp"
+
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"
-
+                    app:layout_constraintHorizontal_bias="1.0"
                     app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/SearchField"
                     app:layout_constraintTop_toBottomOf="@id/imageView4" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
