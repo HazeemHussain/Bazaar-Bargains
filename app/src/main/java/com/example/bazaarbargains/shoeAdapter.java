@@ -27,44 +27,66 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
 
     }
 
+    public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options) {
+        super(options);
+
+
+    }
+
     @Override
     protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
-
-        int option = j; // can be 1 or 2
-
-        switch (option) {
-            case 1:
-                System.out.println("Option 1 selected.");
-                break;
-            case 2:
-                holder.name.setText(itemShoe.getName());
-                holder.price.setText("$"+ itemShoe.getPrice());
-                Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-                break;
-            default:
-                System.out.println("Invalid option selected.");
-                break;
-        }
-
-       holder.name.setText(itemShoe.getName());
-        holder.price.setText("$"+ itemShoe.getPrice());
+        holder.name.setText(itemShoe.getName());
+        holder.price.setText("$" + itemShoe.getPrice());
         Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
 
         holder.veiwbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
-
-                 intent.putExtra("itemname", itemShoe.getName());
+                Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
+                intent.putExtra("itemname", itemShoe.getName());
                 intent.putExtra("itemprice", itemShoe.getPrice());
                 intent.putExtra("itemimage", itemShoe.getImage());
-
-                    holder.itemView.getContext().startActivity(intent);
-
+                holder.itemView.getContext().startActivity(intent);
             }
         });
-
     }
+//    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
+//
+//        int option = j; // can be 1 or 2
+//
+//        switch (option) {
+//            case 1:
+//                System.out.println("Option 1 selected.");
+//                break;
+//            case 2:
+//                holder.name.setText(itemShoe.getName());
+//                holder.price.setText("$"+ itemShoe.getPrice());
+//                Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
+//                break;
+//            default:
+//                System.out.println("Invalid option selected.");
+//                break;
+//        }
+//
+//       holder.name.setText(itemShoe.getName());
+//        holder.price.setText("$"+ itemShoe.getPrice());
+//        Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
+//
+//        holder.veiwbut.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
+//
+//                 intent.putExtra("itemname", itemShoe.getName());
+//                intent.putExtra("itemprice", itemShoe.getPrice());
+//                intent.putExtra("itemimage", itemShoe.getImage());
+//
+//                    holder.itemView.getContext().startActivity(intent);
+//
+//            }
+//        });
+//
+//    }
 
 
 

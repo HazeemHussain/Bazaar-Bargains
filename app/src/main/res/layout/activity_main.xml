@@ -52,14 +52,15 @@
 
         />
 
-<!--    Signup / join now button
+
 
     <Button
         android:id="@+id/home_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />
--->
+
+
     <Button
         android:id="@+id/join_Btn"
         android:layout_width="match_parent"
