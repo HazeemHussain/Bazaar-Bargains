@@ -1,6 +1,8 @@
 package com.example.bazaarbargains;
 
 
+import static android.app.PendingIntent.getActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -28,6 +30,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -206,11 +209,39 @@ public class mainPage  extends AppCompatActivity  {
     }
 
     private void navigateToProduct(String productName) {
-        Intent intent = new Intent(mainPage.this, showIT.class);
-        intent.putExtra(showIT.EXTRA_PRODUCT_NAME, productName);
-        startActivity(intent);
-    }
+        //Getting shoe reference from firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Shoes");
 
+        //Creating a query to find the specific product in the "Shoes" section in database
+        Query query = ref.orderByChild("name").equalTo(productName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    //Iterating through the data that represent matched products
+                    //and also retrieving the name, price and image of that product
+                    String name = snapshot.child("name").getValue(String.class);
+                    String price = snapshot.child("price").getValue(String.class);
+                    String image = snapshot.child("image").getValue(String.class);
+
+                    //Creating an intent to navigate to showIT activity
+                    Intent intent = new Intent(mainPage.this, showIT.class);
+                    intent.putExtra(showIT.EXTRA_PRODUCT_NAME, productName); //Passing product name
+                    intent.putExtra("itemname", name);
+                    intent.putExtra("itemprice", price);
+                    intent.putExtra("itemimage", image);
+                    startActivityForResult(intent, 1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //Handles any errors that might occur during the retrieval of data from database
+                Log.e("Search", "DatabaseError: " + databaseError.getMessage());
+            }
+        });
+    }
     @Override
     protected void onStart() {
         super.onStart();

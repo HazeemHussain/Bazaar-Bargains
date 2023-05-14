@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,6 +25,8 @@ public class showIT extends AppCompatActivity {
     private ImageView addbut,minusbut,imageitemView;
     int  quantity = 1;
     double totalprice = 0;
+
+    String data1, data2, data;
 
     public static float myFloatVariable;
 
@@ -46,20 +50,25 @@ public class showIT extends AppCompatActivity {
 
     private void getBundele() {
 
-        String productName = getIntent().getStringExtra(EXTRA_PRODUCT_NAME);
+        //Hazeem part starts here
+        //This part is included to successfully implement the search bar feature
+        //Getting the data from the mainPage class which user searched
+        //Then taking the user to particular item page which has been clicked
+        Intent intent = getIntent();
+        if (intent != null) {
 
-        // Set the product name in the appropriate view
-        desName.setText(productName);
+            //Retrieving the data passed from the main activity
+            //String productName = intent.getStringExtra(EXTRA_PRODUCT_NAME);
+            data = intent.getStringExtra("itemname");
+            data1 = intent.getStringExtra("itemprice");
+            data2 = intent.getStringExtra("itemimage");
 
-            String data = getIntent().getStringExtra("itemname");
-        desName.setText(data);
-
-        String data1 = getIntent().getStringExtra("itemprice");
-        desPrice.setText(data1);
-
-        String data2 = getIntent().getStringExtra("itemimage");
-
-        Glide.with(this).load(data2).into(imageitemView);
+            desName.setText(data); //Setting the item name
+            desPrice.setText(data1); //setting the item price
+            Glide.with(this).load(data2).into(imageitemView); //Loading and displaying the item page
+            quant.setText(Integer.toString(quantity));
+        }
+        //Ends here
 
 
         quant.setText(Integer.toString(quantity));
