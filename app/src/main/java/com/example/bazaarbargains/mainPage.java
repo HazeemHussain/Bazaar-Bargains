@@ -66,12 +66,10 @@ public class mainPage  extends AppCompatActivity  {
 
 
         //Calling search button and search fields
-
          searchBar = (EditText) findViewById(R.id.SearchField);
          searchListView = (ListView) findViewById(R.id.searchListView);
-        searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
-        searchListView.setAdapter(searchAdapter);
-
+         searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+         searchListView.setAdapter(searchAdapter);
 
         searchBar.addTextChangedListener(new TextWatcher() {
             @Override
@@ -89,8 +87,6 @@ public class mainPage  extends AppCompatActivity  {
             }
         });
 
-//        TextView hiText = findViewById(R.id.hiMess);
-//        hiText.setText("Hi "+currentUser+"!");
 
         catRv = findViewById(R.id.catrecyclerView);
 
@@ -169,7 +165,10 @@ public class mainPage  extends AppCompatActivity  {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         String selectedProduct = (String) parent.getItemAtPosition(position);
                         // Perform the action to navigate to the selected product
-                       // navigateToProduct(selectedProduct);
+                        navigateToProduct(selectedProduct);
+
+//                        showIT getBundle = new showIT();
+//                        getBundle.getBundele();
                     }
                 });
             }
@@ -206,14 +205,16 @@ public class mainPage  extends AppCompatActivity  {
         listView.requestLayout();
     }
 
+    private void navigateToProduct(String productName) {
+        Intent intent = new Intent(mainPage.this, showIT.class);
+        intent.putExtra(showIT.EXTRA_PRODUCT_NAME, productName);
+        startActivity(intent);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-
-
-
     }
 
     @Override

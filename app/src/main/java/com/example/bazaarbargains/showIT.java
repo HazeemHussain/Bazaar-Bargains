@@ -27,6 +27,7 @@ public class showIT extends AppCompatActivity {
     public static float myFloatVariable;
 
     String currentUser = loginActivity.currentUser;
+    public static final String EXTRA_PRODUCT_NAME = "productName";
 
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
@@ -45,6 +46,10 @@ public class showIT extends AppCompatActivity {
 
     private void getBundele() {
 
+        String productName = getIntent().getStringExtra(EXTRA_PRODUCT_NAME);
+
+        // Set the product name in the appropriate view
+        desName.setText(productName);
 
             String data = getIntent().getStringExtra("itemname");
         desName.setText(data);
