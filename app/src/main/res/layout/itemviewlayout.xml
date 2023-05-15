@@ -3,6 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+
     android:layout_height="wrap_content">
 
     <ImageView
@@ -17,17 +19,19 @@
         android:id="@+id/viewbutton"
         android:layout_width="150dp"
         android:layout_height="50dp"
+        android:layout_gravity="start"
         android:layout_weight="1"
-        android:background="@drawable/gbut"
-        android:text="view"
+        android:background="@drawable/newbut"
+
         android:textSize="26sp"
         android:textStyle="bold" />
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_weight="1"
+
         android:text="name"
         android:textColor="#222222"
         android:textAlignment="center" />

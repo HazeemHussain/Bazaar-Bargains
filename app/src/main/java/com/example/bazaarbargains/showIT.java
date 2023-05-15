@@ -1,5 +1,7 @@
 package com.example.bazaarbargains;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
@@ -9,17 +11,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class showIT extends AppCompatActivity {
 
     private TextView desName,desPrice,quant,addtocartbut,cartTotal;
     private ImageView addbut,minusbut,imageitemView;
     int  quantity = 1;
-    float totalprice = 0;
+    double totalprice = 0;
 
     public static float myFloatVariable;
+
+    String currentUser = loginActivity.currentUser;
 
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
@@ -75,24 +82,61 @@ public class showIT extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String strNumber = Integer.toString(quantity);
-                float numberAsFloat = Float.parseFloat(data1);
+                double doubleValue = Double.parseDouble(data1);
+               // float numberAsFloat = Float.parseFloat(data1);
+                totalprice = quantity*doubleValue;
+               // String formattedNum = String.format("%.2f", totalprice);
+                //float num = Float.parseFloat(formattedNum);
 
-                DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference("cart");
+                //myFloatVariable = totalprice;
 
-                // Create a new checkout item
-                String itemId = cartRef.push().getKey();
+                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/cart");
 
-                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2);
+               DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
+
+                cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()) {
+                            // Node exists, do something
+
+                            double amount = snapshot.getValue(double.class);
+
+                            double newprice = amount+totalprice;
+
+                            cartUserRef1.setValue(newprice);
+
+                        } else {
+                            // Node does not exist, create it
+                            cartUserRef1.setValue(totalprice, new DatabaseReference.CompletionListener() {
+                                @Override
+                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                                    if (error != null) {
+                                        // Error occurred while creating node
+                                    } else {
+                                        // Node created successfully
+                                    }
+                                }
+                            });
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        // Error occurred while reading data
+                    }
+                });
+                String itemId = cartUserRef.push().getKey();
+
+                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2,Double.toString(totalprice));
 
                 // Add the checkout item to the cart
-                cartRef.child(itemId).setValue(checkoutItem);
+                cartUserRef.child(itemId).setValue(checkoutItem);
 
-                totalprice = quantity*numberAsFloat;
-                myFloatVariable = totalprice;
-              //  cartTotal.setText((Float.toString(totalprice)));
+
+               // cartTotal.setText((Float.toString(totalprice)));
 
                 Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
-
 
             }
         });
