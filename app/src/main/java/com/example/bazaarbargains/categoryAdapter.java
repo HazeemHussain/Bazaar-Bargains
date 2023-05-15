@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -12,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHolder> {
-    ArrayList<String> data;
+    ArrayList<categoryModel> data;
 
     Context context;
 
-    public categoryAdapter(Context context, ArrayList<String> data) {
+    public categoryAdapter(Context context, ArrayList<categoryModel> data) {
         this.context = context;
         this.data = data;
     }
@@ -31,7 +32,10 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
-        holder.cat.setText(data.get(position));
+       // holder.cat.setText(data.get(position));
+    categoryModel mode = data.get(position);
+        holder.image.setImageResource(mode.getCatImage());
+        holder.cat.setText(mode.getCatName());
     }
 
     @Override
@@ -40,10 +44,14 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHold
     }
 
     class MyHolder extends RecyclerView.ViewHolder {
-        TextView cat;
+       TextView cat;
+        ImageView image;
 
         public MyHolder(@NonNull View itemView) {
             super(itemView);
+            //cat = itemView.findViewById(R.id.catTitle);
+
+            image = itemView.findViewById(R.id.catimage);
             cat = itemView.findViewById(R.id.catTitle);
         }
     }

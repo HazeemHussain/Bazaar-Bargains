@@ -5,8 +5,18 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import androidx.annotation.NonNull;
+
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,8 +27,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -37,13 +45,36 @@ public class cartRecList extends AppCompatActivity {
     TextView cartTotal,gstTotal,totaltot, payNowBtn;
 
     private DatabaseReference mDatabase;
-// ...
+
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
+
+        BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
+        appBottomNavigationView.setSelectedItemId(R.id.cart);
+        appBottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.home:
+                    // Navigate to the Home activity
+                    startActivity(new Intent(cartRecList.this, mainPage.class));
+                    return true;
+                case R.id.cart:
+                    // Navigate to the Profile activity
+                    startActivity(new Intent(cartRecList.this, cartRecList.class));
+                    return true;
+                case R.id.dashboard:
+                    // Navigate to the Settings activity
+                    startActivity(new Intent(cartRecList.this, Dashboard.class));
+                    return true;
+            }
+            return false;
+        });
+
+
 
 
         toalprice=0;
