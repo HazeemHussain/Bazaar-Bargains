@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+    android:background="@drawable/gradient_purple"
     tools:context=".loginActivity">
 <!--    android:background="@drawable/bgimage2"-->
 
@@ -36,14 +36,26 @@
 
         android:drawableLeft="@drawable/baseline_person_24"
         android:drawablePadding="10dp"
-        android:background="@color/purple_200"
+        android:background="@drawable/roundtext"
         android:textColorHint="@color/design_default_color_primary_dark"
-
+        android:textColor="@color/black"
         android:textSize="18sp"
         android:textStyle="bold" />
 
 
-<!--    Password Text field-->
+    <!--    Check Box field-->
+    <CheckBox
+        android:id="@+id/showPassword_checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        android:layout_marginLeft="13dp"
+        android:layout_marginTop="530dp"
+        android:text="Show Password" />
+
     <EditText
         android:id="@+id/password"
         android:layout_width="match_parent"
@@ -52,13 +64,15 @@
         android:layout_marginStart="15dp"
         android:layout_marginTop="22dp"
 
+        android:background="@drawable/roundtext"
+
         android:drawableLeft="@drawable/baseline_info_24"
         android:drawablePadding="10dp"
 
         android:layout_marginEnd="10dp"
-        android:background="@color/purple_200"
-        android:hint="Password"
 
+        android:hint="Password"
+        android:textColor="@color/black"
         android:inputType="textPassword"
         android:padding="20dp"
         android:textColorHint="@color/design_default_color_primary_dark"
@@ -74,11 +88,11 @@
         android:layout_below="@id/password"
         android:layout_centerHorizontal="true"
         android:layout_marginStart="80dp"
-        android:layout_marginTop="19dp"
+        android:layout_marginTop="50dp"
 
         android:text="Login"
         android:textColor="@color/white"
-        android:textSize="18sp" />
+        android:textSize="20sp" />
 
     <!--    Forgot Password button-->
     <Button
@@ -88,10 +102,12 @@
         android:layout_below="@id/login_Btn"
         android:layout_marginStart="80dp"
         android:layout_marginEnd="80dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
+    android:background="@drawable/gradient_purple"
 
-        android:text="Forgot password"
+        android:text="Forgot password?"
+        android:textSize="15sp"
         android:textAlignment="center"
         android:padding="10dp"
         android:textStyle="bold"

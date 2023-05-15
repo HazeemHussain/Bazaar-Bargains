@@ -14,18 +14,23 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
-
-
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.MenuItem;
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 public class mainPage  extends AppCompatActivity  {
     private Button button;
 
     Button showItemButton;
 
-    ArrayList<String> category;
+    ArrayList<categoryModel> category;
 
     RecyclerView recyview;
 
@@ -45,31 +50,61 @@ public class mainPage  extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
+        BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
+        appBottomNavigationView.setSelectedItemId(R.id.home);
+        appBottomNavigationView.setOnItemSelectedListener(item -> {
+            int id = item.getItemId();
+            switch (id) {
+                case R.id.home:
+                    // Navigate to the Home activity
+                    startActivity(new Intent(mainPage.this, mainPage.class));
+                    return true;
+                case R.id.cart:
+                    // Navigate to the Profile activity
+                    startActivity(new Intent(mainPage.this, cartRecList.class));
+                    return true;
+                case R.id.dashboard:
+                    // Navigate to the Settings activity
+                    startActivity(new Intent(mainPage.this, Dashboard.class));
+                    return true;
+            }
+            return false;
+        });
+
+
         //Calling search button and search fields
-         searchBtn = (Button) findViewById(R.id.SearchButton);
+       //  searchBtn = (Button) findViewById(R.id.SearchButton);
          searchBar = (EditText) findViewById(R.id.SearchField);
 
-        TextView hiText = findViewById(R.id.hiMess);
-        hiText.setText("Hi "+currentUser+"!");
+     /*   TextView hiText = findViewById(R.id.hiMess);
+
+        hiText.setText("Hi "+currentUser+"!");*/
+
+
 
         catRv = findViewById(R.id.catrecyclerView);
 
         category = new ArrayList<>();
-        category.add("Shoes");
-        category.add("Hats");
-        category.add("Tops");
-        category.add("Bottoms");
+        category.add(new categoryModel("Shoes",R.drawable.runningshoe));
+        category.add(new categoryModel("Hats",R.drawable.hatsphoto));
+        category.add(new categoryModel("Tops",R.drawable.shirtphoto));
+        category.add(new categoryModel("Bottoms",R.drawable.pantsphoto));
+
 
         adap = new categoryAdapter(this,category);
 
         catRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
         catRv.setAdapter(adap);
-        searchBtn.setOnClickListener(new View.OnClickListener() {
+
+
+
+   /*     searchBtn.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View view) {
                  searchingData();
              }
-         });
+         });*/
 
         recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
         recyview.setLayoutManager(new GridLayoutManager(this,2));
@@ -78,21 +113,21 @@ public class mainPage  extends AppCompatActivity  {
 
         FirebaseRecyclerOptions<itemShoe> options =
         new FirebaseRecyclerOptions.Builder<itemShoe>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("Shoes"), itemShoe.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("Trending"), itemShoe.class)
                 .build();
 
         adapter = new shoeAdapter(options,1);
         recyview.setAdapter(adapter);
 
-        button = (Button) findViewById(R.id.cartButton);
+       // button = (Button) findViewById(R.id.cartButton);
 
-        button.setOnClickListener(new View.OnClickListener() {
+     /*   button.setOnClickListener(new View.OnClickListener() {
 
             public void onClick(View view) {
                 Intent intent = new Intent(mainPage.this, cartRecList.class );
                 startActivity(intent);
             }
-        });
+        });*/
 
     }
 
