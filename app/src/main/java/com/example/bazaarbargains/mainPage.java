@@ -80,6 +80,8 @@ public class mainPage  extends AppCompatActivity  {
 
         hiText.setText("Hi "+currentUser+"!");*/
 
+
+
         catRv = findViewById(R.id.catrecyclerView);
 
         category = new ArrayList<>();
@@ -92,7 +94,10 @@ public class mainPage  extends AppCompatActivity  {
         adap = new categoryAdapter(this,category);
 
         catRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+
         catRv.setAdapter(adap);
+
+
 
    /*     searchBtn.setOnClickListener(new View.OnClickListener() {
              @Override
@@ -108,7 +113,7 @@ public class mainPage  extends AppCompatActivity  {
 
         FirebaseRecyclerOptions<itemShoe> options =
         new FirebaseRecyclerOptions.Builder<itemShoe>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("Shoes"), itemShoe.class)
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("Trending"), itemShoe.class)
                 .build();
 
         adapter = new shoeAdapter(options,1);

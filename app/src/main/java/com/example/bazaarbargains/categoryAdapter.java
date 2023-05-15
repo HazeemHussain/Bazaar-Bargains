@@ -1,6 +1,7 @@
 package com.example.bazaarbargains;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import java.util.ArrayList;
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHolder> {
     ArrayList<categoryModel> data;
 
+
+    Intent intent;
     Context context;
 
     public categoryAdapter(Context context, ArrayList<categoryModel> data) {
@@ -32,11 +35,41 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHold
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+
+
        // holder.cat.setText(data.get(position));
     categoryModel mode = data.get(position);
         holder.image.setImageResource(mode.getCatImage());
         holder.cat.setText(mode.getCatName());
+
+        holder.image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String catName = holder.cat.getText().toString();
+
+
+                switch (catName) {
+                    case "Hats":
+                        intent = new Intent(holder.itemView.getContext(), hatPage.class);
+                        break;
+                    case "Tops":
+                        intent = new Intent(holder.itemView.getContext(), Tops.class);
+                        break;
+                    case "Bottoms":
+                        intent = new Intent(holder.itemView.getContext(), bottomPage.class);
+                        break;
+                    case "Shoes":
+                        intent = new Intent(holder.itemView.getContext(), shoesPage.class);
+                        break;
+
+                }
+
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
     }
+
+
 
     @Override
     public int getItemCount() {
