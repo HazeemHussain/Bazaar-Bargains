@@ -121,11 +121,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
 
-    //value=1000;
-
-
-
-
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         list = new ArrayList<>();
@@ -156,9 +151,23 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
         payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
+                
+                //Getting database reference from firebase to delete the items from the cart once the user has clicked
+                //on pay now button
+                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
+                databaseRef.removeValue();
+
+                //Moving the user to payment options class
+
                 Intent intent = new Intent(cartRecList.this, payment_options.class);
                 startActivity(intent);
+
+
+                //Changing the total value to zero after user has clicked on paynow button
+                showIT.myFloatVariable = 0;
+
+
                 DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/cart");
                 dbr.removeValue();
                 DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
@@ -185,8 +194,10 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Failed to read value from Firebase: " + error.getMessage());
+
             }
         });
+
 
         database.addValueEventListener(new ValueEventListener() {
             @Override

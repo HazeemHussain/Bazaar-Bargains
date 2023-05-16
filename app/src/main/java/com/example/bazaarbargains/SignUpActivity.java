@@ -2,8 +2,12 @@ package com.example.bazaarbargains;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -17,19 +21,42 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class SignUpActivity extends AppCompatActivity {
 
+    //Declaration of variables
     ActivitySignUpBinding binding;
     String firstName, lastName, userName, password;
     FirebaseDatabase db;
     DatabaseReference reference;
-    private Button haveAnAccount;
+    CheckBox showPassword;
+    EditText getPassword;
+    Button haveAnAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
+        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
+        getPassword = (EditText) findViewById(R.id.password);
         haveAnAccount = (Button) findViewById(R.id.haveAnAccountBtn);
+
+        showPassword(); //Calling show password method
+        sendingDataToFirebase();
+        haveAnAccountBtn();
+
+    }
+
+    private void haveAnAccountBtn() {
+        haveAnAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SignUpActivity.this, loginActivity.class);
+                startActivity(intent);
+            }
+        });
+    }
+
+    //Talking the user data and storing it to firebase
+    private void sendingDataToFirebase() {
         binding.registerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -37,6 +64,7 @@ public class SignUpActivity extends AppCompatActivity {
                 lastName = binding.lastName.getText().toString();
                 userName = binding.userName.getText().toString();
                 password = binding.password.getText().toString();
+
 
                 if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty()) {
                     Users users = new Users(firstName, lastName, userName, password);
@@ -59,15 +87,20 @@ public class SignUpActivity extends AppCompatActivity {
 
             }
         });
+    }
 
-        haveAnAccount.setOnClickListener(new View.OnClickListener() {
+    //Showing the password when user click on show password button
+    private void showPassword() {
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SignUpActivity.this, loginActivity.class);
-                startActivity(intent);
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                int inputType = getPassword.getInputType();
+                if (showPassword.isChecked()) {
+                    getPassword.setTransformationMethod(null);
+                } else {
+                    getPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
             }
         });
-
-
     }
 }

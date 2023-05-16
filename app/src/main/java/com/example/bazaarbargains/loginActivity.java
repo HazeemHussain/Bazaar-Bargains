@@ -7,8 +7,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -28,6 +31,7 @@ public class loginActivity extends AppCompatActivity {
     private static String userloggedin = "name";
     public static String currentUser;
 
+    CheckBox showPassword;
 
 
     @Override
@@ -41,7 +45,20 @@ public class loginActivity extends AppCompatActivity {
         forgotPassword = (Button) findViewById(R.id.forgotPasswordBtn);
         inputUserName = (EditText) findViewById(R.id.userName);
         inputPassword = (EditText) findViewById(R.id.password);
+        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
         loadingbar = new ProgressDialog(this);
+
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                int inputType = inputPassword.getInputType();
+                if (showPassword.isChecked()) {
+                    inputPassword.setTransformationMethod(null);
+                } else {
+                    inputPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
+            }
+        });
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,8 +79,8 @@ public class loginActivity extends AppCompatActivity {
 
     //Checking if the user name and passwords field are empty
     private void checkingLoginFields() {
-        String userName = inputUserName.getText().toString();
-        String password = inputPassword.getText().toString();
+        String userName = inputUserName.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
 
         if (userName.isEmpty()) {
             inputUserName.setError("ENTER YOUR USERNAME");

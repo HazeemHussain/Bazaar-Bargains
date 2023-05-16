@@ -1,6 +1,8 @@
 package com.example.bazaarbargains;
 
 
+import static android.app.PendingIntent.getActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
@@ -14,19 +16,27 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
+import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,10 +66,16 @@ public class mainPage  extends AppCompatActivity  {
     categoryAdapter adap;
     String currentUser = loginActivity.currentUser;
 
+
     private Button searchBtn;
     private EditText searchBar;
     private ListView searchListView;
     private ArrayAdapter<String> searchAdapter;
+
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,13 +128,27 @@ public class mainPage  extends AppCompatActivity  {
 
 
         //Calling search button and search fields
-       //  searchBtn = (Button) findViewById(R.id.SearchButton);
+
          searchBar = (EditText) findViewById(R.id.SearchField);
+         searchListView = (ListView) findViewById(R.id.searchListView);
+         searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+         searchListView.setAdapter(searchAdapter);
 
-     /*   TextView hiText = findViewById(R.id.hiMess);
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
 
-        hiText.setText("Hi "+currentUser+"!");*/
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString();
+                searchingData(query);
+            }
 
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
 
         catRv = findViewById(R.id.catrecyclerView);
@@ -137,9 +167,6 @@ public class mainPage  extends AppCompatActivity  {
         catRv.setAdapter(adap);
 
 
-
-
-
         recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
         recyview.setLayoutManager(new GridLayoutManager(this,2));
 
@@ -152,8 +179,6 @@ public class mainPage  extends AppCompatActivity  {
 
         adapter = new shoeAdapter(options,1);
         recyview.setAdapter(adapter);
-
-       // button = (Button) findViewById(R.id.cartButton);
 
 
 
@@ -220,7 +245,10 @@ public class mainPage  extends AppCompatActivity  {
         });
 
 
+
     }
+
+
 
     //This method calculates the total height required for the list view by measuring
     //Each item individually
@@ -243,6 +271,7 @@ public class mainPage  extends AppCompatActivity  {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
 
     private void navigateToProduct(String productName) {
@@ -278,15 +307,14 @@ public class mainPage  extends AppCompatActivity  {
                 Log.e("Search", "DatabaseError: " + databaseError.getMessage());
             }
         });
+
     }
+
 
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-
-
-
     }
 
     @Override

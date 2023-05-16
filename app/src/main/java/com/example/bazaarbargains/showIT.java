@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -25,12 +26,15 @@ public class showIT extends AppCompatActivity {
     int  quantity = 1;
     double totalprice = 0;
 
+    String data1, data2, data;
+
     public static float myFloatVariable;
 
     public static final String EXTRA_PRODUCT_NAME = "productName";
-    String data1 , data2, data;
+
 
     String currentUser = loginActivity.currentUser;
+
 
 
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
@@ -50,7 +54,6 @@ public class showIT extends AppCompatActivity {
 
     private void getBundele() {
 
-
         //Hazeem part starts here
         //This part is included to successfully implement the search bar feature
         //Getting the data from the mainPage class which user searched
@@ -64,13 +67,15 @@ public class showIT extends AppCompatActivity {
             data1 = intent.getStringExtra("itemprice");
             data2 = intent.getStringExtra("itemimage");
 
+
+
+
             desName.setText(data); //Setting the item name
             desPrice.setText(data1); //setting the item price
             Glide.with(this).load(data2).into(imageitemView); //Loading and displaying the item page
             quant.setText(Integer.toString(quantity));
         }
         //Ends here
-
 
 
         quant.setText(Integer.toString(quantity));

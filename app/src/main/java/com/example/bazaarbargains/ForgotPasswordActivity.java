@@ -5,8 +5,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.method.PasswordTransformationMethod;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -25,10 +28,10 @@ import java.util.HashMap;
 
 public class ForgotPasswordActivity extends AppCompatActivity {
 
-
     private Button registerBtn;
-    private EditText inputUsername, inputPassword;
-    private String DBName = "Users"; //Name of the database parent
+     EditText inputUsername, inputPassword;
+     String DBName = "Users"; //Name of the database parent
+     CheckBox showPassword;
 
 
     @Override
@@ -36,14 +39,32 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-
         registerBtn = (Button) findViewById(R.id.register_Btn);
         inputPassword = (EditText) findViewById(R.id.password);
         inputUsername = (EditText) findViewById(R.id.userName);
+        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
+
+        showPassword();
         registerBtn.setOnClickListener(new View.OnClickListener() {
+
+
             @Override
             public void onClick(View view) {
                 checkingInputFields();
+            }
+        });
+    }
+
+    private void showPassword() {
+        showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                int inputType = inputPassword.getInputType();
+                if (showPassword.isChecked()) {
+                    inputPassword.setTransformationMethod(null);
+                } else {
+                    inputPassword.setTransformationMethod(new PasswordTransformationMethod());
+                }
             }
         });
     }
