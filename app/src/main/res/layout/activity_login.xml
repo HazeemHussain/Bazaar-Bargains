@@ -9,11 +9,30 @@
 <!--    android:background="@drawable/bgimage2"-->
 
 <!--    App logo-->
+
+    <Button
+        android:id="@+id/join_Btn"
+        android:layout_width="322dp"
+        android:layout_height="65dp"
+
+        android:layout_marginStart="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginRight="15dp"
+
+        android:text="Sign Up"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+
+        />
+
     <ImageView
         android:id="@+id/applogo"
         android:layout_width="300dp"
         android:layout_height="134dp"
         android:layout_centerHorizontal="true"
+        android:transitionName="@string/app_name"
         android:layout_marginTop="200dp"
         android:src="@drawable/applogo"
 

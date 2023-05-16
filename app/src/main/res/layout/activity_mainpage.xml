@@ -107,7 +107,8 @@
         </LinearLayout>
 
     </ScrollView>
-    
+
+
     <ListView
         android:id="@+id/searchListView"
         android:layout_width="match_parent"

@@ -18,7 +18,6 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -97,7 +96,6 @@ public class mainPage  extends AppCompatActivity  {
 
 
         //Calling search button and search fields
-       //  searchBtn = (Button) findViewById(R.id.SearchButton);
 
          searchBar = (EditText) findViewById(R.id.SearchField);
          searchListView = (ListView) findViewById(R.id.searchListView);
@@ -170,6 +168,8 @@ public class mainPage  extends AppCompatActivity  {
                     }
                 }
 
+
+
                 //Displaying the msg if search result doesnt exist in the database
                 if (!productExists || query.isEmpty()) {
                     searchResults.clear();
@@ -213,7 +213,6 @@ public class mainPage  extends AppCompatActivity  {
                 Log.e("Search", "DatabaseError: " + databaseError.getMessage());
             }
         });
-
 
     }
 
@@ -273,6 +272,7 @@ public class mainPage  extends AppCompatActivity  {
                 Log.e("Search", "DatabaseError: " + databaseError.getMessage());
             }
         });
+
     }
     @Override
     protected void onStart() {
