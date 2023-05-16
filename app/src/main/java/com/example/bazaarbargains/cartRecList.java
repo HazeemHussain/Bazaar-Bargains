@@ -30,7 +30,7 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
-public class cartRecList extends AppCompatActivity {
+public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRemoveItemClickListener {
 
     RecyclerView recyclerView;
     DatabaseReference database,database1;
@@ -45,6 +45,10 @@ public class cartRecList extends AppCompatActivity {
     TextView cartTotal,gstTotal,totaltot, payNowBtn;
 
     private DatabaseReference mDatabase;
+
+    private DatabaseReference cartRef;
+    private DatabaseReference amountRef;
+    private ValueEventListener amountListener;
 
 
 
@@ -86,31 +90,47 @@ public class cartRecList extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("Users/"+currentUser).child("amount").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DataSnapshot> task) {
-                if (!task.isSuccessful()) {
+        mDatabase.child("Users/"+currentUser).child("amount").get().addOnCompleteListener(task -> {
+            if (task == null || task.isSuccessful() && !task.getResult().exists()) {
+                cartTotal.setText("$0");
+                gstTotal.setText("$0");
+                totaltot.setText("$0");
+                Log.e("firebase", "Data does not exist");
+            } else if (task.isSuccessful()) {
+                Log.d("firebase", String.valueOf(task.getResult().getValue()));
+                String s = String.valueOf(task.getResult().getValue());
+                double doubleValue = Double.parseDouble(s);
+                double multipliedValue = doubleValue * 0.15;
+                double multipliedValue1 = doubleValue * 1.15;
+
+                String multipliedString = String.format("%.2f", multipliedValue);
+                String multipliedString1 = String.format("%.2f", multipliedValue1);
 
 
-                    Log.e("firebase", "Error getting data", task.getException());
-                }
-                else {
-                    Log.d("firebase", String.valueOf(task.getResult().getValue()));
 
-                   // String.format("%.2f", value+cartAdapter.myFloat* 1.15f)
+                cartTotal.setText("$"+String.valueOf(task.getResult().getValue()));
 
-                    cartTotal.setText(String.valueOf(task.getResult().getValue()));
-                    //value1=String.valueOf(task.getResult().getValue());
-                }
+                gstTotal.setText("$"+multipliedString);
+
+                totaltot.setText("$"+multipliedString1);
+
+            } else {
+                Log.e("firebase", "Error getting data", task.getException());
             }
         });
 
+
+
     //value=1000;
+
+
+
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         list = new ArrayList<>();
         myAdapter = new cartAdapter(this,list);
+        myAdapter.setOnRemoveItemClickListener(this);
         recyclerView.setAdapter(myAdapter);
 
         cartTotal=findViewById((R.id.cartTota));
@@ -121,9 +141,6 @@ public class cartRecList extends AppCompatActivity {
         //cartTotal.setText((Float.toString(cartAdapter.myFloat)));
 
       //  cartTotal.setText(value1+"changed");
-
-
-
 
 
 
@@ -205,6 +222,65 @@ public class cartRecList extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onRemoveItemClicked(int position) {
+        modelAddCart itemToRemove = list.get(position);
+        double itemPrice = Double.parseDouble(itemToRemove.getPerItemCost());
 
+        // Remove the item from your data source
+        list.remove(position);
+        myAdapter.notifyItemRemoved(position);
+
+        // Remove the item from the database
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("cart");
+        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                    modelAddCart cartItem = cartItemSnapshot.getValue(modelAddCart.class);
+                    if (cartItem != null && cartItem.getItemName().equals(itemToRemove.getItemName())) {
+                        cartItemSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
+                            if (removeTask.isSuccessful()) {
+                                // Item removed successfully from the database
+
+                                // Access the "users/amount" instance and subtract the cost of the deleted item
+                                DatabaseReference amountRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("amount");
+                                amountRef.get().addOnCompleteListener(amountTask -> {
+                                    if (amountTask.isSuccessful() && amountTask.getResult().exists()) {
+                                        double currentAmount = amountTask.getResult().getValue(Double.class);
+                                        double newAmount = currentAmount - itemPrice;
+
+                                        // Update the "users/amount" instance with the new amount
+                                        amountRef.setValue(newAmount).addOnCompleteListener(updateTask -> {
+                                            if (updateTask.isSuccessful()) {
+                                                // Amount updated successfully
+                                                // You can add any additional logic or UI updates here
+                                            } else {
+                                                // Error occurred while updating the amount
+                                                // Handle the error or display an error message
+                                            }
+                                        });
+                                    } else {
+                                        // Error occurred while retrieving the current amount
+                                        // Handle the error or display an error message
+                                    }
+                                });
+                            } else {
+                                // Error occurred while removing the item from the database
+                                // Handle the error or display an error message
+                            }
+                        });
+                        break; // Break the loop once the item is found and removed
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Error occurred while retrieving cart items
+                // Handle the error or display an error message
+            }
+        });
+    }
 
 }
