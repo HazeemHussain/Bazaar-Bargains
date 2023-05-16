@@ -3,9 +3,17 @@ package com.example.bazaarbargains;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +23,18 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -43,12 +58,36 @@ public class mainPage  extends AppCompatActivity  {
 
     private Button searchBtn;
     private EditText searchBar;
+    private ListView searchListView;
+    private ArrayAdapter<String> searchAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
+
+        //Calling search button and search fields
+        searchBar = (EditText) findViewById(R.id.SearchField);
+        searchListView = (ListView) findViewById(R.id.searchListView);
+        searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        searchListView.setAdapter(searchAdapter);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString();
+                searchingData(query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
+        });
 
         BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
         appBottomNavigationView.setSelectedItemId(R.id.home);
@@ -99,12 +138,7 @@ public class mainPage  extends AppCompatActivity  {
 
 
 
-   /*     searchBtn.setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 searchingData();
-             }
-         });*/
+
 
         recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
         recyview.setLayoutManager(new GridLayoutManager(this,2));
@@ -121,59 +155,129 @@ public class mainPage  extends AppCompatActivity  {
 
        // button = (Button) findViewById(R.id.cartButton);
 
-     /*   button.setOnClickListener(new View.OnClickListener() {
 
-            public void onClick(View view) {
-                Intent intent = new Intent(mainPage.this, cartRecList.class );
-                startActivity(intent);
-            }
-        });*/
 
     }
 
-    private void searchingData() {
-        String searchText = searchBar.getText().toString().trim();
+    private void searchingData(String query) {
+
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Shoes");
-        //Query query = ref.orderByChild("name").startAt(searchText).endAt(searchText + "/uf8ff");
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(ref.orderByChild("name").startAt(searchText).endAt(searchText + "/uf8ff"), itemShoe.class)
-                        .build();
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                List<String> searchResults = new ArrayList<>();
+                boolean productExists = false;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    String shoeName = snapshot.child("name").getValue(String.class);
+                    if (shoeName != null && shoeName.toLowerCase().contains(query.toLowerCase())) {
+                        searchResults.add(shoeName);
+                        productExists = true;
+                    }
+                }
 
-//        adapter = new shoeAdapter(options);
-        recyview.setAdapter(adapter);
+                //Displaying the msg if search result doesnt exist in the database
+                if (!productExists || query.isEmpty()) {
+                    searchResults.clear();
+                    searchResults.add("The product does not exist");
+                }
+
+                //Checking if the search field is empty
+                if (searchResults.isEmpty() || query.isEmpty()) {
+
+                    //Removing the view list if the search list is empty
+                    searchListView.setVisibility(View.GONE);
+                } else {
+                    searchListView.setVisibility(View.VISIBLE);
+                }
+
+                // Logging to check the contents of searchResults
+                //  Log.d("Search", "Search results: " + searchResults.toString());
+
+                //creating an array adapter and adding all the searched and using it display the results
+                ArrayAdapter<String> adapter = new ArrayAdapter<>(mainPage.this, android.R.layout.simple_list_item_1, searchResults);
+                searchListView.setAdapter(adapter);
+
+                // Set the height of the ListView based on the number of items
+                setListViewHeight(searchListView);
+
+                searchListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        String selectedProduct = (String) parent.getItemAtPosition(position);
+                        // Perform the action to navigate to the selected product
+                        navigateToProduct(selectedProduct);
+
+//                        showIT getBundle = new showIT();
+//                        getBundle.getBundele();
+                    }
+                });
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Log.e("Search", "DatabaseError: " + databaseError.getMessage());
+            }
+        });
 
 
-        if (searchText.isEmpty()) {
-            searchBar.setError("ENTER PRODUCT NAME");
-            onStart();
-        } else {
+    }
 
-
-
-
-
-//            query.addValueEventListener(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                    for (DataSnapshot userSnapshot : snapshot.getChildren()) {
-//                        itemShoe shoe = userSnapshot.getValue(itemShoe.class);
-//                        options.add(shoe);
-//                    }
-//
-//                  //  shoeAdapter.notifyDataSetChanged();
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-
-
-
+    //This method calculates the total height required for the list view by measuring
+    //Each item individually
+    private void setListViewHeight(ListView listView) {
+        ListAdapter listAdapter = listView.getAdapter();
+        if (listAdapter == null) {
+            return;
         }
 
+        int totalHeight = 0;
+        int desiredWidth = View.MeasureSpec.makeMeasureSpec(listView.getWidth(), View.MeasureSpec.AT_MOST);
+
+        for (int i = 0; i < listAdapter.getCount(); i++) {
+            View listItem = listAdapter.getView(i, null, listView);
+            listItem.measure(desiredWidth, View.MeasureSpec.UNSPECIFIED);
+            totalHeight += listItem.getMeasuredHeight();
+        }
+
+        ViewGroup.LayoutParams params = listView.getLayoutParams();
+        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+        listView.setLayoutParams(params);
+        listView.requestLayout();
+    }
+
+    private void navigateToProduct(String productName) {
+        //Getting shoe reference from firebase
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("Shoes");
+
+        //Creating a query to find the specific product in the "Shoes" section in database
+        Query query = ref.orderByChild("name").equalTo(productName);
+        query.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                    //Iterating through the data that represent matched products
+                    //and also retrieving the name, price and image of that product
+                    String name = snapshot.child("name").getValue(String.class);
+                    String price = snapshot.child("price").getValue(String.class);
+                    String image = snapshot.child("image").getValue(String.class);
+
+                    //Creating an intent to navigate to showIT activity
+                    Intent intent = new Intent(mainPage.this, showIT.class);
+                    intent.putExtra(showIT.EXTRA_PRODUCT_NAME, productName); //Passing product name
+                    intent.putExtra("itemname", name);
+                    intent.putExtra("itemprice", price);
+                    intent.putExtra("itemimage", image);
+                    startActivityForResult(intent, 1);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                //Handles any errors that might occur during the retrieval of data from database
+                Log.e("Search", "DatabaseError: " + databaseError.getMessage());
+            }
+        });
     }
 
     @Override

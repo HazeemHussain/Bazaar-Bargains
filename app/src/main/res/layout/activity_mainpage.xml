@@ -36,7 +36,20 @@
                     app:layout_constraintEnd_toStartOf="@+id/SearchField"
                     app:layout_constraintStart_toStartOf="parent"
                     app:srcCompat="@drawable/applogo"
-                    tools:layout_editor_absoluteY="4dp" />
+                    tools:layout_editor_absoluteY="4dp"
+                    tools:ignore="MissingConstraints" />
+
+                <ListView
+                    android:id="@+id/searchListView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="72dp"
+                    android:background="@color/cardview_dark_background"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
 

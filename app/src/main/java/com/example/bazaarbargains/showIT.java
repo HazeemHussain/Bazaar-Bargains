@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,7 +27,11 @@ public class showIT extends AppCompatActivity {
 
     public static float myFloatVariable;
 
+    public static final String EXTRA_PRODUCT_NAME = "productName";
+    String data1 , data2, data;
+
     String currentUser = loginActivity.currentUser;
+
 
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
@@ -46,15 +51,26 @@ public class showIT extends AppCompatActivity {
     private void getBundele() {
 
 
-            String data = getIntent().getStringExtra("itemname");
-        desName.setText(data);
+        //Hazeem part starts here
+        //This part is included to successfully implement the search bar feature
+        //Getting the data from the mainPage class which user searched
+        //Then taking the user to particular item page which has been clicked
+        Intent intent = getIntent();
+        if (intent != null) {
 
-        String data1 = getIntent().getStringExtra("itemprice");
-        desPrice.setText(data1);
+            //Retrieving the data passed from the main activity
+            //String productName = intent.getStringExtra(EXTRA_PRODUCT_NAME);
+            data = intent.getStringExtra("itemname");
+            data1 = intent.getStringExtra("itemprice");
+            data2 = intent.getStringExtra("itemimage");
 
-        String data2 = getIntent().getStringExtra("itemimage");
+            desName.setText(data); //Setting the item name
+            desPrice.setText(data1); //setting the item price
+            Glide.with(this).load(data2).into(imageitemView); //Loading and displaying the item page
+            quant.setText(Integer.toString(quantity));
+        }
+        //Ends here
 
-        Glide.with(this).load(data2).into(imageitemView);
 
 
         quant.setText(Integer.toString(quantity));
