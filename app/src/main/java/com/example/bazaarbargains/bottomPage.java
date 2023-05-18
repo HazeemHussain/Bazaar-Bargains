@@ -4,10 +4,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
+
+import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class bottomPage extends AppCompatActivity {
     RecyclerView rec;
@@ -35,6 +39,52 @@ public class bottomPage extends AppCompatActivity {
 
         adapter = new shoeAdapter(options, 1);
         rec.setAdapter(adapter);
+
+        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+
+
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
+
+                int id = newIndex;
+
+                if (id == 0) {
+
+                    startActivity(new Intent(bottomPage.this, Dashboard.class));
+                } else if (id == 1) {
+
+
+                    startActivity(new Intent(bottomPage.this, mainPage.class));
+
+
+                }else if (id == 2) {
+
+
+                    startActivity(new Intent(bottomPage.this, wishlist.class));
+
+
+                }else if (id == 3) {
+
+
+                    startActivity(new Intent(bottomPage.this, cartRecList.class));
+
+
+                }
+            }
+
+
+
+            @Override
+            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+                int id = index;
+                if (id == 1) {
+
+                    startActivity(new Intent(bottomPage.this, mainPage.class));
+
+                }
+            }
+        });
     }
 
     @Override

@@ -36,7 +36,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/newpropic" />
+                        app:srcCompat="@drawable/prof" />
 
                     <TextView
                         android:id="@+id/textView3"
@@ -74,18 +74,20 @@
 
 
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-
-        android:id="@+id/bottom_navigation"
+    <nl.joery.animatedbottombar.AnimatedBottomBar
+        android:id="@+id/navBar"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="70dp"
 
-        app:itemBackground="@color/purple_500"
-        app:itemIconTint="@drawable/menuselector"
-        app:itemTextColor="@drawable/menuselector"
-        app:menu="@menu/navigation_menu" />
+        android:background="#FFF"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorHeight="4dp"
+        app:abb_indicatorMargin="16dp"
+
+        app:abb_selectedTabType="icon"
+
+        app:abb_tabs="@menu/navigation_menu" />
 
 
 

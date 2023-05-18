@@ -50,6 +50,9 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 public class mainPage  extends AppCompatActivity  {
     private Button button;
 
@@ -105,26 +108,47 @@ public class mainPage  extends AppCompatActivity  {
             }
         });
 
-        BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
-        appBottomNavigationView.setSelectedItemId(R.id.home);
-        appBottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.home:
-                    // Navigate to the Home activity
-                    startActivity(new Intent(mainPage.this, mainPage.class));
-                    return true;
-                case R.id.cart:
-                    // Navigate to the Profile activity
-                    startActivity(new Intent(mainPage.this, cartRecList.class));
-                    return true;
-                case R.id.dashboard:
-                    // Navigate to the Settings activity
+        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+
+
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
+
+                int id = newIndex;
+
+                if (id == 0) {
+
                     startActivity(new Intent(mainPage.this, Dashboard.class));
-                    return true;
+                } else if (id == 1) {
+
+
+                    startActivity(new Intent(mainPage.this, mainPage.class));
+
+
+                }else if (id == 2) {
+
+
+                    startActivity(new Intent(mainPage.this, wishlist.class));
+
+
+                }else if (id == 3) {
+
+
+                    startActivity(new Intent(mainPage.this, cartRecList.class));
+
+
+                }
             }
-            return false;
+
+
+
+            @Override
+            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+
+            }
         });
+
 
 
         //Calling search button and search fields

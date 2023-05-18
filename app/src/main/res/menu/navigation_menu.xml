@@ -6,8 +6,12 @@
         android:title="Account" />
     <item
         android:id="@+id/home"
-        android:icon="@android:drawable/ic_menu_search"
+        android:icon="@drawable/sss"
         android:title="Buy" />
+    <item
+        android:id="@+id/wishlist"
+        android:icon="@drawable/wishicon"
+        android:title="Wishlist" />
 
     <item
         android:id="@+id/cart"

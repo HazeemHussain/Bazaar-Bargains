@@ -126,27 +126,35 @@
             android:layout_width="match_parent"
             android:layout_height="69dp"
             android:layout_marginBottom="21dp"
-            android:background="@drawable/gbut"
+            android:background="@drawable/weiebutton"
             android:gravity="center"
             android:text="Pay Now"
             android:textColor="@color/white"
             android:textSize="24sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/bottom_navigation"
+            app:itemBackground="@color/purple_500"
+            app:layout_constraintBottom_toTopOf="@+id/navBar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.google.android.material.bottomnavigation.BottomNavigationView
-            android:id="@+id/bottom_navigation"
-            android:layout_width="409dp"
-            android:layout_height="50dp"
+        <nl.joery.animatedbottombar.AnimatedBottomBar
+            android:id="@+id/navBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
 
-            app:itemBackground="@color/purple_500"
-            app:itemIconTint="@drawable/menuselector"
-            app:itemTextColor="@drawable/menuselector"
+            android:layout_marginBottom="1dp"
+            android:background="#FFF"
+            app:abb_indicatorAppearance="round"
+            app:abb_indicatorHeight="4dp"
+            app:abb_indicatorMargin="16dp"
+            app:abb_selectedIndex="1"
+
+            app:abb_selectedTabType="icon"
+            app:abb_tabs="@menu/navigation_menu"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:menu="@menu/navigation_menu" />
+            app:layout_constraintStart_toStartOf="parent"
+           />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
