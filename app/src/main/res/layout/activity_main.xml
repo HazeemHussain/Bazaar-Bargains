@@ -8,7 +8,23 @@
     android:background="@drawable/gradient_purple"
     tools:context=".MainActivity">
 
+    <com.github.ybq.android.spinkit.SpinKitView
+        android:id="@+id/loading_bar"
+        android:layout_width="295dp"
+        android:layout_height="185dp"
+        android:layout_centerInParent="true"
+        app:SpinKit_Color="@color/your_loading_color"
+        app:SpinKit_Style="@string/your_loading_style" />
 
+    <ImageView
+        android:id="@+id/app_logo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:src="@drawable/applogo"
+        android:transitionName="app-logo" />
+
+    <!--
     <TextView
 
         android:id="@+id/app_name"
@@ -23,29 +39,33 @@
         android:textSize="30sp"
         android:textStyle="bold"
         android:transitionName="app_name"
-
-
         />
+
+
+    <ProgressBar
+        android:id="@+id/loading_bar"
+        android:layout_width="295dp"
+        android:layout_height="185dp"
+        android:layout_centerInParent="true" />
 
     <ImageView
 
         android:id="@+id/app_logo"
         android:layout_width="295dp"
         android:layout_height="185dp"
-        android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:src="@drawable/applogo"
         android:transitionName="app-logo"
 
         />
-
-<!--
-    <Button
-        android:id="@+id/home_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button" />
-
 -->
+    <!--
+        <Button
+            android:id="@+id/home_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Button" />
+
+    -->
 
 </RelativeLayout>
