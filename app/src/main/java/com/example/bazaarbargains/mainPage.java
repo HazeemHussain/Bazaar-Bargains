@@ -16,7 +16,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
+
 import android.widget.RelativeLayout;
+
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -28,20 +30,29 @@ import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-
+import java.util.List;
 import java.util.List;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class mainPage  extends AppCompatActivity  {
     private Button button;
@@ -59,13 +70,11 @@ public class mainPage  extends AppCompatActivity  {
     categoryAdapter adap;
     String currentUser = loginActivity.currentUser;
 
-     Button searchBtn;
-     EditText searchBar;
+
+    private Button searchBtn;
+    private EditText searchBar;
     private ListView searchListView;
     private ArrayAdapter<String> searchAdapter;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,26 +82,69 @@ public class mainPage  extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
-        BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
-        appBottomNavigationView.setSelectedItemId(R.id.home);
-        appBottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.home:
-                    // Navigate to the Home activity
-                    startActivity(new Intent(mainPage.this, mainPage.class));
-                    return true;
-                case R.id.cart:
-                    // Navigate to the Profile activity
-                    startActivity(new Intent(mainPage.this, cartRecList.class));
-                    return true;
-                case R.id.dashboard:
-                    // Navigate to the Settings activity
-                    startActivity(new Intent(mainPage.this, Dashboard.class));
-                    return true;
+        //Calling search button and search fields
+        searchBar = (EditText) findViewById(R.id.SearchField);
+        searchListView = (ListView) findViewById(R.id.searchListView);
+        searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
+        searchListView.setAdapter(searchAdapter);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
-            return false;
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String query = s.toString();
+                searchingData(query);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+            }
         });
+
+        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+
+
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
+
+                int id = newIndex;
+
+                if (id == 0) {
+
+                    startActivity(new Intent(mainPage.this, Dashboard.class));
+                } else if (id == 1) {
+
+
+                    startActivity(new Intent(mainPage.this, mainPage.class));
+
+
+                }else if (id == 2) {
+
+
+                    startActivity(new Intent(mainPage.this, wishlist.class));
+
+
+                }else if (id == 3) {
+
+
+                    startActivity(new Intent(mainPage.this, cartRecList.class));
+
+
+                }
+            }
+
+
+
+            @Override
+            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+
+            }
+        });
+
 
 
         //Calling search button and search fields
@@ -119,7 +171,6 @@ public class mainPage  extends AppCompatActivity  {
         });
 
 
-
         catRv = findViewById(R.id.catrecyclerView);
 
         category = new ArrayList<>();
@@ -136,7 +187,6 @@ public class mainPage  extends AppCompatActivity  {
         catRv.setAdapter(adap);
 
 
-
         recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
         recyview.setLayoutManager(new GridLayoutManager(this,2));
 
@@ -149,6 +199,7 @@ public class mainPage  extends AppCompatActivity  {
 
         adapter = new shoeAdapter(options,1);
         recyview.setAdapter(adapter);
+
 
     }
 
@@ -214,7 +265,10 @@ public class mainPage  extends AppCompatActivity  {
             }
         });
 
+
     }
+
+
 
     //This method calculates the total height required for the list view by measuring
     //Each item individually
@@ -237,6 +291,7 @@ public class mainPage  extends AppCompatActivity  {
         params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
         listView.setLayoutParams(params);
         listView.requestLayout();
+
     }
 
     private void navigateToProduct(String productName) {
@@ -274,6 +329,8 @@ public class mainPage  extends AppCompatActivity  {
         });
 
     }
+
+
     @Override
     protected void onStart() {
         super.onStart();

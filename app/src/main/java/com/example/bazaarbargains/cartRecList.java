@@ -30,6 +30,8 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.ArrayList;
 
+import nl.joery.animatedbottombar.AnimatedBottomBar;
+
 public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRemoveItemClickListener {
 
     RecyclerView recyclerView;
@@ -57,27 +59,47 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
-        BottomNavigationView appBottomNavigationView = findViewById(R.id.bottom_navigation);
-        appBottomNavigationView.setSelectedItemId(R.id.cart);
-        appBottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.home:
-                    // Navigate to the Home activity
-                    startActivity(new Intent(cartRecList.this, mainPage.class));
-                    return true;
-                case R.id.cart:
-                    // Navigate to the Profile activity
-                    startActivity(new Intent(cartRecList.this, cartRecList.class));
-                    return true;
-                case R.id.dashboard:
-                    // Navigate to the Settings activity
-                    startActivity(new Intent(cartRecList.this, Dashboard.class));
-                    return true;
-            }
-            return false;
-        });
 
+        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+        bottom_bar.selectTabAt(3,true);
+
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
+
+                int id = newIndex;
+
+                if (id == 0) {
+
+                    startActivity(new Intent(cartRecList.this, Dashboard.class));
+                } else if (id == 1) {
+
+
+                    startActivity(new Intent(cartRecList.this, mainPage.class));
+
+
+                }else if (id == 2) {
+
+
+                    startActivity(new Intent(cartRecList.this, wishlist.class));
+
+
+                }else if (id == 3) {
+
+
+                    startActivity(new Intent(cartRecList.this, cartRecList.class));
+
+
+                }
+            }
+
+
+
+            @Override
+            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+
+            }
+        });
 
 
 
@@ -117,9 +139,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 Log.e("firebase", "Error getting data", task.getException());
             }
         });
-
-
-
 
 
 
@@ -266,24 +285,20 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                                         // Update the "users/amount" instance with the new amount
                                         amountRef.setValue(newAmount).addOnCompleteListener(updateTask -> {
                                             if (updateTask.isSuccessful()) {
-                                                // Amount updated successfully
-                                                // You can add any additional logic or UI updates here
+                                            
                                             } else {
-                                                // Error occurred while updating the amount
-                                                // Handle the error or display an error message
+
                                             }
                                         });
                                     } else {
-                                        // Error occurred while retrieving the current amount
-                                        // Handle the error or display an error message
+
                                     }
                                 });
                             } else {
-                                // Error occurred while removing the item from the database
-                                // Handle the error or display an error message
+
                             }
                         });
-                        break; // Break the loop once the item is found and removed
+                        break;
                     }
                 }
             }

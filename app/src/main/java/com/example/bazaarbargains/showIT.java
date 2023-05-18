@@ -30,8 +30,12 @@ public class showIT extends AppCompatActivity {
 
     public static float myFloatVariable;
 
-    String currentUser = loginActivity.currentUser;
     public static final String EXTRA_PRODUCT_NAME = "productName";
+
+
+    String currentUser = loginActivity.currentUser;
+
+
 
   //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
@@ -62,6 +66,9 @@ public class showIT extends AppCompatActivity {
             data = intent.getStringExtra("itemname");
             data1 = intent.getStringExtra("itemprice");
             data2 = intent.getStringExtra("itemimage");
+
+
+
 
             desName.setText(data); //Setting the item name
             desPrice.setText(data1); //setting the item price

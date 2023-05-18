@@ -36,10 +36,8 @@
                     app:layout_constraintEnd_toStartOf="@+id/SearchField"
                     app:layout_constraintStart_toStartOf="parent"
                     app:srcCompat="@drawable/applogo"
-                    tools:layout_editor_absoluteY="4dp"
-                    tools:ignore="MissingConstraints" />
-
-
+                    tools:ignore="MissingConstraints"
+                    tools:layout_editor_absoluteY="4dp" />
 
                 <EditText
 
@@ -64,20 +62,28 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
-                <TextView
-                    android:id="@+id/textView11"
-                    android:layout_width="wrap_content"
+                <ListView
+                    android:id="@+id/searchListView"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:layout_marginTop="32dp"
-                    android:text="Category"
-                    android:textColor="#222222"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
+                    android:background="@color/cardview_dark_background"
+                    android:textColor="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/SearchField" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="32dp"
+                android:text="Category"
+                android:textColor="#222222"
+                android:textSize="24sp"
+                android:textStyle="bold" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/catrecyclerView"
@@ -100,37 +106,26 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerViewShoes"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content">
 
+            </androidx.recyclerview.widget.RecyclerView>
 
 
         </LinearLayout>
-
     </ScrollView>
 
-
-    <ListView
-        android:id="@+id/searchListView"
+    <nl.joery.animatedbottombar.AnimatedBottomBar
+        android:id="@+id/navBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
-        android:background="@color/cardview_dark_background"
-        android:textColor="@color/white"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-
-        android:id="@+id/bottom_navigation"
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="70dp"
 
-        app:itemBackground="@color/purple_500"
-        app:itemIconTint="@drawable/menuselector"
-        app:itemTextColor="@drawable/menuselector"
-        app:menu="@menu/navigation_menu" />
+        android:background="#FFF"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorHeight="4dp"
+        app:abb_indicatorMargin="16dp"
+        app:abb_selectedIndex="1"
+        app:abb_selectedTabType="icon"
 
+        app:abb_tabs="@menu/navigation_menu" />
 </RelativeLayout>
