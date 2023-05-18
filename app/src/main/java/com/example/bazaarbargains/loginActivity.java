@@ -23,7 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class loginActivity extends AppCompatActivity {
 
-    private Button forgotPassword,  joinBtn;
+    private Button forgotPassword,  joinBtn, loginBtn;
     private EditText inputUserName, inputPassword;
     private String parentDBName = "Users";
     private ProgressDialog loadingbar;
@@ -41,7 +41,7 @@ public class loginActivity extends AppCompatActivity {
 
 
         //Variables
-        Button loginBtn = (Button) findViewById(R.id.login_Btn);
+        loginBtn = (Button) findViewById(R.id.login_Btn);
         forgotPassword = (Button) findViewById(R.id.forgotPasswordBtn);
         inputUserName = (EditText) findViewById(R.id.userName);
         inputPassword = (EditText) findViewById(R.id.password);

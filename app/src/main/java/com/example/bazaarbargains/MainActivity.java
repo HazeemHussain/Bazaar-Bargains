@@ -4,11 +4,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
-import android.view.View;
 import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -19,7 +17,7 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button joinBtn, login_Btn, home_btn;
+    private Button home_btn;
     ImageView image;
     TextView appname;
 
@@ -31,14 +29,10 @@ public class MainActivity extends AppCompatActivity {
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-
-
-      //  login_Btn = (Button) findViewById(R.id.login_Btn);
-       // joinBtn = (Button) findViewById(R.id.join_Btn);
-      //  home_btn = (Button) findViewById(R.id.home_btn);
         image = (ImageView) findViewById(R.id.app_logo) ;
         appname = (TextView) findViewById(R.id.app_name) ;
 
+        //Setting animations
         Animation logoAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
         Animation nameAnimation = AnimationUtils.loadAnimation(this, R.anim.name_animation);
         image.startAnimation(logoAnimation);
@@ -46,10 +40,10 @@ public class MainActivity extends AppCompatActivity {
 
         runWithDelay();
 
-
     }
 
 
+    //This method runs the main activity with the animations
     public void runWithDelay() {
         // Call next screen after a delay of 3 seconds
         new Handler().postDelayed(new Runnable() {
@@ -68,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(intent);
                 }
             }
-        }, 3000); // 2 seconds delay (3000 milliseconds)
+        }, 3000); // 3 seconds delay (3000 milliseconds)
     }
 
 
