@@ -29,9 +29,9 @@ import java.util.HashMap;
 public class ForgotPasswordActivity extends AppCompatActivity {
 
     private Button registerBtn;
-     EditText inputUsername, inputPassword;
+    private EditText inputUsername, inputPassword;
      String DBName = "Users"; //Name of the database parent
-     CheckBox showPassword;
+    private CheckBox showPassword;
 
 
     @Override
@@ -84,7 +84,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
     }
 
-    private void updatingPassword(String userName, String password) {
+    public void updatingPassword(String userName, String password) {
         final DatabaseReference ref;
 
         //getting the reference by going into users and getting the user name
@@ -123,5 +123,42 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
     }
 
+    public void updatingUserName(String userName) {
+        final DatabaseReference ref;
+
+        //getting the reference by going into users and getting the user name
+        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userName);
+        HashMap user = new HashMap();
+        user.put("username", userName);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                //checking if the username the user entered on the app exists on firebase
+                if (snapshot.exists()) {
+                    // String value = snapshot.getValue(String.class);
+
+                    //If the username exists then changing the password to the new one
+                    ref.child("userName").setValue(userName);
+
+                    //Displaying message
+                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(ForgotPasswordActivity.this, Dashboard.class);
+                    startActivity(intent);
+                } else {
+
+                    //If the username is not found
+                    Toast.makeText(ForgotPasswordActivity.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
 
 }
