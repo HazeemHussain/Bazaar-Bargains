@@ -26,7 +26,7 @@ public class bottomPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_page);
 
-        rec = (RecyclerView) findViewById(R.id.hatrec);
+        rec = findViewById(R.id.hatrec);
 
         rec.setLayoutManager(new GridLayoutManager(this, 2));
 

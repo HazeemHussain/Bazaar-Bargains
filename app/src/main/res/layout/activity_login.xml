@@ -10,7 +10,7 @@
 
 <!--    App logo-->
 
-f
+
     <Button
         android:id="@+id/join_Btn"
         android:layout_width="match_parent"
@@ -117,7 +117,6 @@ f
         android:layout_marginStart="80dp"
         android:layout_marginTop="67dp"
 
-
         android:background="@drawable/roundtext"
         android:text="Login"
         android:textColor="@color/white"
@@ -132,11 +131,12 @@ f
         android:layout_marginStart="200dp"
 
         android:background="@android:color/transparent"
-        android:padding="10dp"
+        android:padding="8dp"
         android:text="Forgot password?"
         android:textAlignment="center"
         android:textSize="15sp"
         android:textStyle="bold"
+        android:textColor="@color/black"
         />
 
 </RelativeLayout>

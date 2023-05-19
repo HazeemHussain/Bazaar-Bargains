@@ -26,7 +26,7 @@ public class Tops extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tops);
 
-        rec = (RecyclerView) findViewById(R.id.hatrec);
+        rec = findViewById(R.id.hatrec);
 
         rec.setLayoutManager(new GridLayoutManager(this, 2));
 

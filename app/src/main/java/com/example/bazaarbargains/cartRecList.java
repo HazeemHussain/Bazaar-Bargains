@@ -129,7 +129,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 String multipliedString1 = String.format("%.2f", multipliedValue1);
 
 
-                cartTotal.setText("$"+String.valueOf(task.getResult().getValue()));
+                cartTotal.setText("$"+ task.getResult().getValue());
 
                 gstTotal.setText("$"+multipliedString);
 

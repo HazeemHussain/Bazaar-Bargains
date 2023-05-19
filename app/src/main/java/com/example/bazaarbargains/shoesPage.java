@@ -26,7 +26,7 @@ public class shoesPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shoes_page);
 
-        rec = (RecyclerView) findViewById(R.id.hatrec);
+        rec = findViewById(R.id.hatrec);
 
         rec.setLayoutManager(new GridLayoutManager(this, 2));
 

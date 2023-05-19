@@ -39,10 +39,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        registerBtn = (Button) findViewById(R.id.register_Btn);
-        inputPassword = (EditText) findViewById(R.id.password);
-        inputUsername = (EditText) findViewById(R.id.userName);
-        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
+        registerBtn = findViewById(R.id.register_Btn);
+        inputPassword = findViewById(R.id.password);
+        inputUsername = findViewById(R.id.userName);
+        showPassword = findViewById(R.id.showPassword_checkbox);
 
         showPassword();
         registerBtn.setOnClickListener(new View.OnClickListener() {
