@@ -31,14 +31,23 @@ public class loginActivity extends AppCompatActivity {
     private static String userloggedin = "name";
     public static String currentUser;
 
-    CheckBox showPassword;
+    private CheckBox showPassword;
 
+    private Button mainPagebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mainPagebutton = findViewById(R.id.mainpageBtn);
+        mainPagebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(loginActivity.this, mainPage.class);
+                startActivity(intent);
+            }
+        });
 
         //Variables
         loginBtn = (Button) findViewById(R.id.login_Btn);

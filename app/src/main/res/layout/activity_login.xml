@@ -139,4 +139,19 @@
         android:textColor="@color/black"
         />
 
+    <Button
+        android:id="@+id/mainpageBtn"
+        android:layout_width="170dp"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="40dp"
+
+        android:background="@drawable/roundtext"
+        android:text="main Page"
+        android:textColor="@color/white"
+        android:textSize="20sp" />
+
+
 </RelativeLayout>

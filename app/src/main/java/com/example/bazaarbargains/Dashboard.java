@@ -61,9 +61,7 @@ public class Dashboard extends AppCompatActivity {
 
                 }else if (id == 3) {
 
-
                     startActivity(new Intent(Dashboard.this, cartRecList.class));
-
 
                 }
             }
