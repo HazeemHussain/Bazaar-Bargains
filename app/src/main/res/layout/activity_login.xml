@@ -6,11 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/gradient_purple"
     tools:context=".loginActivity">
-<!--    android:background="@drawable/bgimage2"-->
 
-<!--    App logo-->
-
-f
     <Button
         android:id="@+id/join_Btn"
         android:layout_width="match_parent"
