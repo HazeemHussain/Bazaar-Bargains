@@ -286,7 +286,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                                         // Update the "users/amount" instance with the new amount
                                         amountRef.setValue(newAmount).addOnCompleteListener(updateTask -> {
                                             if (updateTask.isSuccessful()) {
-                                            
+
                                             } else {
 
                                             }
