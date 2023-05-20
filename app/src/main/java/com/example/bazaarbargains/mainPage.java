@@ -174,7 +174,7 @@ public class mainPage  extends AppCompatActivity  {
         catRv = findViewById(R.id.catrecyclerView);
 
         category = new ArrayList<>();
-        category.add(new categoryModel("Shoes",R.drawable.runningshoe));
+        category.add(new categoryModel("Shoes",R.drawable.wewe));
         category.add(new categoryModel("Hats",R.drawable.hatsphoto));
         category.add(new categoryModel("Tops",R.drawable.shirtphoto));
         category.add(new categoryModel("Bottoms",R.drawable.pantsphoto));
@@ -182,7 +182,7 @@ public class mainPage  extends AppCompatActivity  {
 
         adap = new categoryAdapter(this,category);
 
-        catRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.HORIZONTAL,false));
+        catRv.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
 
         catRv.setAdapter(adap);
 

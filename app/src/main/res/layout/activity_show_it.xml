@@ -9,7 +9,7 @@
 
     <ScrollView
         android:id="@+id/scrollView2"
-        android:layout_width="409dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent">
@@ -27,7 +27,7 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
@@ -36,7 +36,6 @@
                     android:layout_height="wrap_content"
                     android:text="name"
                     android:textAlignment="textStart"
-
                     android:textColor="@color/black"
                     android:textSize="24sp" />
 
@@ -47,12 +46,19 @@
                     android:textAlignment="textStart"
                     android:textSize="20sp"
                     android:text="Price"
-
                     android:textColor="@color/black" />
+
+                <TextView
+                    android:id="@+id/desc"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    android:text="Description"
+                    android:textColor="#222222"
+                    android:textSize="18sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="80dp"
                     android:orientation="horizontal">
 
@@ -70,7 +76,10 @@
                         android:layout_weight="1"
                         android:text="Quantity"
                         android:textAlignment="center"
-                        android:textColor="@color/black" />
+                        android:textColor="@color/black"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="center_vertical"
+                        tools:ignore="RtlCompat" />
 
                     <ImageView
                         android:id="@+id/minusbut"
@@ -88,7 +97,6 @@
                     android:layout_marginLeft="130dp"
                     android:layout_marginTop="80dp"
                     android:background="@drawable/addtocartbutton"
-
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
