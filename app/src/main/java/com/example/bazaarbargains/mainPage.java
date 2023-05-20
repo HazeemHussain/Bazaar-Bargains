@@ -83,8 +83,8 @@ public class mainPage  extends AppCompatActivity  {
         setContentView(R.layout.activity_mainpage);
 
         //Calling search button and search fields
-        searchBar = (EditText) findViewById(R.id.SearchField);
-        searchListView = (ListView) findViewById(R.id.searchListView);
+        searchBar = findViewById(R.id.SearchField);
+        searchListView = findViewById(R.id.searchListView);
         searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         searchListView.setAdapter(searchAdapter);
 
@@ -149,8 +149,8 @@ public class mainPage  extends AppCompatActivity  {
 
         //Calling search button and search fields
 
-         searchBar = (EditText) findViewById(R.id.SearchField);
-         searchListView = (ListView) findViewById(R.id.searchListView);
+         searchBar = findViewById(R.id.SearchField);
+         searchListView = findViewById(R.id.searchListView);
          searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
          searchListView.setAdapter(searchAdapter);
 
@@ -187,7 +187,7 @@ public class mainPage  extends AppCompatActivity  {
         catRv.setAdapter(adap);
 
 
-        recyview=(RecyclerView)findViewById(R.id.recyclerViewShoes) ;
+        recyview= findViewById(R.id.recyclerViewShoes);
         recyview.setLayoutManager(new GridLayoutManager(this,2));
 
         recyview.setItemAnimator(null);

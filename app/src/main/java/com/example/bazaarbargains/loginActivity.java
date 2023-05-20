@@ -31,14 +31,23 @@ public class loginActivity extends AppCompatActivity {
     private static String userloggedin = "name";
     public static String currentUser;
 
-    CheckBox showPassword;
+    private CheckBox showPassword;
 
+    private Button mainPagebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mainPagebutton = findViewById(R.id.mainpageBtn);
+        mainPagebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(loginActivity.this, mainPage.class);
+                startActivity(intent);
+            }
+        });
 
         //Variables
         loginBtn = (Button) findViewById(R.id.login_Btn);
@@ -94,7 +103,7 @@ public class loginActivity extends AppCompatActivity {
 
         if (userName.isEmpty()) {
             inputUserName.setError("ENTER YOUR USERNAME");
-           // Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
 
         } else if (password.isEmpty()) {
             inputPassword.setError("ENTER YOUR PASSWORD");
@@ -136,7 +145,7 @@ public class loginActivity extends AppCompatActivity {
                             //IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
                             Intent intent = new Intent(loginActivity.this, mainPage.class);
                             startActivity(intent);
-                            
+
                         } else if (!userData.getPassword().equals(password)) {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
@@ -153,7 +162,7 @@ public class loginActivity extends AppCompatActivity {
                     //Displaying msg if user name doesnt exits in firebase
                     loadingbar.dismiss();
                     Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
-                   // Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
 
                 }
             }

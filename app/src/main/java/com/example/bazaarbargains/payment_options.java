@@ -29,7 +29,7 @@ import java.util.Date;
 public class payment_options extends AppCompatActivity {
     private Spinner payment_option_spinner;
     private LinearLayout paymentfields;
-    private boolean fieldsAdded = false;
+    private final boolean fieldsAdded = false;
     private EditText card_number, expiry_date, CVV, username, password;
     private Button confirm, back;
 
@@ -38,13 +38,13 @@ public class payment_options extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_payment_options);
-        confirm = (Button) findViewById(R.id.confirm_button);
-        back = (Button) findViewById(R.id.back_button);
-        card_number = (EditText) findViewById(R.id.card_number);
-        expiry_date = (EditText) findViewById(R.id.expiration_date);
-        CVV = (EditText) findViewById(R.id.security_code);
-        username = (EditText) findViewById(R.id.paypal_username);
-        password = (EditText) findViewById(R.id.paypal_password);
+        confirm = findViewById(R.id.confirm_button);
+        back = findViewById(R.id.back_button);
+        card_number = findViewById(R.id.card_number);
+        expiry_date = findViewById(R.id.expiration_date);
+        CVV = findViewById(R.id.security_code);
+        username = findViewById(R.id.paypal_username);
+        password = findViewById(R.id.paypal_password);
 
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("message");

@@ -4,66 +4,75 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ActivityOptions;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Pair;
+import android.view.View;
 import android.view.WindowManager;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
+//To Clean up code on mac press cmd+options+L
 
 public class MainActivity extends AppCompatActivity {
 
-    private Button home_btn;
-    ImageView image;
-    TextView appname;
+    private ImageView appLogo;
+    private ProgressBar loadingBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        //Removing the top bar so that the activity covers full screen
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_main);
 
-        image = (ImageView) findViewById(R.id.app_logo) ;
-        appname = (TextView) findViewById(R.id.app_name) ;
+        appLogo = findViewById(R.id.app_logo);
+        loadingBar = findViewById(R.id.loading_bar);
 
-        //Setting animations
-        Animation logoAnimation = AnimationUtils.loadAnimation(this, R.anim.logo_animation);
-        Animation nameAnimation = AnimationUtils.loadAnimation(this, R.anim.name_animation);
-        image.startAnimation(logoAnimation);
-        appname.startAnimation(nameAnimation);
+        startLoadingAnimation();
 
-        runWithDelay();
-
-    }
-
-
-    //This method runs the main activity with the animations
-    public void runWithDelay() {
-        // Call next screen after a delay of 3 seconds
+        // Delay for 3 seconds before transitioning to the next screen
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(MainActivity.this, loginActivity.class);
-                // Attach all the elements you want to animate in the design
-                Pair[] pairs = new Pair[2];
-                pairs[0] = new Pair<>(image, "app_logo");
-                pairs[1] = new Pair<>(appname, "app_name");
-                // Wrap the call in API level 21 or higher
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    ActivityOptions options = ActivityOptions.makeSceneTransitionAnimation(MainActivity.this, pairs);
-                    startActivity(intent, options.toBundle());
-                } else {
-                    startActivity(intent);
-                }
+                goToNextScreen();
             }
-        }, 3000); // 3 seconds delay (3000 milliseconds)
+        }, 2000); // 3 seconds delay
     }
 
+    private void startLoadingAnimation() {
+
+//        appLogo.setVisibility(View.INVISIBLE);
+//        loadingBar.setVisibility(View.VISIBLE);
+
+        // Displaying the logo and the loading simulatenously
+        appLogo.setAlpha(1.0f);
+        loadingBar.setVisibility(View.VISIBLE);
+
+        // Fade in the app logo
+        AlphaAnimation fadeInAnimation = new AlphaAnimation(0.0f, 1.0f);
+        fadeInAnimation.setDuration(1000);
+        fadeInAnimation.setFillAfter(true);
+        appLogo.startAnimation(fadeInAnimation);
+
+    }
+
+    private void goToNextScreen() {
+        // Once the animation is finished the moving the app to the login activity
+        Intent intent = new Intent(MainActivity.this, loginActivity.class);
+        startActivity(intent);
+        finish();
+    }
+
+    //Ensuring that the user doesn't go back to this activity when back button is pressed
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+    }
 
 }

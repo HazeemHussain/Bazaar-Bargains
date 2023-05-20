@@ -85,12 +85,12 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            name = (TextView)itemView.findViewById(R.id.itemName);
-            price = (TextView)itemView.findViewById(R.id.itemPrice);
-            quantity = (TextView)itemView.findViewById(R.id.quanti);
-            veiwbut = (TextView)itemView.findViewById(R.id.viewbutton);
-            image2=(ImageView) itemView.findViewById(R.id.checkImage);
-            b=(Button) itemView.findViewById(R.id.removebut);
+            name = itemView.findViewById(R.id.itemName);
+            price = itemView.findViewById(R.id.itemPrice);
+            quantity = itemView.findViewById(R.id.quanti);
+            veiwbut = itemView.findViewById(R.id.viewbutton);
+            image2= itemView.findViewById(R.id.checkImage);
+            b= itemView.findViewById(R.id.removebut);
 
 
         }

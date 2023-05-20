@@ -120,10 +120,10 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
 
         public veiwshoeholder(@NonNull View itemView) {
             super(itemView);
-            image2=(ImageView) itemView.findViewById(R.id.checkImage);
-            name = (TextView)itemView.findViewById(R.id.itemName);
-            price = (TextView)itemView.findViewById(R.id.itemPrice);
-            veiwbut = (TextView)itemView.findViewById(R.id.viewbutton);
+            image2= itemView.findViewById(R.id.checkImage);
+            name = itemView.findViewById(R.id.itemName);
+            price = itemView.findViewById(R.id.itemPrice);
+            veiwbut = itemView.findViewById(R.id.viewbutton);
 
 
         }

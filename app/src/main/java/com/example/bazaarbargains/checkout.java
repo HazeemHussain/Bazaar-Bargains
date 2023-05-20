@@ -39,7 +39,7 @@ public class checkout  extends AppCompatActivity {
         setContentView(R.layout.activity_checkout);
 
 
-        recyview=(RecyclerView)findViewById(R.id.rab) ;
+        recyview= findViewById(R.id.rab);
         recyview.setLayoutManager(new LinearLayoutManager(this));
 
         recyview.setItemAnimator(null);
