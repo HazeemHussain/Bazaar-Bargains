@@ -127,9 +127,10 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         final DatabaseReference ref;
 
         //getting the reference by going into users and getting the user name
-        ref = FirebaseDatabase.getInstance().getReference().child("Users").child(userName);
+        ref = FirebaseDatabase.getInstance().getReference();
+        ref.child("userName").setValue(userName);
         HashMap user = new HashMap();
-        user.put("username", userName);
+        user.put("userName", userName);
 
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -144,8 +145,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
 
                     //Displaying message
                     Toast.makeText(ForgotPasswordActivity.this, "USERNAME HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(ForgotPasswordActivity.this, Dashboard.class);
-                    startActivity(intent);
+
                 } else {
 
                     //If the username is not found

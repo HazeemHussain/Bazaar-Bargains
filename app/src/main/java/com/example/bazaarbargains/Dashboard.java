@@ -24,6 +24,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class Dashboard extends AppCompatActivity {
@@ -69,9 +72,62 @@ public class Dashboard extends AppCompatActivity {
 //            }
 //        });
 
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                deletingUserAccount();
+            }
+        });
 
     }
 
+    /* This method will delete the user account if user clicks on
+        the delete account button*/
+    private void deletingUserAccount() {
+        // Retrieve the entered username from the EditText
+        if (currentUser != null && !currentUser.isEmpty() && !currentUser.isEmpty()) {
+            final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.exists()) {
+                        // Get the data from the old node
+
+                        // Create a new node with the new username
+                        DatabaseReference newRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+
+                        // Deleting the old node
+                        reference.removeValue();
+
+                        currentUser = "Log in";
+                        retrievingFullName();
+                        retrievingUserName();
+
+                        // Displaying the success message
+                        Toast.makeText(Dashboard.this, "Username has been changed", Toast.LENGTH_SHORT).show();
+                    } else {
+                        // If the old node does not exist
+                        Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    // Handle onCancelled
+                }
+            });
+
+        } else if (currentUser.isEmpty()) {
+            Toast.makeText(Dashboard.this, "Please login to delete your account", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(Dashboard.this, "User needs to login to delete the account", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    /* Method that changes the the name of the node to the new user name user input
+    * and also updates the "user name" child in the node*/
     private void showDialogChangeusername() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Change User Name");
@@ -80,7 +136,7 @@ public class Dashboard extends AppCompatActivity {
         LinearLayout layout = new LinearLayout(this);
         layout.setOrientation(LinearLayout.VERTICAL);
 
-        // Creating an EditText for the new password
+        // Creating an EditText for the new username
         EditText userNameEditText = new EditText(this);
         userNameEditText.setHint("Enter your new username");
         layout.addView(userNameEditText);
@@ -91,26 +147,62 @@ public class Dashboard extends AppCompatActivity {
         builder.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Retrieve the entered password from the EditText
-                String newUserName = userNameEditText.getText().toString();
+                // Retrieve the entered username from the EditText
+                final String newUserName = userNameEditText.getText().toString();
 
                 if (currentUser != null && !currentUser.isEmpty() && !newUserName.isEmpty()) {
-                    ForgotPasswordActivity activity = new ForgotPasswordActivity();
-                    activity.updatingUserName(currentUser);
+                    final DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+
+                    oldRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
+                                // Get the data from the old node
+                                Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
+                                if (data != null) {
+                                    // Create a new node with the new username
+                                    DatabaseReference newRef = FirebaseDatabase.getInstance().getReference().child("Users").child(newUserName);
+
+                                    // Transfer the data from the old node to the new node
+                                    newRef.setValue(data);
+
+                                    // Delete the old node
+                                    oldRef.removeValue();
+
+                                    //setting the user name child to the updated user name
+                                    newRef.child("userName").setValue(newUserName);
+
+                                    //Updating the user name and the full name on accounts page
+                                    currentUser = newUserName;
+                                    retrievingFullName();
+                                    retrievingUserName();
+
+                                    // Displaying the success message
+                                    Toast.makeText(Dashboard.this, "Username has been changed", Toast.LENGTH_SHORT).show();
+                                }
+                            } else {
+                                // If the old node does not exist
+                                Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle onCancelled
+                        }
+                    });
 
                 } else if (newUserName.isEmpty()) {
                     Toast.makeText(Dashboard.this, "Please enter your new username", Toast.LENGTH_SHORT).show();
-
                 } else {
                     Toast.makeText(Dashboard.this, "User needs to login to change the username", Toast.LENGTH_SHORT).show();
-
                 }
-
 
                 // Dismissing the dialog box
                 dialog.dismiss();
             }
         });
+
 
         // Set negative button and its click listener
         builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -212,8 +304,40 @@ public class Dashboard extends AppCompatActivity {
                 String newPassword = newPasswordEditText.getText().toString();
 
                 if (currentUser != null && !currentUser.isEmpty() && !newPassword.isEmpty()) {
-                    ForgotPasswordActivity activity = new ForgotPasswordActivity();
-                    activity.updatingPassword(currentUser, newPassword);
+                    final DatabaseReference ref;
+
+                    //getting the reference by going into users and getting the user name
+                    ref = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+                    HashMap user = new HashMap();
+                    user.put("password", newPassword);
+
+                    ref.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            //checking if the username the user entered on the app exists on firebase
+                            if (snapshot.exists()) {
+                                // String value = snapshot.getValue(String.class);
+
+                                //If the username exists then changing the password to the new one
+                                ref.child("password").setValue(newPassword);
+
+                                //Displaying message
+                                Toast.makeText(Dashboard.this, "PASSWORD HAS BEEN CHANGED", Toast.LENGTH_SHORT).show();
+//                                Intent intent = new Intent(ForgotPasswordActivity.this, loginActivity.class);
+//                                startActivity(intent);
+                            } else {
+
+                                //If the username is not found
+                                Toast.makeText(Dashboard.this, "USERNAME DOESNT EXIST", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
                 } else if (newPassword.isEmpty()) {
                     Toast.makeText(Dashboard.this, "Please enter your new password", Toast.LENGTH_SHORT).show();
