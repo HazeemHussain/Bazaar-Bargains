@@ -4,80 +4,48 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff"
+
+    android:background="@drawable/gradient_purple"
     tools:context=".MainActivity">
 
 
     <TextView
 
-        android:layout_width="364dp"
-        android:layout_height="58dp"
+        android:id="@+id/app_name"
+        android:layout_width="370dp"
+        android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="300dp"
-        android:textColor="@color/black"
-        android:textStyle="bold"
+        android:layout_marginTop="400dp"
+        android:fontFamily="sans-serif-condensed-medium"
+        android:text="WELCOME TO\n\nBAZAAR BARGAINS"
         android:textAlignment="center"
-        android:text="WELCOME TO BAZAAR BARGAINS"
-        android:textSize="22sp"
+        android:textColor="@color/black"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        android:transitionName="app_name"
+
 
         />
 
     <ImageView
 
         android:id="@+id/app_logo"
-        android:layout_width="293dp"
-        android:layout_height="134dp"
+        android:layout_width="295dp"
+        android:layout_height="185dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="60dp"
         android:src="@drawable/applogo"
+        android:transitionName="app-logo"
 
         />
 
-<!--    Login Button-->
-    <Button
-        android:id="@+id/login_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="32dp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:text="Login"
-
-        />
-
-
-
+<!--
     <Button
         android:id="@+id/home_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Button" />
 
-
-    <Button
-        android:id="@+id/join_Btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="12dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="100dp"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        android:text="Sign Up"
-
-        />
-
+-->
 
 </RelativeLayout>

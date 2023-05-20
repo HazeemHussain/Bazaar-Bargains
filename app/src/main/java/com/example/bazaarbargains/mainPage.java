@@ -20,7 +20,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -28,6 +27,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -40,7 +42,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+import java.util.List;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
@@ -50,7 +52,6 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class mainPage  extends AppCompatActivity  {
@@ -74,11 +75,6 @@ public class mainPage  extends AppCompatActivity  {
     private EditText searchBar;
     private ListView searchListView;
     private ArrayAdapter<String> searchAdapter;
-
-
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,7 +201,6 @@ public class mainPage  extends AppCompatActivity  {
         recyview.setAdapter(adapter);
 
 
-
     }
 
     private void searchingData(String query) {
@@ -223,6 +218,8 @@ public class mainPage  extends AppCompatActivity  {
                         productExists = true;
                     }
                 }
+
+
 
                 //Displaying the msg if search result doesnt exist in the database
                 if (!productExists || query.isEmpty()) {
@@ -267,7 +264,6 @@ public class mainPage  extends AppCompatActivity  {
                 Log.e("Search", "DatabaseError: " + databaseError.getMessage());
             }
         });
-
 
 
     }
