@@ -191,7 +191,7 @@ public class payment_options extends AppCompatActivity {
 
         );
 
-      /*  paypal.setOnClickListener(new View.OnClickListener() {
+        /*  paypal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 paymentfields = findViewById(R.id.linear_layout);
