@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -10,23 +11,23 @@
 
     <ImageView
         android:id="@+id/logo"
-        android:layout_width="233dp"
-        android:layout_height="171dp"
+        android:layout_width="258dp"
+        android:layout_height="186dp"
+        android:layout_marginStart="80dp"
         android:layout_marginTop="4dp"
-        android:background="@drawable/applogo"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:background="@drawable/applogo" />
 
-    <EditText
+    <TextView
+        android:id="@+id/amounttext"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@id/layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-/>
-    <RelativeLayout
+        android:layout_marginStart="150dp"
+        android:layout_marginTop="250dp"
+        android:text="$400"
+        android:textColor="@color/white"
+        android:textSize="50dp"
+        app:layout_constraintBottom_toTopOf="@id/layout" />
+    <LinearLayout
         android:id ="@+id/layout"
         android:clickable="true"
         android:focusable="true"
@@ -34,11 +35,12 @@
         android:layout_height="48sp"
         android:background="@drawable/googlepay_button_background"
         android:padding="2sp"
+        android:layout_marginTop="400dp"
         android:contentDescription="@string/googlepay_button_content_description"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/logo"
-        >
+        android:orientation="horizontal">
 
         <LinearLayout
             android:duplicateParentState="true"
@@ -56,21 +58,22 @@
                 android:scaleType="fitCenter"
                 android:duplicateParentState="true"
                 android:src="@drawable/googlepay_button_content"/>
+
         </LinearLayout>
 
 
         <ImageView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
+            android:layout_marginTop="200dp"
             android:duplicateParentState="true"
             android:src="@drawable/googlepay_button_overlay"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
 
 
 
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>
