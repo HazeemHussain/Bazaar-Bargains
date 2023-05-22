@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -18,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -31,11 +33,17 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class Dashboard extends AppCompatActivity {
 
+    //Declaration of variables
    private Button logout, deleteAccount;
-   private Button passwordChange, usernameChange, newImage;
+   private Button passwordChange, usernameChange, imageChangeBtn;
    private TextView userName, fullName;
 
+   private ImageView newImage;
+    private static final int PICK_IMAGE_REQUEST = 1;
+
     String currentUser = loginActivity.currentUser;
+
+    //OnCreate method
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -62,15 +70,28 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-       // logout = findViewById(R.id.logoutBtn);
-        //        logout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(Dashboard.this, loginActivity.class );
-//                startActivity(intent);
-//
-//            }
-//        });
+        imageChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Open a file picker or image gallery intent
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
+            }
+        });
+
+        //Logout button that will log out the user when pressed
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(Dashboard.this, loginActivity.class );
+                startActivity(intent);
+                finish();
+
+            }
+        });
 
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -81,43 +102,80 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+            Uri imageUri = data.getData();
+            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+
+            // Get the current user's username (replace "hhus" with the actual username)
+
+            // Create a new child reference under the username to store the image URI
+            DatabaseReference userRef = usersRef.child(currentUser);
+
+            // Set the image URI value to the child reference
+            userRef.child("imageUri").setValue(imageUri.toString());
+
+            newImage.setImageURI(imageUri);
+
+        }
+    }
+
+
     /* This method will delete the user account if user clicks on
         the delete account button*/
     private void deletingUserAccount() {
         // Retrieve the entered username from the EditText
         if (currentUser != null && !currentUser.isEmpty() && !currentUser.isEmpty()) {
-            final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Confirmation"); //Setting title
+            builder.setMessage("Are you sure you want to delete your account?"); //Setting message
 
-            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+            //If user selects yes then its deletes the user account
+            builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                 @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    if (snapshot.exists()) {
-                        // Get the data from the old node
+                public void onClick(DialogInterface dialog, int which) {
+                    final DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            if (snapshot.exists()) {
 
-                        // Create a new node with the new username
-                        DatabaseReference newRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+                                // Deleting the data from the user's node
+                                reference.removeValue();
 
-                        // Deleting the old node
-                        reference.removeValue();
+                                //When the account gets deleted it takes the user back to login page
+                                Intent intent = new Intent(Dashboard.this, loginActivity .class);
+                                startActivity(intent);
 
-                        currentUser = "Log in";
-                        retrievingFullName();
-                        retrievingUserName();
+                                // Displaying the success message
+                                Toast.makeText(Dashboard.this, "Account has been deleted", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // If the old node does not exist
+                                Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
+                            }
+                        }
 
-                        // Displaying the success message
-                        Toast.makeText(Dashboard.this, "Username has been changed", Toast.LENGTH_SHORT).show();
-                    } else {
-                        // If the old node does not exist
-                        Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
-                    }
-                }
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-                    // Handle onCancelled
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle onCancelled
+                        }
+                    });
                 }
             });
 
+            //If user selects no then it doesn't delete the account
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Dismiss the dialog
+                    dialog.dismiss();
+                }
+            });
+
+            builder.show();
         } else if (currentUser.isEmpty()) {
             Toast.makeText(Dashboard.this, "Please login to delete your account", Toast.LENGTH_SHORT).show();
         } else {
@@ -369,6 +427,7 @@ public class Dashboard extends AppCompatActivity {
 
 
 
+
     private void initView() {
         //Declarations
         logout = (Button) findViewById(R.id.logoutBtn);
@@ -377,7 +436,8 @@ public class Dashboard extends AppCompatActivity {
         usernameChange = (Button) findViewById(R.id.userNameBtn);
         userName = (TextView) findViewById(R.id.userNameField);
         fullName = (TextView) findViewById(R.id.fullnameField);
-        newImage = (Button) findViewById(R.id.imageChangeBtn);
+        imageChangeBtn = (Button) findViewById(R.id.imageChangeBtn);
+        newImage = (ImageView) findViewById(R.id.imageView);
     }
 
     private void bottomBar() {
