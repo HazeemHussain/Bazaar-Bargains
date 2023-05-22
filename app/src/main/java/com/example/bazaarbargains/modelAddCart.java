@@ -5,21 +5,32 @@ public class modelAddCart {
     private String itemName, itemPrice;
     private String quantity;
     private String url;
+    private String sizec;
 
     private String perItemCost;
 
 
 
-    public modelAddCart(String itemName, String quantity, String itemPrice, String url, String perItemCost) {
+    public modelAddCart(String itemName, String quantity, String itemPrice, String url, String perItemCost,String sizec) {
         this.itemPrice = itemPrice;
         this.itemName = itemName;
         this.quantity = quantity;
         this.url = url;
         this.perItemCost = perItemCost;
+        this.sizec = sizec;
     }
     public modelAddCart() {
 
     }
+    public String getSizec() {
+        return sizec;
+    }
+
+    public void setSizec(String sizec) {
+        this.sizec = sizec;
+    }
+
+
 
     public String getPerItemCost() {
         return perItemCost;
