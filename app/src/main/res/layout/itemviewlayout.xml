@@ -3,37 +3,48 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
     android:orientation="vertical"
+    android:layout_marginLeft="20dp"
+
     android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/checkImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
         android:layout_weight="1"
         android:contentDescription="shoe"
         android:src="@drawable/it1" />
 
-    <Button
-        android:id="@+id/button"
+    <TextView
+        android:id="@+id/viewbutton"
         android:layout_width="150dp"
-        android:layout_height="50dp"
+        android:layout_height="43dp"
+
         android:layout_weight="1"
-        android:text="view" />
+        android:background="@drawable/weiebutton"
+        android:gravity="center_vertical"
+        android:text="View"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textFontWeight="2"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/itemName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="60dp"
         android:layout_weight="1"
+
         android:text="name"
-        android:textColor="#222222"
-        android:textAlignment="center" />
+        android:textAlignment="textStart"
+        android:textColor="#222222" />
 
     <TextView
         android:id="@+id/itemPrice"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
+        android:textAlignment="textStart"
         android:layout_weight="1"
         android:textColor="#222222"
         android:text="price" />

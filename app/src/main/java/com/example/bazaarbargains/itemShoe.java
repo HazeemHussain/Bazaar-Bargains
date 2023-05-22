@@ -16,7 +16,7 @@ public class itemShoe {
         this.image = image;
     }
 
-    public String getName() {
+    public  String getName() {
         return name;
     }
 
@@ -24,7 +24,7 @@ public class itemShoe {
         this.name = name;
     }
 
-    public String getPrice() {
+    public  String getPrice() {
         return price;
     }
 
