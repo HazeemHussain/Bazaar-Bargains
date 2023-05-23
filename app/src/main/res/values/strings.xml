@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">Bazaar Bargains</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_payment_options">PaymentOptions</string>
-    <string name="googlepay_button_content_description">Google Pay</string>
+
 
     <!--  iphone_14___1 strings  -->
 
@@ -11,5 +9,6 @@
     <string name="login_string">Login</string>
     <string name="password_string">Password</string>
     <string name="username_string">Username</string>
+
 
 </resources>
