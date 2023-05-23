@@ -49,6 +49,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
        holder.name.setText(modelAddCar.getItemName());
        holder.price.setText("$"+ modelAddCar.getitemPrice());
         holder.quantity.setText("Total Quantity: "+ modelAddCar.getQuantity());
+        holder.sizec.setText("Size: "+ modelAddCar.getSizec());
 
         myFloat+= Float.parseFloat(modelAddCar.getPerItemCost());
 
@@ -78,7 +79,7 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
 
     public  class MyViewHolder extends RecyclerView.ViewHolder{
 
-        TextView name, price, quantity, veiwbut;
+        TextView name, price, quantity, veiwbut,sizec;
         ImageView image2;
         Button b;
 
@@ -88,9 +89,11 @@ public class cartAdapter extends RecyclerView.Adapter<cartAdapter.MyViewHolder> 
             name = itemView.findViewById(R.id.itemName);
             price = itemView.findViewById(R.id.itemPrice);
             quantity = itemView.findViewById(R.id.quanti);
-            veiwbut = itemView.findViewById(R.id.viewbutton);
+
             image2= itemView.findViewById(R.id.checkImage);
             b= itemView.findViewById(R.id.removebut);
+
+            sizec= itemView.findViewById(R.id.sizec);
 
 
         }

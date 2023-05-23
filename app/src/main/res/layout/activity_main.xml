@@ -19,8 +19,10 @@
 
     <ProgressBar
         android:id="@+id/loading_bar"
+        style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Inverse"
         android:layout_width="130dp"
         android:layout_height="125dp"
+
         android:layout_centerInParent="true"
         android:visibility="visible" />
 
