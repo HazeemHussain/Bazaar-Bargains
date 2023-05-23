@@ -2,28 +2,17 @@ package com.example.bazaarbargains;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import androidx.annotation.NonNull;
-
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
+
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -37,14 +26,14 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     RecyclerView recyclerView;
     DatabaseReference database,database1;
     cartAdapter myAdapter;
-    ArrayList<modelAddCart> list;
+    ArrayList<modelAddCart> list = new ArrayList<>();
     String currentUser = loginActivity.currentUser;
 
     String value1;
     float toalprice;
     float value=0;
 
-    TextView cartTotal,gstTotal,totaltot, payNowBtn;
+    TextView cartTotal,gstTotal,totaltot, payNowBtn,textt;
 
     private DatabaseReference mDatabase;
 
@@ -103,7 +92,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
 
-        toalprice=0;
+
+
 
         recyclerView = findViewById(R.id.rab);
 
@@ -112,7 +102,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
 
-        mDatabase.child("Users/"+currentUser).child("amount").get().addOnCompleteListener(task -> {
+   /*     mDatabase.child("Users/"+currentUser).child("amount").get().addOnCompleteListener(task -> {
             if (task == null || task.isSuccessful() && !task.getResult().exists()) {
                 cartTotal.setText("$0");
                 gstTotal.setText("$0");
@@ -134,11 +124,14 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 gstTotal.setText("$"+multipliedString);
 
                 totaltot.setText("$"+multipliedString1);
+                textt.setText("$"+multipliedString1);
+
 
             } else {
                 Log.e("firebase", "Error getting data", task.getException());
             }
-        });
+        });*/
+
 
 
 
@@ -149,10 +142,13 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         myAdapter.setOnRemoveItemClickListener(this);
         recyclerView.setAdapter(myAdapter);
 
-        cartTotal=findViewById((R.id.cartTota));
+       // cartTotal=findViewById((R.id.cartTota));
         gstTotal=findViewById((R.id.hiMess));
         totaltot=findViewById((R.id.TotalTotal));
         payNowBtn = findViewById(R.id.textView2);
+        textt=findViewById((R.id.textt));
+
+
 
         //cartTotal.setText((Float.toString(cartAdapter.myFloat)));
 
@@ -167,6 +163,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
        // gstTotal.setText(formattedValue);
 
       //  totaltot.setText(formattedValue1);
+
 
 
 
@@ -196,7 +193,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             }
         });
 
-        database1.addValueEventListener(new ValueEventListener() {
+ /* *//*      database1.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
@@ -210,34 +207,38 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 }
 
 
-            }
+            }*//*
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 System.out.println("Failed to read value from Firebase: " + error.getMessage());
 
             }
-        });
+        });*/
 
 
         database.addValueEventListener(new ValueEventListener() {
+
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                toalprice=0;
+
+                list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()){
 
 
 
                     modelAddCart shoe = dataSnapshot.getValue(modelAddCart.class);
 
-                   toalprice +=Float.parseFloat(shoe.getPerItemCost()) ;
+                  // toalprice +=Float.parseFloat(shoe.getPerItemCost()) ;
 
                     list.add(shoe);
 
 
                 }
+
                 myAdapter.notifyDataSetChanged();
 
+                setTotalView();
             }
 
             @Override
@@ -246,15 +247,15 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             }
         });
 
-            float f=toalprice;
+          //  float f=toalprice;
         //cartTotal.setText((Float.toString(value+cartAdapter.myFloat)));
 
-
+        totaltot.setText("3");
 
     }
 
 
-    @Override
+ /*   @Override
     public void onRemoveItemClicked(int position) {
         modelAddCart itemToRemove = list.get(position);
         double itemPrice = Double.parseDouble(itemToRemove.getPerItemCost());
@@ -285,7 +286,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                                         // Update the "users/amount" instance with the new amount
                                         amountRef.setValue(newAmount).addOnCompleteListener(updateTask -> {
                                             if (updateTask.isSuccessful()) {
-                                            
+
                                             } else {
 
                                             }
@@ -309,6 +310,58 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 // Handle the error or display an error message
             }
         });
+    }*/
+ @Override
+ public void onRemoveItemClicked(int position) {
+     modelAddCart itemToRemove = list.get(position);
+
+     // Remove the item from your data source
+     list.remove(position);
+     myAdapter.notifyItemRemoved(position);
+
+     // Remove the item from the database
+     DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("cart");
+     cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+         @Override
+         public void onDataChange(@NonNull DataSnapshot snapshot) {
+             for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                 modelAddCart cartItem = cartItemSnapshot.getValue(modelAddCart.class);
+                 if (cartItem != null && cartItem.getItemName().equals(itemToRemove.getItemName())) {
+                     cartItemSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
+                         if (removeTask.isSuccessful()) {
+                             // Item removed successfully from the database
+                             setTotalView();
+                         } else {
+                             // Handle the remove failure
+                         }
+                     });
+                     break;
+                 }
+             }
+         }
+
+         @Override
+         public void onCancelled(@NonNull DatabaseError error) {
+             // Error occurred while retrieving cart items
+             // Handle the error or display an error message
+         }
+     });
+ }
+
+    private void setTotalView() {
+        float total = 0;
+        for (modelAddCart item : list) {
+            float itemPrice = Float.parseFloat(item.getPerItemCost());
+            total += itemPrice;
+        }
+
+        // Update the total value in the TextView
+        totaltot.setText(String.format("$%.2f", total));
+        gstTotal.setText(String.format("$%.2f", total * 0.15));
+        textt.setText(String.format("$%.2f", total));
+
+       // Log.d("TotalValue", String.format("$%.2f", total));
+
     }
 
 }
