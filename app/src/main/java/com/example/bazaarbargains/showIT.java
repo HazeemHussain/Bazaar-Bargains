@@ -28,7 +28,7 @@ public class showIT extends AppCompatActivity  {
 
     private TextView desName,desPrice,quant,addtocartbut,textView3,cartTotal,description;
     private String size;
-    private ImageView addbut,minusbut,imageitemView;
+    private ImageView addbut,minusbut,imageitemView,book;
     int  quantity = 1;
     double totalprice = 0;
     private  String sizec;
@@ -160,29 +160,6 @@ public class showIT extends AppCompatActivity  {
              /*   cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            // Node exists, do something
-
-                            double amount = snapshot.getValue(double.class);
-
-                            double newprice = amount+totalprice;
-
-                            cartUserRef1.setValue(newprice);
-
-                        } else {
-                            // Node does not exist, create it
-                            cartUserRef1.setValue(totalprice, new DatabaseReference.CompletionListener() {
-                                @Override
-                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                    if (error != null) {
-                                        // Error occurred while creating node
-                                    } else {
-                                        // Node created successfully
-                                    }
-                                }
-                            });
-                        }
-                    }
 
                     @Override
                     public void onCancelled(@NonNull DatabaseError error) {
@@ -205,8 +182,36 @@ public class showIT extends AppCompatActivity  {
             }
         });
 
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strNumber = Integer.toString(quantity);
+                double doubleValue = Double.parseDouble(data1);
+                // float numberAsFloat = Float.parseFloat(data1);
+                totalprice = quantity*doubleValue;
 
-       // imageitemView.setText(data);
+
+                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
+
+
+
+                String itemId = cartUserRef.push().getKey();
+
+                itemShoe checkoutItem1 = new itemShoe(data,data1, data2);
+                // Add the checkout item to the cart
+                cartUserRef.child(itemId).setValue(checkoutItem1);
+
+
+                // cartTotal.setText((Float.toString(totalprice)));
+
+                Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
+
+            }
+        });
+
+
+
+        // imageitemView.setText(data);
 
 
     }
@@ -224,6 +229,7 @@ public class showIT extends AppCompatActivity  {
       //  cartTotal=findViewById((R.id.cartTota));
         textView3=findViewById((R.id.textView3));
         description = findViewById(R.id.descbox);
+        book = findViewById(R.id.imageView4);
 
 
 

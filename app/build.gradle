@@ -76,11 +76,6 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:<version>'
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
-
-
-
-
-
     // Import the Firebase BoM
     implementation platform('com.google.firebase:firebase-bom:31.2.3')
 
@@ -95,12 +90,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth'
     implementation 'com.google.firebase:firebase-firestore'
     implementation 'com.google.firebase:firebase-firestore:23.0.3'
-
-
-
-
-
-
     implementation 'com.github.bumptech.glide:glide:4.15.1'
     androidTestImplementation platform('androidx.compose:compose-bom:2022.10.00')
     androidTestImplementation 'androidx.compose.ui:ui-test-junit4'

@@ -11,18 +11,16 @@ public class itemShoe {
     {
 
     }
-
-
-
-
-    public itemShoe(String name, String price, String description, String image, String size) {
+    public itemShoe(String name, String price, String image) {
         this.name = name;
         this.price = price;
         this.image = image;
-        this.description = description;
-        this.size=size;
-
     }
+
+    public itemShoe(String data, String strNumber, String data1, String data2, String toString, String sizec) {
+    }
+
+
     public String getSize() {
         return size;
     }
@@ -59,4 +57,14 @@ public class itemShoe {
     public void setImage(String image) {
         this.image = image;
     }
+    public itemShoe(String name, String price, String description, String image, String size) {
+        this.name = name;
+        this.price = price;
+        this.image = image;
+        this.description = description;
+        this.size=size;
+
+    }
 }
+
+

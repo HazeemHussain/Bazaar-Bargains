@@ -1,6 +1,7 @@
 package com.example.bazaarbargains;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,6 +40,7 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
         holder.name.setText(itemShoe.getName());
         holder.price.setText("$" + itemShoe.getPrice());
         Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
+        Log.d("RecyclerView", "Item added: " + itemShoe.getName());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
