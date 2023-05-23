@@ -1,15 +1,13 @@
 package com.example.bazaarbargains;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.bumptech.glide.Glide;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -34,11 +32,12 @@ import nl.joery.animatedbottombar.AnimatedBottomBar;
 public class Dashboard extends AppCompatActivity {
 
     //Declaration of variables
-   private Button logout, deleteAccount;
-   private Button passwordChange, usernameChange, imageChangeBtn;
-   private TextView userName, fullName;
+    private Button logout, deleteAccount;
+    private Button passwordChange, usernameChange, imageChangeBtn;
+    private TextView userName, fullName;
 
-   private ImageView newImage;
+    private ImageView newImage;
+    private String default_profile_image = "@drawable/usericon";
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String currentUser = loginActivity.currentUser;
@@ -51,6 +50,7 @@ public class Dashboard extends AppCompatActivity {
 
         initView();
         bottomBar();
+        retrievingProfileImage();
         retrievingFullName();
         retrievingUserName();
 
@@ -86,7 +86,7 @@ public class Dashboard extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(Dashboard.this, loginActivity.class );
+                Intent intent = new Intent(Dashboard.this, loginActivity.class);
                 startActivity(intent);
                 finish();
 
@@ -102,6 +102,9 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
+    /*
+    This method stores the profile picture user selects to the database under that user's node
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -121,6 +124,45 @@ public class Dashboard extends AppCompatActivity {
             newImage.setImageURI(imageUri);
 
         }
+
+    }
+
+    private void retrievingProfileImage() {
+        if (currentUser != null && !currentUser.isEmpty()) {
+            //userName.setText(currentUser);
+            //Retrieve the data from the database
+            final DatabaseReference dbref;
+            dbref = FirebaseDatabase.getInstance().getReference("Users");
+
+            dbref.child(currentUser).child("imageUri").addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        String imageUri = dataSnapshot.getValue(String.class);
+                        if (imageUri != null) {
+                            // Set the image URI to the image change button
+                            Glide.with(Dashboard.this).load(imageUri).into(newImage);
+                        } else {
+                            // Load the default image
+                            Glide.with(Dashboard.this).load(R.drawable.usericon).into(newImage);
+                        }
+                    } else {
+                        // Load the default image
+                        Glide.with(Dashboard.this).load(R.drawable.usericon).into(newImage);
+                    }
+                }
+
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+        } else {
+
+        }
+
     }
 
 
@@ -147,7 +189,7 @@ public class Dashboard extends AppCompatActivity {
                                 reference.removeValue();
 
                                 //When the account gets deleted it takes the user back to login page
-                                Intent intent = new Intent(Dashboard.this, loginActivity .class);
+                                Intent intent = new Intent(Dashboard.this, loginActivity.class);
                                 startActivity(intent);
 
                                 // Displaying the success message
@@ -185,7 +227,7 @@ public class Dashboard extends AppCompatActivity {
 
 
     /* Method that changes the the name of the node to the new user name user input
-    * and also updates the "user name" child in the node*/
+     * and also updates the "user name" child in the node*/
     private void showDialogChangeusername() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Change User Name");
@@ -333,7 +375,6 @@ public class Dashboard extends AppCompatActivity {
         }
 
 
-
     }
 
     /* Changing the user password if the user clicks on the password change button on the
@@ -426,8 +467,6 @@ public class Dashboard extends AppCompatActivity {
     }
 
 
-
-
     private void initView() {
         //Declarations
         logout = (Button) findViewById(R.id.logoutBtn);
@@ -442,7 +481,7 @@ public class Dashboard extends AppCompatActivity {
 
     private void bottomBar() {
         AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
-        bottom_bar.selectTabAt(0,true);
+        bottom_bar.selectTabAt(0, true);
 
         bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
@@ -459,13 +498,13 @@ public class Dashboard extends AppCompatActivity {
                     startActivity(new Intent(Dashboard.this, mainPage.class));
 
 
-                }else if (id == 2) {
+                } else if (id == 2) {
 
 
                     startActivity(new Intent(Dashboard.this, wishlist.class));
 
 
-                }else if (id == 3) {
+                } else if (id == 3) {
 
                     startActivity(new Intent(Dashboard.this, cartRecList.class));
 
