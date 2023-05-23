@@ -144,41 +144,34 @@ public class showIT extends AppCompatActivity  {
         addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               String strNumber = Integer.toString(quantity);
-               double doubleValue = Double.parseDouble(data1);
-               // float numberAsFloat = Float.parseFloat(data1);
-               totalprice = quantity*doubleValue;
-               // String formattedNum = String.format("%.2f", totalprice);
+                String strNumber = Integer.toString(quantity);
+                double doubleValue = Double.parseDouble(data1);
+                // float numberAsFloat = Float.parseFloat(data1);
+                totalprice = quantity * doubleValue;
+                // String formattedNum = String.format("%.2f", totalprice);
                 //float num = Float.parseFloat(formattedNum);
 
                 //myFloatVariable = totalprice;
 
-                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/cart");
+                if (sizec != null && !sizec.isEmpty()) {
 
-             //  DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
+                    DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
 
-             /*   cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    String itemId = cartUserRef.push().getKey();
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Error occurred while reading data
-                    }
-                });*/
+                    modelAddCart checkoutItem = new modelAddCart(data, strNumber, data1, data2, Double.toString(totalprice), sizec);
 
-                String itemId = cartUserRef.push().getKey();
-
-                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2,Double.toString(totalprice),sizec);
-
-                // Add the checkout item to the cart
-                cartUserRef.child(itemId).setValue(checkoutItem);
+                    // Add the checkout item to the cart
+                    cartUserRef.child(itemId).setValue(checkoutItem);
 
 
-               // cartTotal.setText((Float.toString(totalprice)));
+                    // cartTotal.setText((Float.toString(totalprice)));
 
-                Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
 
+                } else {
+                    Toast.makeText(showIT.this, "SELECT SIZE", Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
