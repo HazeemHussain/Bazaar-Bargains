@@ -119,15 +119,15 @@ public class mainPage  extends AppCompatActivity  {
         adapter = new shoeAdapter(options,1);
         recyview.setAdapter(adapter);
 
-       // button = (Button) findViewById(R.id.cartButton);
+       button = (Button) findViewById(R.id.wishbutton);
 
-     /*   button.setOnClickListener(new View.OnClickListener() {
-
-            public void onClick(View view) {
-                Intent intent = new Intent(mainPage.this, cartRecList.class );
-                startActivity(intent);
-            }
-        });*/
+       button.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View v) {
+               Intent intent = new Intent(mainPage.this, WishList.class);
+               startActivity(intent);
+           }
+       });
 
     }
 

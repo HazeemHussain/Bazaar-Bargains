@@ -85,13 +85,21 @@
                     android:id="@+id/addtocartbut"
                     android:layout_width="130dp"
                     android:layout_height="103dp"
-                    android:layout_marginLeft="130dp"
+                    android:layout_marginLeft="80dp"
                     android:layout_marginTop="80dp"
                     android:background="@drawable/addtocartbutton"
 
                     android:textColor="@color/black"
                     android:textSize="24sp"
                     android:textStyle="bold" />
+
+                <ImageView
+                    android:id="@+id/addtowishbut"
+                    android:layout_width="80dp"
+                    android:layout_height="30dp"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginTop="-67dp"
+                    android:src="@drawable/baseline_favorite_border_24" />
 
             </LinearLayout>
 

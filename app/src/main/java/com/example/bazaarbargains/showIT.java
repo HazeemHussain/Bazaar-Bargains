@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 public class showIT extends AppCompatActivity {
 
     private TextView desName,desPrice,quant,addtocartbut,cartTotal;
-    private ImageView addbut,minusbut,imageitemView;
+    private ImageView addbut,minusbut,imageitemView,addtowishbut;
     int  quantity = 1;
     double totalprice = 0;
 
@@ -141,6 +141,22 @@ public class showIT extends AppCompatActivity {
             }
         });
 
+        addtowishbut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                DatabaseReference wishUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
+
+                //String productID = wishUserRef.push().getKey();
+
+                //modelAddCart wishListItem = new modelAddCart(data, data1, data2);
+
+                //wishUserRef.child(productID).setValue(wishListItem);
+
+                Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
        // imageitemView.setText(data);
 
@@ -158,6 +174,7 @@ public class showIT extends AppCompatActivity {
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
         cartTotal=findViewById((R.id.cartTota));
+        addtowishbut=findViewById((R.id.addtowishbut));
 
 
 
