@@ -72,6 +72,8 @@ public class showIT extends AppCompatActivity  {
             Toast.makeText(showIT.this, "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
         }
     };
+
+
     private void getBundele() {
 
         //Hazeem part starts here
