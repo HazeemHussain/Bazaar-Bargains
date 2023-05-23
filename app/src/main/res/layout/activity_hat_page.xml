@@ -27,4 +27,19 @@
 
     </LinearLayout>
 
+    <nl.joery.animatedbottombar.AnimatedBottomBar
+        android:id="@+id/navBar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+
+        android:background="#FFF"
+        app:abb_indicatorAppearance="round"
+        app:abb_indicatorHeight="4dp"
+        app:abb_indicatorMargin="16dp"
+        app:abb_selectedIndex="1"
+        app:abb_selectedTabType="icon"
+
+        app:abb_tabs="@menu/navigation_menu" />
+
 </RelativeLayout>

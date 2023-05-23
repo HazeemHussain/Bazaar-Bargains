@@ -35,9 +35,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
-        getPassword = (EditText) findViewById(R.id.password);
-        haveAnAccount = (Button) findViewById(R.id.haveAnAccountBtn);
+        showPassword = findViewById(R.id.showPassword_checkbox);
+        getPassword = findViewById(R.id.password);
+        haveAnAccount = findViewById(R.id.haveAnAccountBtn);
 
         showPassword(); //Calling show password method
         sendingDataToFirebase();
