@@ -309,6 +309,8 @@ public class mainPage  extends AppCompatActivity  {
                     String name = snapshot.child("name").getValue(String.class);
                     String price = snapshot.child("price").getValue(String.class);
                     String image = snapshot.child("image").getValue(String.class);
+                    String description = snapshot.child("description").getValue(String.class);
+                    String size = snapshot.child("size").getValue(String.class);
 
                     //Creating an intent to navigate to showIT activity
                     Intent intent = new Intent(mainPage.this, showIT.class);
@@ -316,6 +318,8 @@ public class mainPage  extends AppCompatActivity  {
                     intent.putExtra("itemname", name);
                     intent.putExtra("itemprice", price);
                     intent.putExtra("itemimage", image);
+                    intent.putExtra("itemdesc", description);
+                    intent.putExtra("itemsize", size);
                     startActivityForResult(intent, 1);
 
                 }

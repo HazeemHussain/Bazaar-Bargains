@@ -3,6 +3,8 @@ package com.example.bazaarbargains;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,18 +21,28 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class showIT extends AppCompatActivity {
+import java.util.Arrays;
+import java.util.List;
 
-    private TextView desName,desPrice,quant,addtocartbut,cartTotal;
+public class showIT extends AppCompatActivity  {
+
+    private TextView desName,desPrice,quant,addtocartbut,textView3,cartTotal,description;
+    private String size;
     private ImageView addbut,minusbut,imageitemView;
     int  quantity = 1;
     double totalprice = 0;
+    private  String sizec;
 
-    String data1, data2, data;
+
+    String data1, data2, data,data3,data4;
 
     public static float myFloatVariable;
 
     public static final String EXTRA_PRODUCT_NAME = "productName";
+
+
+    private RecyclerView recyclerViewsize;
+    private sizeAdapter sizeadapter;
 
 
     String currentUser = loginActivity.currentUser;
@@ -51,7 +63,15 @@ public class showIT extends AppCompatActivity {
         getBundele();
 
     }
+    private View.OnClickListener itemClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            TextView numberTextView = view.findViewById(R.id.sizeTitle);
+            sizec = numberTextView.getText().toString();
 
+            Toast.makeText(showIT.this, "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
+        }
+    };
     private void getBundele() {
 
         //Hazeem part starts here
@@ -66,16 +86,38 @@ public class showIT extends AppCompatActivity {
             data = intent.getStringExtra("itemname");
             data1 = intent.getStringExtra("itemprice");
             data2 = intent.getStringExtra("itemimage");
+            data3 = intent.getStringExtra("itemdesc");
+            data4 = intent.getStringExtra("itemsize");
+
 
 
 
 
             desName.setText(data); //Setting the item name
-            desPrice.setText(data1); //setting the item price
+            textView3.setText("$"+data1); //setting the item price
+            description.setText((data3));
             Glide.with(this).load(data2).into(imageitemView); //Loading and displaying the item page
             quant.setText(Integer.toString(quantity));
+            size=data4;
+
+
         }
+
+
+
         //Ends here
+
+
+        recyclerViewsize = findViewById(R.id.sizerecycler);
+
+        recyclerViewsize.setLayoutManager(new GridLayoutManager(this,3));
+
+        List<String> numbersList = Arrays.asList(size.split(","));
+
+        sizeadapter = new sizeAdapter(numbersList, itemClickListener);
+        recyclerViewsize.setAdapter(sizeadapter);
+
+
 
 
         quant.setText(Integer.toString(quantity));
@@ -102,10 +144,10 @@ public class showIT extends AppCompatActivity {
         addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String strNumber = Integer.toString(quantity);
-                double doubleValue = Double.parseDouble(data1);
+               String strNumber = Integer.toString(quantity);
+               double doubleValue = Double.parseDouble(data1);
                // float numberAsFloat = Float.parseFloat(data1);
-                totalprice = quantity*doubleValue;
+               totalprice = quantity*doubleValue;
                // String formattedNum = String.format("%.2f", totalprice);
                 //float num = Float.parseFloat(formattedNum);
 
@@ -113,9 +155,9 @@ public class showIT extends AppCompatActivity {
 
                 DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/cart");
 
-               DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
+             //  DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
 
-                cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
+             /*   cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
                         if (snapshot.exists()) {
@@ -146,10 +188,11 @@ public class showIT extends AppCompatActivity {
                     public void onCancelled(@NonNull DatabaseError error) {
                         // Error occurred while reading data
                     }
-                });
+                });*/
+
                 String itemId = cartUserRef.push().getKey();
 
-                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2,Double.toString(totalprice));
+                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2,Double.toString(totalprice),sizec);
 
                 // Add the checkout item to the cart
                 cartUserRef.child(itemId).setValue(checkoutItem);
@@ -166,9 +209,9 @@ public class showIT extends AppCompatActivity {
        // imageitemView.setText(data);
 
 
-
-
     }
+
+
 
     private void initView() {
         desName=findViewById((R.id.desName));
@@ -178,7 +221,11 @@ public class showIT extends AppCompatActivity {
         addbut=findViewById((R.id.addbut));
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
-        cartTotal=findViewById((R.id.cartTota));
+      //  cartTotal=findViewById((R.id.cartTota));
+        textView3=findViewById((R.id.textView3));
+        description = findViewById(R.id.descbox);
+
+
 
 
 

@@ -14,13 +14,19 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.BazaarBargains"
         tools:targetApi="31">
-
+        <activity
+            android:name=".google_pay_button"
+            android:exported="true">
+        <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
 
         <activity
             android:name=".wishlist"
             android:exported="false" />
-
         <activity
             android:name=".bottomPage"
             android:exported="false" />
@@ -36,7 +42,6 @@
         <activity
             android:name=".Dashboard"
             android:exported="false" />
-
         <activity
             android:name=".showIT"
             android:exported="false" />
