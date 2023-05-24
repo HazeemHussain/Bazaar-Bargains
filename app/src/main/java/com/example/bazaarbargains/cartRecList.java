@@ -89,7 +89,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                             CustomerId = object.getString("id");
 
-                            Toast.makeText(cartRecList.this, CustomerId, Toast.LENGTH_SHORT).show();
+
 
                             getEmphericalKey();
 
@@ -223,8 +223,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                 //Getting database reference from firebase to delete the items from the cart once the user has clicked
                 //on pay now button
-                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
-                databaseRef.removeValue();
+//                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
+//                databaseRef.removeValue();
 
 
                 paymentflow();
@@ -234,14 +234,15 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 //  startActivity(intent);
 
 
+
                 //Changing the total value to zero after user has clicked on paynow button
-                showIT.myFloatVariable = 0;
+               // showIT.myFloatVariable = 0;
 
 
-                DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-                dbr.removeValue();
-                DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
-                dbrs.removeValue();
+//                  DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
+//                  dbr.removeValue();
+//                  DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
+//                  dbrs.removeValue();
             }
         });
 
@@ -306,11 +307,17 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     }
 
     private void paymentflow() {
+        try {
+            paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Bazaar Bargains", new PaymentSheet.CustomerConfiguration(
+                    CustomerId,
+                    EphericalKey
+            )));
+        } catch (NullPointerException e) {
+            Intent intent = new Intent(cartRecList.this, cartRecList.class);
+            startActivity(intent);
+        }
 
-        paymentSheet.presentWithPaymentIntent(ClientSecret, new PaymentSheet.Configuration("Bazaar Bargains", new PaymentSheet.CustomerConfiguration(
-                CustomerId,
-                EphericalKey
-        )));}
+    }
 
 
 
@@ -318,7 +325,35 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     private void onPaymentResult(PaymentSheetResult paymentSheetResult) {
 
     if(paymentSheetResult instanceof PaymentSheetResult.Completed){
+        //Getting database reference from firebase to delete the items from the cart once the user has clicked
+        //on pay now button
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
+
+        DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference().child("Order History");
+databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+    @Override
+    public void onDataChange(@NonNull DataSnapshot snapshot) {
+        if(snapshot.exists()){
+            Object data = snapshot.getValue();
+            dataRef.setValue(data);
+            databaseRef.removeValue();
+        }
+    }
+
+    @Override
+    public void onCancelled(@NonNull DatabaseError error) {
+
+    }
+});
+        showIT.myFloatVariable = 0;
+
+          DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
+          dbr.removeValue();
+          DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
+          dbrs.removeValue();
+
         Toast.makeText(this,"Payment Successful", Toast.LENGTH_SHORT).show();
+
     }
 
     }
@@ -333,7 +368,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                             EphericalKey = object.getString("id");
 
-                            Toast.makeText(cartRecList.this,CustomerId, Toast.LENGTH_SHORT).show();
+
 
                             getClientSecret(CustomerId,EphericalKey);
 
@@ -345,6 +380,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             @Override
             public void onErrorResponse(VolleyError error) {
                 Toast.makeText(cartRecList.this,error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(cartRecList.this, cartRecList.class);
             }
         }){
 
@@ -376,8 +412,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                             ClientSecret = object.getString("client_secret");
 
-                            Toast.makeText(cartRecList.this,ClientSecret, Toast.LENGTH_SHORT).show();
-
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -385,7 +419,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(cartRecList.this,error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(cartRecList.this,"Cannot Checkout With Nothing", Toast.LENGTH_SHORT).show();
+
             }
         }){
 
@@ -398,7 +433,13 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> param = new HashMap<>();
                 param.put("customer",CustomerId);
-                param.put("amount","100");
+                float total = TotalView();
+                String totalString = String.valueOf(total);
+                String[] parts = totalString.split("\\.");
+                String wholePart = parts[0];
+                String decimalPart = parts[1];
+                String FullPart = wholePart + "0";
+                param.put("amount", FullPart + decimalPart);
                 param.put("currency", "NZD");
                 param.put("automatic_payment_methods[enabled]","true" );
                 return param;
@@ -516,6 +557,18 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         textt.setText(String.format("$%.2f", total));
 
        // Log.d("TotalValue", String.format("$%.2f", total));
+
+    }
+
+    private float TotalView() {
+        float total = 0;
+        for (modelAddCart item : list) {
+            float itemPrice = Float.parseFloat(item.getPerItemCost());
+            total += itemPrice;
+        }
+
+         return total;
+        // Log.d("TotalValue", String.format("$%.2f", total));
 
     }
 
