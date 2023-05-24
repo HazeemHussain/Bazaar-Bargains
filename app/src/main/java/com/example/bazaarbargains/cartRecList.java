@@ -100,12 +100,12 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(cartRecList.this, error.getLocalizedMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(cartRecList.this, "Error", Toast.LENGTH_SHORT).show();
             }
         }) {
             @Nullable
             @Override
-            public Map<String, String> getParams() throws AuthFailureError {
+            public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
                 header.put("Authorization", "Bearer " + SecretKey);
                 return header;
@@ -377,8 +377,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                             ClientSecret = object.getString("client_secret");
 
                             Toast.makeText(cartRecList.this,ClientSecret, Toast.LENGTH_SHORT).show();
-
-
 
                         } catch (JSONException e) {
                             e.printStackTrace();
