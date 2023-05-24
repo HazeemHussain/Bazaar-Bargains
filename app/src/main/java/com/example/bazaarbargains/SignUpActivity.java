@@ -78,6 +78,10 @@ public class SignUpActivity extends AppCompatActivity {
                             binding.userName.setText("");
                             binding.password.setText("");
                             Toast.makeText(SignUpActivity.this, "SUCCESSFULLY REGISTERED", Toast.LENGTH_SHORT).show();
+
+                            //IF THE SIGNUP IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
+                            Intent intent = new Intent(SignUpActivity.this, loginActivity.class);
+                            startActivity(intent);
                         }
                     });
                 } else {
