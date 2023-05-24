@@ -107,7 +107,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             @Override
             public Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> header = new HashMap<>();
-                header.put("Authorization", "Bearer" + SecretKey);
+                header.put("Authorization", "Bearer " + SecretKey);
                 return header;
             }
         };
@@ -350,7 +350,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> header = new HashMap<>();
-                header.put( "Authorization", "Bearer" + SecretKey);
+                header.put( "Authorization", "Bearer " + SecretKey);
                 header.put("Stripe-Version","2022-11-15");
                 return header;
             }
@@ -393,7 +393,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
             public Map<String, String> getHeaders() throws AuthFailureError {
                 Map<String,String> header = new HashMap<>();
-                header.put( "Authorization", "Bearer" + SecretKey);
+                header.put( "Authorization", "Bearer " + SecretKey);
                 return header;
             }
 
