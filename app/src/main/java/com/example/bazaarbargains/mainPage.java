@@ -50,6 +50,8 @@ import com.google.firebase.database.ValueEventListener;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
@@ -75,6 +77,8 @@ public class mainPage  extends AppCompatActivity  {
     private EditText searchBar;
     private ListView searchListView;
     private ArrayAdapter<String> searchAdapter;
+    private int backButtonCount = 0;
+    private static final int MAX_BACK_BUTTON_COUNT = 3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -348,5 +352,23 @@ public class mainPage  extends AppCompatActivity  {
     }
 
 
+    /*
+    If back button is pressed the user shouldn't be able to go back to login page
+    The only way to go back is to press the logout button on accounts page
+     */
+
+    @Override
+    public void onBackPressed() {
+        backButtonCount++;
+
+        if (backButtonCount > MAX_BACK_BUTTON_COUNT) {
+            // Displaying the message when back button is pressed three or more times
+            Toast.makeText(this, "To go back, Please logout from the account tab", Toast.LENGTH_SHORT).show();
+            // Resetting the counter if back button is pressed more than three times
+            backButtonCount = 0;
+        } else {
+
+        }
+    }
 
 }

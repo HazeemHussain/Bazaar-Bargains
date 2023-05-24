@@ -49,7 +49,7 @@ public class showIT extends AppCompatActivity  {
 
 
 
-  //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
+    //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
 
 
@@ -221,7 +221,7 @@ public class showIT extends AppCompatActivity  {
         addbut=findViewById((R.id.addbut));
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
-      //  cartTotal=findViewById((R.id.cartTota));
+        //  cartTotal=findViewById((R.id.cartTota));
         textView3=findViewById((R.id.textView3));
         description = findViewById(R.id.descbox);
         book = findViewById(R.id.imageView4);
