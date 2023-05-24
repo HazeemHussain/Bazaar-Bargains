@@ -28,7 +28,7 @@ public class showIT extends AppCompatActivity  {
 
     private TextView desName,desPrice,quant,addtocartbut,textView3,cartTotal,description;
     private String size;
-    private ImageView addbut,minusbut,imageitemView;
+    private ImageView addbut,minusbut,imageitemView,book;
     int  quantity = 1;
     double totalprice = 0;
     private  String sizec;
@@ -49,7 +49,7 @@ public class showIT extends AppCompatActivity  {
 
 
 
-  //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
+    //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
 
 
 
@@ -72,6 +72,8 @@ public class showIT extends AppCompatActivity  {
             Toast.makeText(showIT.this, "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
         }
     };
+
+
     private void getBundele() {
 
         //Hazeem part starts here
@@ -144,69 +146,67 @@ public class showIT extends AppCompatActivity  {
         addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               String strNumber = Integer.toString(quantity);
-               double doubleValue = Double.parseDouble(data1);
-               // float numberAsFloat = Float.parseFloat(data1);
-               totalprice = quantity*doubleValue;
-               // String formattedNum = String.format("%.2f", totalprice);
+                String strNumber = Integer.toString(quantity);
+                double doubleValue = Double.parseDouble(data1);
+                // float numberAsFloat = Float.parseFloat(data1);
+                totalprice = quantity * doubleValue;
+                // String formattedNum = String.format("%.2f", totalprice);
                 //float num = Float.parseFloat(formattedNum);
 
                 //myFloatVariable = totalprice;
 
-                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/cart");
+                if (sizec != null && !sizec.isEmpty()) {
 
-             //  DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/amount");
+                    DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
 
-             /*   cartUserRef1.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        if (snapshot.exists()) {
-                            // Node exists, do something
+                    String itemId = cartUserRef.push().getKey();
 
-                            double amount = snapshot.getValue(double.class);
+                    modelAddCart checkoutItem = new modelAddCart(data, strNumber, data1, data2, Double.toString(totalprice), sizec);
 
-                            double newprice = amount+totalprice;
+                    // Add the checkout item to the cart
+                    cartUserRef.child(itemId).setValue(checkoutItem);
 
-                            cartUserRef1.setValue(newprice);
 
-                        } else {
-                            // Node does not exist, create it
-                            cartUserRef1.setValue(totalprice, new DatabaseReference.CompletionListener() {
-                                @Override
-                                public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
-                                    if (error != null) {
-                                        // Error occurred while creating node
-                                    } else {
-                                        // Node created successfully
-                                    }
-                                }
-                            });
-                        }
-                    }
+                    // cartTotal.setText((Float.toString(totalprice)));
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Error occurred while reading data
-                    }
-                });*/
+                    Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(showIT.this, "SELECT SIZE", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String strNumber = Integer.toString(quantity);
+                double doubleValue = Double.parseDouble(data1);
+                // float numberAsFloat = Float.parseFloat(data1);
+                totalprice = quantity*doubleValue;
+
+
+                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
+
+
 
                 String itemId = cartUserRef.push().getKey();
 
-                modelAddCart checkoutItem = new modelAddCart(data,strNumber, data1, data2,Double.toString(totalprice),sizec);
-
+                itemShoe checkoutItem1 = new itemShoe(data,data1, data2);
                 // Add the checkout item to the cart
-                cartUserRef.child(itemId).setValue(checkoutItem);
+                cartUserRef.child(itemId).setValue(checkoutItem1);
 
 
-               // cartTotal.setText((Float.toString(totalprice)));
+                // cartTotal.setText((Float.toString(totalprice)));
 
-                Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
+                Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
 
             }
         });
 
 
-       // imageitemView.setText(data);
+
+        // imageitemView.setText(data);
 
 
     }
@@ -221,9 +221,10 @@ public class showIT extends AppCompatActivity  {
         addbut=findViewById((R.id.addbut));
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
-      //  cartTotal=findViewById((R.id.cartTota));
+        //  cartTotal=findViewById((R.id.cartTota));
         textView3=findViewById((R.id.textView3));
         description = findViewById(R.id.descbox);
+        book = findViewById(R.id.imageView4);
 
 
 
