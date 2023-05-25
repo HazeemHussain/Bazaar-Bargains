@@ -198,10 +198,11 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         recyclerView.setAdapter(myAdapter);
 
         // cartTotal=findViewById((R.id.cartTota));
-        gstTotal = findViewById((R.id.hiMess));
-        totaltot = findViewById((R.id.TotalTotal));
+      //  gstTotal = findViewById((R.id.hiMess));
+       // totaltot = findViewById((R.id.TotalTotal));
         payNowBtn = findViewById(R.id.textView2);
         textt = findViewById((R.id.textt));
+        TextView emptyCartTextView = findViewById(R.id.emptyCartTextView);
 
 
         //cartTotal.setText((Float.toString(cartAdapter.myFloat)));
@@ -287,9 +288,17 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                 }
 
+
                 myAdapter.notifyDataSetChanged();
 
                 setTotalView();
+
+                if (list.isEmpty()) {
+                    emptyCartTextView.setVisibility(View.VISIBLE);
+                } else {
+                    emptyCartTextView.setVisibility(View.GONE);
+                }
+
             }
 
             @Override
@@ -301,7 +310,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         //  float f=toalprice;
         //cartTotal.setText((Float.toString(value+cartAdapter.myFloat)));
 
-        totaltot.setText("3");
+      //  totaltot.setText("3");
 
     }
 
@@ -511,8 +520,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         }
 
         // Update the total value in the TextView
-        totaltot.setText(String.format("$%.2f", total));
-        gstTotal.setText(String.format("$%.2f", total * 0.15));
+//        totaltot.setText(String.format("$%.2f", total));
+      //  gstTotal.setText(String.format("$%.2f", total * 0.15));
         textt.setText(String.format("$%.2f", total));
 
        // Log.d("TotalValue", String.format("$%.2f", total));
