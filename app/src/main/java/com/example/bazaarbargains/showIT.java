@@ -61,6 +61,7 @@ public class showIT extends AppCompatActivity  {
 
         initView();
         getBundele();
+        wishListButton();
 
     }
     private View.OnClickListener itemClickListener = new View.OnClickListener() {
@@ -92,9 +93,6 @@ public class showIT extends AppCompatActivity  {
             data4 = intent.getStringExtra("itemsize");
 
 
-
-
-
             desName.setText(data); //Setting the item name
             textView3.setText("$"+data1); //setting the item price
             description.setText((data3));
@@ -104,9 +102,6 @@ public class showIT extends AppCompatActivity  {
 
 
         }
-
-
-
         //Ends here
 
 
@@ -177,41 +172,57 @@ public class showIT extends AppCompatActivity  {
             }
         });
 
-        book.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String strNumber = Integer.toString(quantity);
-                double doubleValue = Double.parseDouble(data1);
-                // float numberAsFloat = Float.parseFloat(data1);
-                totalprice = quantity*doubleValue;
-
-
-                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
-
-
-
-                String itemId = cartUserRef.push().getKey();
-
-                itemShoe checkoutItem1 = new itemShoe(data, data1, data3, data2, data4);
-
-               // itemShoe checkoutItem1 = new itemShoe(data, strNumber, data1, data2, sizec);
-                // Add the checkout item to the cart
-                cartUserRef.child(itemId).setValue(checkoutItem1);
-
-
-                // cartTotal.setText((Float.toString(totalprice)));
-
-                Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
-
-            }
-        });
-
-
 
         // imageitemView.setText(data);
 
 
     }
+
+
+    /*
+      Wishlist method
+      This method adds the item to the wishlist
+    */
+    private void wishListButton() {
+        book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/wishList");
+
+                // Check if the item is already in the wish list
+                cartUserRef.orderByChild("name").equalTo(data).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            // Item already exists in the wish list, remove it
+                            for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
+                                itemSnapshot.getRef().removeValue();
+                            }
+
+                            book.setImageResource(R.drawable.empty_heart);
+                            Toast.makeText(showIT.this, "ITEM REMOVED FROM WISHLIST", Toast.LENGTH_SHORT).show();
+                        } else {
+                            // Item doesn't exist in the wish list, add it
+                            String itemId = cartUserRef.push().getKey();
+                            itemShoe checkoutItem1 = new itemShoe(data, data1, data3, data2, data4);
+
+                            // Add the checkout item to the wish list
+                            cartUserRef.child(itemId).setValue(checkoutItem1);
+
+                            book.setImageResource(R.drawable.filled_heart);
+                            Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error
+                    }
+                });
+            }
+        });
+    }
+
 
 
 

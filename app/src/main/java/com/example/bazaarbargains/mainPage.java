@@ -225,7 +225,7 @@ public class mainPage  extends AppCompatActivity  {
 
 
 
-                //Displaying the msg if search result doesnt exist in the database
+                //Displaying the msg if search result doesn't exist in the database
                 if (!productExists || query.isEmpty()) {
                     searchResults.clear();
                     searchResults.add("The product does not exist");

@@ -30,6 +30,7 @@ public class loginActivity extends AppCompatActivity {
 
     private static String userloggedin = "name";
     public static String currentUser;
+   // public static String fullName;
 
     private CheckBox showPassword;
 
@@ -127,6 +128,7 @@ public class loginActivity extends AppCompatActivity {
 
         final DatabaseReference dbref;
         dbref = FirebaseDatabase.getInstance().getReference();
+
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
@@ -136,12 +138,15 @@ public class loginActivity extends AppCompatActivity {
                 if (snapshot.child(parentDBName).child(userName).exists()) {
                     Users userData = snapshot.child(parentDBName).child(userName).getValue(Users.class);
 
+
                     //Checking if the username and password are correct by searching through firebase
                     if (userData.getUserName().equals(userName)) {
                         if (userData.getPassword().equals(password)) {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                            //Passing on the current user to other classes
                             currentUser = userName;
+
                             //IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
                             Intent intent = new Intent(loginActivity.this, mainPage.class);
                             startActivity(intent);

@@ -41,6 +41,7 @@ public class Dashboard extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
 
     String currentUser = loginActivity.currentUser;
+    //String userfullname = loginActivity.fullName;
 
     //OnCreate method
     @Override
@@ -50,7 +51,7 @@ public class Dashboard extends AppCompatActivity {
 
         initView();
         bottomBar();
-        retrievingProfileImage();
+       // retrievingProfileImage();
         retrievingFullName();
         retrievingUserName();
 
@@ -76,7 +77,7 @@ public class Dashboard extends AppCompatActivity {
                 // Open a file picker or image gallery intent
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
-                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+               // startActivityForResult(intent, PICK_IMAGE_REQUEST);
 
             }
         });
@@ -105,65 +106,63 @@ public class Dashboard extends AppCompatActivity {
     /*
     This method stores the profile picture user selects to the database under that user's node
      */
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
+//            Uri imageUri = data.getData();
+//            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
+//
+//            // Get the current user's username (replace "hhus" with the actual username)
+//
+//            // Create a new child reference under the username to store the image URI
+//            DatabaseReference userRef = usersRef.child(currentUser);
+//
+//            // Set the image URI value to the child reference
+//            userRef.child("imageUri").setValue(imageUri.toString());
+//
+//            newImage.setImageURI(imageUri);
+//
+//        }
+//
+//    }
 
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            Uri imageUri = data.getData();
-            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-
-            // Get the current user's username (replace "hhus" with the actual username)
-
-            // Create a new child reference under the username to store the image URI
-            DatabaseReference userRef = usersRef.child(currentUser);
-
-            // Set the image URI value to the child reference
-            userRef.child("imageUri").setValue(imageUri.toString());
-
-            newImage.setImageURI(imageUri);
-
-        }
-
-    }
-
-    private void retrievingProfileImage() {
-        if (currentUser != null && !currentUser.isEmpty()) {
-            //userName.setText(currentUser);
-            //Retrieve the data from the database
-            final DatabaseReference dbref;
-            dbref = FirebaseDatabase.getInstance().getReference("Users");
-
-            dbref.child(currentUser).child("imageUri").addListenerForSingleValueEvent(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        String imageUri = dataSnapshot.getValue(String.class);
-                        if (imageUri != null) {
-                            // Set the image URI to the image change button
-                            Glide.with(Dashboard.this).load(imageUri).into(newImage);
-                        } else {
-                            // Load the default image
-                            Glide.with(Dashboard.this).load(R.drawable.usericon).into(newImage);
-                        }
-                    } else {
-                        // Load the default image
-                        Glide.with(Dashboard.this).load(R.drawable.usericon).into(newImage);
-                    }
-                }
-
-
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
-
-                }
-            });
-
-        } else {
-
-        }
-
-    }
+//    private void retrievingProfileImage() {
+//        if (currentUser != null && !currentUser.isEmpty()) {
+//            // Retrieve the data from the database
+//            final DatabaseReference dbref;
+//            dbref = FirebaseDatabase.getInstance().getReference("Users");
+//
+//            dbref.child(currentUser).child("imageUri").addListenerForSingleValueEvent(new ValueEventListener() {
+//                @Override
+//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                    if (dataSnapshot.exists()) {
+//                        String imageUri = dataSnapshot.getValue(String.class);
+//                        if (imageUri != null) {
+//                            // Set the image URI to the image view
+//                            Glide.with(Dashboard.this).load(imageUri).into(newImage);
+//                            newImage.setVisibility(View.VISIBLE); // Make the ImageView visible
+//                        } else {
+//                            // If imageUri is null, hide the image view
+//                            newImage.setVisibility(View.INVISIBLE);
+//                        }
+//                    } else {
+//                        // If dataSnapshot doesn't exist, hide the image view
+//                        newImage.setVisibility(View.INVISIBLE);
+//                    }
+//                }
+//
+//                @Override
+//                public void onCancelled(@NonNull DatabaseError error) {
+//
+//                }
+//            });
+//        } else {
+//            // If currentUser is null or empty, hide the image view
+//            newImage.setVisibility(View.INVISIBLE);
+//        }
+//    }
 
 
     /* This method will delete the user account if user clicks on
@@ -321,29 +320,17 @@ public class Dashboard extends AppCompatActivity {
     /* Retrieving user name of the logged in user from database and displaying it in username
     text field*/
     private void retrievingUserName() {
-        if (currentUser != null && !currentUser.isEmpty()) {
-            userName.setText(currentUser);
-        } else {
-            userName.setText("Log In");
-            userName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Dashboard.this, loginActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
+        userName.setText(currentUser);
     }
 
     /* Retrieving full name of the logged in user from database and displaying it in full name
     text field*/
     private void retrievingFullName() {
 
-        if (currentUser != null && !currentUser.isEmpty()) {
-            //userName.setText(currentUser);
-            //Retrieve the data from the database
             final DatabaseReference dbref;
             dbref = FirebaseDatabase.getInstance().getReference("Users");
+
+            fullName.setText(""); // Set an empty string initially
 
             dbref.child(currentUser).addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
@@ -353,27 +340,19 @@ public class Dashboard extends AppCompatActivity {
                         String lastName = dataSnapshot.child("lastName").getValue(String.class);
 
                         String fullNameString = firstName + " " + lastName;
-                        fullName.setText(fullNameString);
+                        fullName.setText(fullNameString); // Update the full name TextView
                     }
                 }
 
                 @Override
                 public void onCancelled(@NonNull DatabaseError error) {
-
+                    // Handle error
                 }
             });
 
-        } else {
-            fullName.setText("Log In");
-            fullName.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Dashboard.this, loginActivity.class);
-                    startActivity(intent);
-                }
-            });
-        }
 
+
+        //fullName.setText(userfullname);
 
     }
 
@@ -476,7 +455,7 @@ public class Dashboard extends AppCompatActivity {
         userName = (TextView) findViewById(R.id.userNameField);
         fullName = (TextView) findViewById(R.id.fullnameField);
         imageChangeBtn = (Button) findViewById(R.id.imageChangeBtn);
-        newImage = (ImageView) findViewById(R.id.imageView);
+        //newImage = (ImageView) findViewById(R.id.imageView);
     }
 
     private void bottomBar() {
