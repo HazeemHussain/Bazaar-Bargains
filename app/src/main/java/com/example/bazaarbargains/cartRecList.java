@@ -67,8 +67,10 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     private ValueEventListener amountListener;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+       // setTheme(R.style.AppTheme_NoAnimation);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
@@ -236,6 +238,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
                 paymentflow();
+
+
                 //Moving the user to payment options class
 
                 //    Intent intent = new Intent(cartRecList.this, payment_options.class);
@@ -383,8 +387,53 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
         Toast.makeText(this,"Payment Successful", Toast.LENGTH_SHORT).show();
 
+
     }
 
+    }
+
+    @Override
+    public void onRemoveItemClicked(int position) {
+        modelAddCart itemToRemove = list.get(position);
+
+        // Remove the item from your data source
+        list.remove(position);
+        myAdapter.notifyItemRemoved(position);
+
+        // Remove the item from the database
+        DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("cart");
+        cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
+                    modelAddCart cartItem = cartItemSnapshot.getValue(modelAddCart.class);
+                    if (cartItem != null && cartItem.getItemName().equals(itemToRemove.getItemName())) {
+                        cartItemSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
+                            if (removeTask.isSuccessful()) {
+                                // Item removed successfully from the database
+                                setTotalView();
+
+
+                                Intent intent = getIntent();
+                                finish();
+                                overridePendingTransition(0, 0);
+                                startActivity(intent);
+                                overridePendingTransition(0, 0);
+                            } else {
+                                // Handle the remove failure
+                            }
+                        });
+                        break;
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Error occurred while retrieving cart items
+                // Handle the error or display an error message
+            }
+        });
     }
 
     private void getEmphericalKey() {
@@ -462,15 +511,19 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
             protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> param = new HashMap<>();
                 param.put("customer",CustomerId);
-                float total = TotalView();
-                String totalString = String.valueOf(total);
-                String[] parts = totalString.split("\\.");
+                float total = setTotalView();
+               float totla1= total*10;
+           String totals = String.valueOf(totla1);
+
+
+                String[] parts = totals.split("\\.");
                 String wholePart = parts[0];
                 String decimalPart = parts[1];
-                String FullPart = wholePart + "0";
+                String FullPart = wholePart ;
                 param.put("amount", FullPart + decimalPart);
                 param.put("currency", "NZD");
                 param.put("automatic_payment_methods[enabled]","true" );
+
                 return param;
             }
         };
@@ -537,44 +590,9 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                }
            });
        }*/
- @Override
- public void onRemoveItemClicked(int position) {
-     modelAddCart itemToRemove = list.get(position);
 
-     // Remove the item from your data source
-     list.remove(position);
-     myAdapter.notifyItemRemoved(position);
 
-     // Remove the item from the database
-     DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("cart");
-     cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
-             for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
-                 modelAddCart cartItem = cartItemSnapshot.getValue(modelAddCart.class);
-                 if (cartItem != null && cartItem.getItemName().equals(itemToRemove.getItemName())) {
-                     cartItemSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
-                         if (removeTask.isSuccessful()) {
-                             // Item removed successfully from the database
-                             setTotalView();
-                         } else {
-                             // Handle the remove failure
-                         }
-                     });
-                     break;
-                 }
-             }
-         }
-
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
-             // Error occurred while retrieving cart items
-             // Handle the error or display an error message
-         }
-     });
- }
-
-    private void setTotalView() {
+    private float setTotalView() {
         float total = 0;
         for (modelAddCart item : list) {
             float itemPrice = Float.parseFloat(item.getPerItemCost());
@@ -588,6 +606,7 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
 
        // Log.d("TotalValue", String.format("$%.2f", total));
 
+        return total;
     }
 
     private float TotalView() {
@@ -600,6 +619,13 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
          return total;
         // Log.d("TotalValue", String.format("$%.2f", total));
 
+    }
+
+    private String getTextFromTextView() {
+        TextView textView = findViewById(R.id.textt);
+        String text = textView.getText().toString();
+        text = text.replace("$", ""); // Remove the dollar sign
+        return text;
     }
 
 }

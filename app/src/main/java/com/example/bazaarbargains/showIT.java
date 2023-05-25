@@ -192,7 +192,9 @@ public class showIT extends AppCompatActivity  {
 
                 String itemId = cartUserRef.push().getKey();
 
-                itemShoe checkoutItem1 = new itemShoe(data,data1, data2);
+                itemShoe checkoutItem1 = new itemShoe(data, data1, data3, data2, data4);
+
+               // itemShoe checkoutItem1 = new itemShoe(data, strNumber, data1, data2, sizec);
                 // Add the checkout item to the cart
                 cartUserRef.child(itemId).setValue(checkoutItem1);
 

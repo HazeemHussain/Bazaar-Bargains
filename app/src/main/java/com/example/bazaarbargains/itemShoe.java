@@ -17,8 +17,7 @@ public class itemShoe {
         this.image = image;
     }
 
-    public itemShoe(String data, String strNumber, String data1, String data2, String toString, String sizec) {
-    }
+
 
 
     public String getSize() {
