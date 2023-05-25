@@ -47,6 +47,8 @@ public class showIT extends AppCompatActivity  {
 
 
     private RecyclerView recyclerViewsize;
+
+
     private sizeAdapter sizeadapter;
 
 
@@ -216,11 +218,11 @@ public class showIT extends AppCompatActivity  {
 
                 DatabaseReference wishUserRef = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
 
-                //String productID = wishUserRef.push().getKey();
+                String productID = wishUserRef.push().getKey();
 
-                //modelAddCart wishListItem = new modelAddCart(data, data1, data2);
+                wishItem wishListItem = new wishItem(data, data1, data2);
 
-                //wishUserRef.child(productID).setValue(wishListItem);
+                wishUserRef.child(productID).setValue(wishListItem);
 
                 Toast.makeText(showIT.this, "ITEM ADDED TO WISHLIST", Toast.LENGTH_SHORT).show();
             }
@@ -243,7 +245,7 @@ public class showIT extends AppCompatActivity  {
         minusbut=findViewById((R.id.minusbut));
         imageitemView=findViewById((R.id.imageitemView));
 
-        cartTotal=findViewById((R.id.cartTota));
+        //cartTotal=findViewById((R.id.cartTota));
         addtowishbut=findViewById((R.id.addtowishbut));
 
       //  cartTotal=findViewById((R.id.cartTota));

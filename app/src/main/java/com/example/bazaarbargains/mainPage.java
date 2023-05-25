@@ -206,7 +206,7 @@ public class mainPage  extends AppCompatActivity  {
        button.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
-               Intent intent = new Intent(mainPage.this, WishList.class);
+               Intent intent = new Intent(mainPage.this, wishlist.class);
                startActivity(intent);
            }
        });

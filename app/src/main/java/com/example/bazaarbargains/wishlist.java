@@ -1,15 +1,34 @@
 package com.example.bazaarbargains;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class wishlist extends AppCompatActivity {
+
+    String currentUser = loginActivity.currentUser;
+    private RecyclerView recyclerView1;
+
+    ArrayList<wishItem> list1 = new ArrayList<>();
+
+    DatabaseReference database12;
+
+    wishAdapter wishAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,5 +75,61 @@ public class wishlist extends AppCompatActivity {
                 // Handle reselection of the same tab (optional)
             }
         });
-    }
+
+        recyclerView1 = findViewById(R.id.hatrec);
+
+        database12 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
+
+
+
+
+        recyclerView1.setHasFixedSize(true);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        list1 = new ArrayList<>();
+        wishAdapter = new wishAdapter(this,list1);
+       // wishAdapter.setOnRemoveItemClickListener(this);
+        recyclerView1.setAdapter(wishAdapter);
+
+
+
+
+
+
+        database12.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+
+
+                        wishItem shoe = dataSnapshot.getValue(wishItem.class);
+
+                        // toalprice +=Float.parseFloat(shoe.getPerItemCost()) ;
+
+                        list1.add(shoe);
+
+
+                    }
+
+                    wishAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+
+
+}
 }

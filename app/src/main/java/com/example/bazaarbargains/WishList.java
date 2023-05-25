@@ -1,42 +1,135 @@
 package com.example.bazaarbargains;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
+import java.util.ArrayList;
 
-public class WishList extends AppCompatActivity {
+import nl.joery.animatedbottombar.AnimatedBottomBar;
 
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+public class wishlist extends AppCompatActivity {
 
-    RecyclerView recyclerView;
+    String currentUser = loginActivity.currentUser;
+    private RecyclerView recyclerView1;
+
+    ArrayList<wishItem> list1 = new ArrayList<>();
+
+    DatabaseReference database12;
+
+    wishAdapter wishAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wish_list);
+        setContentView(R.layout.activity_wishlist);
 
-        recyclerView=(RecyclerView)findViewById(R.id.list) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+        bottom_bar.selectTabAt(2,true);
 
-        recyclerView.setItemAnimator(null);
+        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
 
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("wishList"), itemShoe.class)
-                        .build();
+                int id = newIndex;
+
+                if (id == 0) {
+
+                    startActivity(new Intent(wishlist.this, Dashboard.class));
+                } else if (id == 1) {
 
 
-    }
+                    startActivity(new Intent(wishlist.this, mainPage.class));
 
+
+                }else if (id == 2) {
+
+
+                    startActivity(new Intent(wishlist.this, wishlist.class));
+
+
+                }else if (id == 3) {
+
+
+                    startActivity(new Intent(wishlist.this, cartRecList.class));
+
+
+                }
+            }
+
+
+
+            @Override
+            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+                // Handle reselection of the same tab (optional)
+            }
+        });
+
+        recyclerView1 = findViewById(R.id.hatrec);
+
+        database12 = FirebaseDatabase.getInstance().getReference("Users/"+currentUser+"/wishList");
+
+
+
+
+        recyclerView1.setHasFixedSize(true);
+        recyclerView1.setLayoutManager(new LinearLayoutManager(this));
+        list1 = new ArrayList<>();
+        wishAdapter = new wishAdapter(this,list1);
+       // wishAdapter.setOnRemoveItemClickListener(this);
+        recyclerView1.setAdapter(wishAdapter);
+
+
+
+
+
+
+        database12.addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    for (DataSnapshot dataSnapshot : snapshot.getChildren()){
+
+
+
+                        wishItem shoe = dataSnapshot.getValue(wishItem.class);
+
+                        // toalprice +=Float.parseFloat(shoe.getPerItemCost()) ;
+
+                        list1.add(shoe);
+
+
+                    }
+
+                    wishAdapter.notifyDataSetChanged();
+
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+
+                }
+            });
+
+
+
+
+
+
+
+
+}
 }

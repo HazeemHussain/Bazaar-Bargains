@@ -1,8 +1,6 @@
-<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#ffffff"
@@ -43,26 +41,18 @@
                     android:textColor="@color/black"
                     android:textSize="24sp" />
 
+
                 <TextView
                     android:id="@+id/desPrice"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="15dp"
-
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
                 <TextView
-
-                    android:id="@+id/addtocartbut"
-                    android:layout_width="130dp"
-                    android:layout_height="103dp"
-                    android:layout_marginLeft="80dp"
-                    android:layout_marginTop="80dp"
-                    android:background="@drawable/addtocartbutton"
-
                     android:id="@+id/descbox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -70,9 +60,35 @@
                     android:text="Description"
                     android:textColor="#222222"
                     android:textSize="18sp" />
+
+                <LinearLayout
+                    android:id="@+id/wishlistLayout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="230dp"
+                    android:layout_marginTop="15dp"
+                    android:orientation="vertical"
+                    app:layout_constraintTop_toBottomOf="@id/descbox"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <ImageView
+                        android:id="@+id/addtowishbut"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:srcCompat="@drawable/baseline_favorite_border_24" />
+
+                    <TextView
+                        android:id="@+id/wishlistText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="Add to Wishlist"
+                        android:textSize="14sp" />
+
+                </LinearLayout>
+
                 <TextView
-
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
@@ -81,7 +97,6 @@
                     android:textColor="#222222"
                     android:textStyle="bold"
                     android:textSize="18sp" />
-
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/sizerecycler"
                     android:layout_width="match_parent"
@@ -93,14 +108,6 @@
                     android:layout_height="wrap_content"
                     app:srcCompat="@drawable/applogo" />
 
-                <ImageView
-                    android:id="@+id/addtowishbut"
-                    android:layout_width="80dp"
-                    android:layout_height="30dp"
-                    android:layout_marginLeft="230dp"
-                    android:layout_marginTop="-67dp"
-                    android:src="@drawable/baseline_favorite_border_24" />
-
             </LinearLayout>
 
         </LinearLayout>
@@ -110,9 +117,7 @@
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-
         android:layout_marginBottom="16dp"
-
         app:cardCornerRadius="30dp"
         app:cardElevation="15dp"
         app:layout_constraintBottom_toBottomOf="parent">
@@ -127,6 +132,7 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
+
                 <LinearLayout
                     android:layout_width="1dp"
                     android:layout_height="80dp"
@@ -134,6 +140,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     android:paddingStart="20dp">
+
 
                     <ImageView
                         android:id="@+id/addbut"
@@ -160,6 +167,7 @@
                         app:srcCompat="@drawable/plusfff"
                         app:tint="@android:color/white" />
 
+
                 </LinearLayout>
 
                 <TextView
@@ -173,6 +181,9 @@
                     android:textColor="@color/white"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+
+
 
                 <TextView
                     android:id="@+id/addtocartbut"
@@ -197,7 +208,8 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+
     </androidx.cardview.widget.CardView>
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
