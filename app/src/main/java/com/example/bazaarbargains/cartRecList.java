@@ -248,7 +248,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
 
-             
+
 
 //                  DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
 //                  dbr.removeValue();
