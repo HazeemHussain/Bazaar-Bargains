@@ -41,8 +41,8 @@ confirm.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
 
-        Intent intent = new Intent(Filter.this, filtered_items.class);
-        startActivity(intent);
+       // Intent intent = new Intent(Filter.this, filtered_items.class);
+       // startActivity(intent);
 
 
 

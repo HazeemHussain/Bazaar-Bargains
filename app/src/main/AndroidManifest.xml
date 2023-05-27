@@ -21,9 +21,6 @@
             android:name=".Filter"
             android:exported="false" />
         <activity
-            android:name=".filtered_items"
-            android:exported="false" />
-        <activity
             android:name=".wishlist"
             android:exported="false" />
         <activity
