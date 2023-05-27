@@ -16,9 +16,6 @@ public class hatPage extends AppCompatActivity {
 
 
     RecyclerView rec;
-
-
-
     shoeAdapter adapter;
 
     @Override
