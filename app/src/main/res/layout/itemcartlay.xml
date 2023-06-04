@@ -16,8 +16,8 @@
             android:id="@+id/checkImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:scaleType="fitStart"
             android:contentDescription="shoe"
+            android:scaleType="fitStart"
             android:src="@drawable/it1" />
 
         <LinearLayout
@@ -51,6 +51,7 @@
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textStyle="bold" />
+
             <TextView
                 android:id="@+id/sizec"
                 android:layout_width="match_parent"
@@ -63,10 +64,13 @@
 
         <Button
             android:id="@+id/removebut"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
             android:layout_gravity="center_vertical"
-            android:background="@drawable/bin" />
+            android:background="@drawable/min"
+            android:scaleX=".5"
+            android:scaleY=".5" />
+
 
     </LinearLayout>
 

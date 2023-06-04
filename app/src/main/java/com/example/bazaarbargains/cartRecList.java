@@ -2,7 +2,9 @@ package com.example.bazaarbargains;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,6 +39,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
@@ -71,6 +74,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     @Override
     protected void onCreate(Bundle savedInstanceState) {
        // setTheme(R.style.AppTheme_NoAnimation);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_checkout);
 
@@ -226,7 +230,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
         //  totaltot.setText(formattedValue1);
 
-
+        ProgressBar bar = findViewById(R.id.loading_bar2);
         payNowBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -236,8 +240,16 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 //                DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
 //                databaseRef.removeValue();
 
-
-                paymentflow();
+                bar.setVisibility(View.VISIBLE);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        paymentflow();
+                        bar.setVisibility(View.GONE);
+                        // Enable the button after the delay
+                        payNowBtn.setEnabled(true);
+                    }
+                }, 1000); // Delay for 2 seconds (2000 milliseconds)
 
 
                 //Moving the user to payment options class
@@ -360,15 +372,16 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     if(paymentSheetResult instanceof PaymentSheetResult.Completed){
         //Getting database reference from firebase to delete the items from the cart once the user has clicked
         //on pay now button
-        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("cart");
-
-        DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference().child("Order History");
-databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
+      //  DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference().child("Order History");
+        DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
+        databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
     @Override
     public void onDataChange(@NonNull DataSnapshot snapshot) {
         if(snapshot.exists()){
             Object data = snapshot.getValue();
-            dataRef.setValue(data);
+           // dataRef.setValue(data);
+            invoiceRef.setValue(data);
             databaseRef.removeValue();
         }
     }
@@ -377,15 +390,18 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
     public void onCancelled(@NonNull DatabaseError error) {
 
     }
-});
-        showIT.myFloatVariable = 0;
 
-          DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-          dbr.removeValue();
-          DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
-          dbrs.removeValue();
+});
+      //  showIT.myFloatVariable = 0;
+
+       //   DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
+        //  dbr.removeValue();
+        //  DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
+       //   dbrs.removeValue();
 
         Toast.makeText(this,"Payment Successful", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(cartRecList.this, invoicePage.class);
+        startActivity(intent);
 
 
     }
@@ -419,6 +435,7 @@ databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
                                 overridePendingTransition(0, 0);
                                 startActivity(intent);
                                 overridePendingTransition(0, 0);
+
                             } else {
                                 // Handle the remove failure
                             }
