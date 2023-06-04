@@ -1,6 +1,8 @@
 package com.example.bazaarbargains;
 
-public class modelAddCart {
+import java.io.Serializable;
+
+public class modelAddCart implements Serializable {
     
     private String itemName, itemPrice;
     private String quantity;

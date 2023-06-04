@@ -33,8 +33,13 @@ public class invoicePage extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //bottomBar();
+
         setContentView(R.layout.activity_invoice_page);
         rec = findViewById(R.id.invoiceRec);
+
+
+
         DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
 
         rec.setHasFixedSize(true);
@@ -45,123 +50,67 @@ public class invoicePage extends AppCompatActivity {
         rec.setAdapter(myAdapter);
 
 
-
-    /*    rec = findViewById(R.id.invoiceRec);
-
-        rec.setLayoutManager(new GridLayoutManager(this,2));
-
-        rec.setItemAnimator(null);
-
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("invoice"), itemShoe.class)
-                        .build();
-
-        DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
-
-        myAdapter = new cartAdapter(this,list);
-        rec.setAdapter(adapter);
-*/
-
-        invoiceRef.addValueEventListener(new ValueEventListener() {
-
+        invoiceRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-
-                    modelAddCart shoe = dataSnapshot.getValue(modelAddCart.class);
-
-
-
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    modelAddCart shoe = childSnapshot.getValue(modelAddCart.class);
                     list.add(shoe);
-
-
                 }
-
-
                 myAdapter.notifyDataSetChanged();
-
-
-
-
-
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                // Handle error if retrieval is canceled
             }
         });
 
-       /* AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+        //Passing on the invoice list to the order history class
+        OrderHistory.setInvoiceList(list);
+       
 
-        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
-            @Override
-            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
-
-                int id = newIndex;
-
-                if (id == 0) {
-
-                    startActivity(new Intent(invoicePage.this, Dashboard.class));
-                } else if (id == 1) {
-
-
-                    startActivity(new Intent(invoicePage.this, mainPage.class));
-
-
-                }else if (id == 2) {
-
-
-                    startActivity(new Intent(invoicePage.this, wishlist.class));
-
-
-                }else if (id == 3) {
-
-
-                    startActivity(new Intent(invoicePage.this, cartRecList.class));
-
-
-                }
-            }
-
-
-
-            @Override
-            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
-                int id = index;
-                if (id == 1) {
-
-                    startActivity(new Intent(invoicePage.this, mainPage.class));
-
-                }
-            }
-        });*/
-
-
-/*        appBottomNavigationView.setSelectedItemId(R.id.home);
-        appBottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.home:
-                    // Navigate to the Home activity
-                    startActivity(new Intent(hatPage.this, mainPage.class));
-                    return true;
-                case R.id.cart:
-                    // Navigate to the Profile activity
-                    startActivity(new Intent(hatPage.this, cartRecList.class));
-                    return true;
-                case R.id.dashboard:
-                    // Navigate to the Settings activity
-                    startActivity(new Intent(hatPage.this, Dashboard.class));
-                    return true;
-            }
-            return false;
-        });*/
     }
+
+//    private void bottomBar() {
+//        AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
+//        bottom_bar.selectTabAt(0, true);
+//
+//        bottom_bar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
+//            @Override
+//            public void onTabSelected(int lastIndex, AnimatedBottomBar.Tab lastTab, int newIndex, AnimatedBottomBar.Tab newTab) {
+//
+//                int id = newIndex;
+//
+//                if (id == 0) {
+//
+//                    startActivity(new Intent(invoicePage.this, Dashboard.class));
+//                } else if (id == 1) {
+//
+//
+//                    startActivity(new Intent(invoicePage.this, mainPage.class));
+//
+//
+//                } else if (id == 2) {
+//
+//
+//                    startActivity(new Intent(invoicePage.this, wishlist.class));
+//
+//
+//                } else if (id == 3) {
+//
+//                    startActivity(new Intent(invoicePage.this, cartRecList.class));
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onTabReselected(int index, AnimatedBottomBar.Tab tab) {
+//
+//            }
+//        });
+//    }
+
 
 
     }

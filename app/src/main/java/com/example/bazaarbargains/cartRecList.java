@@ -373,25 +373,55 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         //Getting database reference from firebase to delete the items from the cart once the user has clicked
         //on pay now button
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-      //  DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference().child("Order History");
         DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
+
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        if(snapshot.exists()){
-            Object data = snapshot.getValue();
-           // dataRef.setValue(data);
-            invoiceRef.setValue(data);
-            databaseRef.removeValue();
-        }
-    }
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot cartSnapshot : snapshot.getChildren()) {
+                        Object data = cartSnapshot.getValue();
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
+                        // Generate a new unique key for each invoice item
+                        String invoiceItemKey = invoiceRef.push().getKey();
 
-    }
+                        // Create a new child node under the "invoice" node with the unique key and the item data
+                        invoiceRef.child(invoiceItemKey).setValue(data);
+                    }
 
-});
+                    // Remove the cart data
+                    databaseRef.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle cancellation if needed
+            }
+        });
+//        invoiceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                if (!snapshot.exists()) {
+//                    Object data = snapshot.getValue();
+//
+//                    // Generate a new unique key for the invoice node
+//                    String invoiceKey = invoiceRef.push().getKey();
+//
+//                    // Create a new child node under the "invoice" node with the unique key
+//                   invoiceRef.child(invoiceKey).setValue(data);
+//                   // invoiceRef.setValue(data);
+//
+//                    // Remove the cart data
+//                  //  databaseRef.removeValue();
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//                // Handle cancellation if needed
+//            }
+//        });
       //  showIT.myFloatVariable = 0;
 
        //   DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");

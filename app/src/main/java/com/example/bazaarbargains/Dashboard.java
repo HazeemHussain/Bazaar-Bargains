@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +35,7 @@ public class Dashboard extends AppCompatActivity {
 
     //Declaration of variables
     private Button logout, deleteAccount;
-    private Button passwordChange, usernameChange, imageChangeBtn;
+    private Button passwordChange, usernameChange, viewHistoryBtn;
     private TextView userName, fullName;
 
     private ImageView newImage;
@@ -71,14 +73,30 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-        imageChangeBtn.setOnClickListener(new View.OnClickListener() {
+        viewHistoryBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Open a file picker or image gallery intent
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.setType("image/*");
-               // startActivityForResult(intent, PICK_IMAGE_REQUEST);
+                //Getting the data from the firebase when user clicks on the order history view button
+                DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
+                invoiceRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        //Creating an array list and storing the data retrieved from the database in arraylist
+                        ArrayList<modelAddCart> invoiceList = new ArrayList<>();
+                        for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                            modelAddCart invoiceItem = childSnapshot.getValue(modelAddCart.class);
+                            invoiceList.add(invoiceItem);
+                        }
+                        Intent intent = new Intent(Dashboard.this, OrderHistory.class);
+                        intent.putExtra("invoiceList", invoiceList);
+                        startActivity(intent);
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                        // Handle error if retrieval is canceled
+                    }
+                });
             }
         });
 
@@ -88,6 +106,8 @@ public class Dashboard extends AppCompatActivity {
             public void onClick(View view) {
                 FirebaseAuth.getInstance().signOut();
                 Intent intent = new Intent(Dashboard.this, loginActivity.class);
+                //Clearing the activity stack to make sure the user can not come back to this page
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(intent);
                 finish();
 
@@ -102,67 +122,6 @@ public class Dashboard extends AppCompatActivity {
         });
 
     }
-
-    /*
-    This method stores the profile picture user selects to the database under that user's node
-     */
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-//            Uri imageUri = data.getData();
-//            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-//
-//            // Get the current user's username (replace "hhus" with the actual username)
-//
-//            // Create a new child reference under the username to store the image URI
-//            DatabaseReference userRef = usersRef.child(currentUser);
-//
-//            // Set the image URI value to the child reference
-//            userRef.child("imageUri").setValue(imageUri.toString());
-//
-//            newImage.setImageURI(imageUri);
-//
-//        }
-//
-//    }
-
-//    private void retrievingProfileImage() {
-//        if (currentUser != null && !currentUser.isEmpty()) {
-//            // Retrieve the data from the database
-//            final DatabaseReference dbref;
-//            dbref = FirebaseDatabase.getInstance().getReference("Users");
-//
-//            dbref.child(currentUser).child("imageUri").addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.exists()) {
-//                        String imageUri = dataSnapshot.getValue(String.class);
-//                        if (imageUri != null) {
-//                            // Set the image URI to the image view
-//                            Glide.with(Dashboard.this).load(imageUri).into(newImage);
-//                            newImage.setVisibility(View.VISIBLE); // Make the ImageView visible
-//                        } else {
-//                            // If imageUri is null, hide the image view
-//                            newImage.setVisibility(View.INVISIBLE);
-//                        }
-//                    } else {
-//                        // If dataSnapshot doesn't exist, hide the image view
-//                        newImage.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//        } else {
-//            // If currentUser is null or empty, hide the image view
-//            newImage.setVisibility(View.INVISIBLE);
-//        }
-//    }
 
 
     /* This method will delete the user account if user clicks on
@@ -189,6 +148,8 @@ public class Dashboard extends AppCompatActivity {
 
                                 //When the account gets deleted it takes the user back to login page
                                 Intent intent = new Intent(Dashboard.this, loginActivity.class);
+                                //Clear stash of all the activity
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                                 startActivity(intent);
 
                                 // Displaying the success message
@@ -454,7 +415,7 @@ public class Dashboard extends AppCompatActivity {
         usernameChange = (Button) findViewById(R.id.userNameBtn);
         userName = (TextView) findViewById(R.id.userNameField);
         fullName = (TextView) findViewById(R.id.fullnameField);
-        imageChangeBtn = (Button) findViewById(R.id.imageChangeBtn);
+        viewHistoryBtn = (Button) findViewById(R.id.viewHistoryBtn);
         //newImage = (ImageView) findViewById(R.id.imageView);
     }
 
