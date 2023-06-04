@@ -6,18 +6,27 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.Button;
+import android.widget.Spinner;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class hatPage extends AppCompatActivity {
 
-
+    private Spinner sizeSpinner;
+    private Spinner brandSpinner;
+    private Spinner priceSpinner;
+    private String sizeString, brandString, priceString;
+    private TextView filterReset;
     RecyclerView rec;
-
-
 
     shoeAdapter adapter;
 
@@ -27,19 +36,123 @@ public class hatPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_hat_page);
 
+        filterReset = findViewById(R.id.resetbutton);
+        sizeSpinner = findViewById(R.id.brandSpinner1);
+        brandSpinner = findViewById(R.id.brandSpinner);
+        priceSpinner = findViewById(R.id.brandSpinner2);
+
+
         rec = findViewById(R.id.hatrec);
 
-        rec.setLayoutManager(new GridLayoutManager(this,2));
+        rec.setLayoutManager(new GridLayoutManager(this, 2));
 
         rec.setItemAnimator(null);
 
+        Query query = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("Hats");
+
+
         FirebaseRecyclerOptions<itemShoe> options =
                 new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Hats"), itemShoe.class)
+                        .setQuery(query, itemShoe.class)
                         .build();
 
-        adapter = new shoeAdapter(options,1);
+        adapter = new shoeAdapter(options, 1);
         rec.setAdapter(adapter);
+
+        brandSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                brandString = parent.getItemAtPosition(position).toString();
+
+                Query query = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("Hats").orderByChild("brand").equalTo(brandString);
+
+
+                FirebaseRecyclerOptions<itemShoe> options =
+                        new FirebaseRecyclerOptions.Builder<itemShoe>()
+                                .setQuery(query, itemShoe.class)
+                                .build();
+
+                adapter.updateOptions(options);
+
+            }
+
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                sizeString = parent.getItemAtPosition(position).toString();
+
+                Query query = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("Hats")
+                        .orderByChild(sizeString)
+                        .equalTo(true);
+
+                FirebaseRecyclerOptions<itemShoe> options =
+                        new FirebaseRecyclerOptions.Builder<itemShoe>()
+                                .setQuery(query, itemShoe.class)
+                                .build();
+
+                adapter.updateOptions(options);
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+        priceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                priceString = parent.getItemAtPosition(position).toString();
+
+                Query query = FirebaseDatabase.getInstance()
+                        .getReference()
+                        .child("Hats");
+
+                if (priceString.equals("Low To High")) {
+                    query = query.orderByChild("price1");
+                } else if (priceString.equals("High To Low")) {
+                    query = query.orderByChild("price2");
+                }
+
+                FirebaseRecyclerOptions<itemShoe> options =
+                        new FirebaseRecyclerOptions.Builder<itemShoe>()
+                                .setQuery(query, itemShoe.class)
+                                .build();
+
+                adapter.updateOptions(options);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        filterReset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = getIntent();
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+
+            }
+        });
+
 
         AnimatedBottomBar bottom_bar = findViewById(R.id.navBar);
 
@@ -58,13 +171,11 @@ public class hatPage extends AppCompatActivity {
                     startActivity(new Intent(hatPage.this, mainPage.class));
 
 
-                }else if (id == 2) {
-
-
+                } else if (id == 2) {
                     startActivity(new Intent(hatPage.this, wishlist.class));
 
 
-                }else if (id == 3) {
+                } else if (id == 3) {
 
 
                     startActivity(new Intent(hatPage.this, cartRecList.class));
@@ -72,7 +183,6 @@ public class hatPage extends AppCompatActivity {
 
                 }
             }
-
 
 
             @Override
@@ -87,32 +197,12 @@ public class hatPage extends AppCompatActivity {
         });
 
 
-/*        appBottomNavigationView.setSelectedItemId(R.id.home);
-        appBottomNavigationView.setOnItemSelectedListener(item -> {
-            int id = item.getItemId();
-            switch (id) {
-                case R.id.home:
-                    // Navigate to the Home activity
-                    startActivity(new Intent(hatPage.this, mainPage.class));
-                    return true;
-                case R.id.cart:
-                    // Navigate to the Profile activity
-                    startActivity(new Intent(hatPage.this, cartRecList.class));
-                    return true;
-                case R.id.dashboard:
-                    // Navigate to the Settings activity
-                    startActivity(new Intent(hatPage.this, Dashboard.class));
-                    return true;
-            }
-            return false;
-        });*/
     }
 
     @Override
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-
 
 
     }
@@ -122,7 +212,6 @@ public class hatPage extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
-
 
 
 }

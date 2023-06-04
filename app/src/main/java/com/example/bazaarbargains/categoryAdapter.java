@@ -2,6 +2,11 @@ package com.example.bazaarbargains;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,9 +14,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.palette.graphics.Palette;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHolder> {
     ArrayList<categoryModel> data;
@@ -33,11 +42,11 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHold
         return new MyHolder(view);
     }
 
+
+
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
 
-
-       // holder.cat.setText(data.get(position));
     categoryModel mode = data.get(position);
         holder.image.setImageResource(mode.getCatImage());
         holder.cat.setText(mode.getCatName());
@@ -85,6 +94,7 @@ public class categoryAdapter extends RecyclerView.Adapter<categoryAdapter.MyHold
             //cat = itemView.findViewById(R.id.catTitle);
 
             image = itemView.findViewById(R.id.catimage);
+
             cat = itemView.findViewById(R.id.catTitle);
         }
     }

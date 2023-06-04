@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -26,6 +27,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -74,11 +76,15 @@ public class mainPage  extends AppCompatActivity  {
 
 
     private Button searchBtn;
+    private TextView buttonf;
     private EditText searchBar;
     private ListView searchListView;
     private ArrayAdapter<String> searchAdapter;
     private int backButtonCount = 0;
     private static final int MAX_BACK_BUTTON_COUNT = 3;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +92,11 @@ public class mainPage  extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mainpage);
 
+
+
         //Calling search button and search fields
         searchBar = findViewById(R.id.SearchField);
+
         searchListView = findViewById(R.id.searchListView);
         searchAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1);
         searchListView.setAdapter(searchAdapter);
@@ -182,6 +191,7 @@ public class mainPage  extends AppCompatActivity  {
         category.add(new categoryModel("Hats",R.drawable.hatsphoto));
         category.add(new categoryModel("Tops",R.drawable.shirtphoto));
         category.add(new categoryModel("Bottoms",R.drawable.pantsphoto));
+
 
 
         adap = new categoryAdapter(this,category);

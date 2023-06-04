@@ -3,12 +3,15 @@ package com.example.bazaarbargains;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -21,8 +24,11 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.stripe.android.model.Card;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,10 +36,15 @@ public class showIT extends AppCompatActivity  {
 
     private TextView desName,desPrice,quant,addtocartbut,textView3,cartTotal,description;
     private String size;
+
+    private CardView card;
     private ImageView addbut,minusbut,imageitemView,book;
     int  quantity = 1;
     double totalprice = 0;
-    private  String sizec;
+    //private    String sizec;
+
+    String sizec ;
+    int rate ;
     String data1, data2, data,data3,data4;
 
     public static float myFloatVariable;
@@ -42,7 +53,10 @@ public class showIT extends AppCompatActivity  {
     boolean isInWishList;
 
     private RecyclerView recyclerViewsize;
+    private RecyclerView ratingrecycler;
     private sizeAdapter sizeadapter;
+    private ratingAdapter ratingAdapter;
+    private List<Integer> ratingList;
 
 
     String currentUser = loginActivity.currentUser;
@@ -59,23 +73,20 @@ public class showIT extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_it);
 
+
         initView();
         getBundele();
         wishListButton();
 
     }
-    private View.OnClickListener itemClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            TextView numberTextView = view.findViewById(R.id.sizeTitle);
-            sizec = numberTextView.getText().toString();
 
-            Toast.makeText(showIT.this, "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
-        }
-    };
+
+
 
 
     private void getBundele() {
+
+
 
         //Hazeem part starts here
         //This part is included to successfully implement the search bar feature
@@ -103,9 +114,46 @@ public class showIT extends AppCompatActivity  {
 
         }
         //Ends here
+        View.OnClickListener itemClickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                CardView card1 = view.findViewById(R.id.card);
+
+
+
+                TextView numberTextView = view.findViewById(R.id.sizeTitle);
+
+
+
+               // sizec = numberTextView.getText().toString();
+
+              //  Toast.makeText(view.getContext(), "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        ratingList = new ArrayList<>();
+        ratingList.add(R.drawable.star);
+        ratingList.add(R.drawable.star);
+        ratingList.add(R.drawable.star);
+        ratingList.add(R.drawable.star);
+        ratingList.add(R.drawable.star);
+
+        ratingrecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+
+
+
+
+        ratingAdapter = new ratingAdapter(ratingList);
+        ratingrecycler.setAdapter(ratingAdapter);
+
+
 
 
         recyclerViewsize = findViewById(R.id.sizerecycler);
+
+
 
         recyclerViewsize.setLayoutManager(new GridLayoutManager(this,3));
 
@@ -113,6 +161,7 @@ public class showIT extends AppCompatActivity  {
 
         sizeadapter = new sizeAdapter(numbersList, itemClickListener);
         recyclerViewsize.setAdapter(sizeadapter);
+
 
 
 
@@ -138,6 +187,7 @@ public class showIT extends AppCompatActivity  {
             }
         });
 
+        rate = ratingAdapter.numberStar1;
         addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -149,17 +199,38 @@ public class showIT extends AppCompatActivity  {
                 //float num = Float.parseFloat(formattedNum);
 
                 //myFloatVariable = totalprice;
+                sizec = sizeadapter.sizec;
+
+                Log.d("Rate Value", String.valueOf(rate));
 
                 if (sizec != null && !sizec.isEmpty()) {
 
                     DatabaseReference cartUserRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-
                     String itemId = cartUserRef.push().getKey();
-
                     modelAddCart checkoutItem = new modelAddCart(data, strNumber, data1, data2, Double.toString(totalprice), sizec);
-
                     // Add the checkout item to the cart
                     cartUserRef.child(itemId).setValue(checkoutItem);
+
+
+
+
+                    DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Shoes");
+                    Query query = cartUserRef1.orderByChild("name").equalTo(data);
+                    query.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                                DatabaseReference ratingRef = snapshot.getRef().child("rating");
+                                ratingRef.setValue(rate);
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
 
 
                     // cartTotal.setText((Float.toString(totalprice)));
@@ -170,6 +241,7 @@ public class showIT extends AppCompatActivity  {
                     Toast.makeText(showIT.this, "SELECT SIZE", Toast.LENGTH_SHORT).show();
                 }
             }
+
         });
 
 
@@ -352,11 +424,15 @@ public class showIT extends AppCompatActivity  {
         textView3=findViewById((R.id.textView3));
         description = findViewById(R.id.descbox);
         book = findViewById(R.id.imageView4);
+        ratingrecycler = findViewById(R.id.ratingrecycler);
+
+
 
 
 
 
 
     }
+
 
 }

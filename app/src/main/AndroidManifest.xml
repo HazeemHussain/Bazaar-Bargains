@@ -15,12 +15,12 @@
         android:theme="@style/Theme.BazaarBargains"
         tools:targetApi="31">
 
-
-
+        <activity
+            android:name=".invoicePage"
+            android:exported="false"></activity>
         <activity
             android:name=".wishlist"
             android:exported="false" />
-
         <activity
             android:name=".bottomPage"
             android:exported="false" />
@@ -36,7 +36,6 @@
         <activity
             android:name=".Dashboard"
             android:exported="false" />
-
         <activity
             android:name=".showIT"
             android:exported="false" />

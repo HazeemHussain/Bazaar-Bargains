@@ -10,5 +10,68 @@
     <string name="password_string">Password</string>
     <string name="username_string">Username</string>
 
+    <string-array name="brand_items">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan</item>
+        <item>Adidas</item>
+        <item>TJM</item>
+    </string-array>
+
+    <string-array name="brand_items_hats">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>New Era</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_bottoms">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_shoes">
+        <item>Select Brand</item>
+        <item>Jordan</item>
+        <item>Nike</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_tops">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan  </item>
+        <item>Adidas</item>
+
+        <item>Rats Get Fat</item>
+        <item>Nautica</item>
+        <item>Champion</item>
+        <item>TJM</item>
+
+    </string-array>
+
+    <string-array name="sizes">
+        <item>Select size</item>
+        <item>sizeXL</item>
+        <item>sizeL</item>
+        <item>sizeM</item>
+    </string-array>
+
+    <string-array name="sizes_shoes">
+        <item>Select size</item>
+        <item>sizeXL</item>
+        <item>sizeL</item>
+        <item>sizeM</item>
+    </string-array>
+
+
+    <string-array name="price">
+        <item>Select Price</item>
+        <item>Low To High</item>
+        <item>High To Low</item>
+    </string-array>
+
 
 </resources>

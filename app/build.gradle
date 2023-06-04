@@ -76,11 +76,14 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.4.0'
     implementation 'com.google.android.material:material:<version>'
     implementation 'nl.joery.animatedbottombar:library:1.1.0'
+    implementation 'androidx.palette:palette:1.0.0'
+    implementation 'com.jpardogo.googleprogressbar:library:1.2.0'
+
     implementation 'com.stripe:stripe-java:22.0.0'
     implementation 'com.stripe:stripe-android:20.25.2'
     implementation 'com.android.volley:volley:1.2.1'
     implementation 'androidx.lifecycle:lifecycle-viewmodel-compose:2.6.1'
-
+    implementation 'jp.wasabeef:glide-transformations:4.3.0'
 
     implementation 'com.stripe:stripe-java:22.0.0'
     implementation 'com.stripe:stripe-android:20.25.2'
