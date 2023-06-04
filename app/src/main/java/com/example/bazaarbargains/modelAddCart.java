@@ -19,9 +19,10 @@ public class modelAddCart {
         this.perItemCost = perItemCost;
         this.sizec = sizec;
     }
-    public modelAddCart() {
 
-    }
+
+
+
     public String getSizec() {
         return sizec;
     }
