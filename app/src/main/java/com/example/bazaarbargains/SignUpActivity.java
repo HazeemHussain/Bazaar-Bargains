@@ -65,8 +65,7 @@ public class SignUpActivity extends AppCompatActivity {
                 userName = binding.userName.getText().toString();
                 password = binding.password.getText().toString();
 
-
-                if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty()) {
+                if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty() && !(password.length() < 6) && !(userName.length() < 6)) {
                     Users users = new Users(firstName, lastName, userName, password);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
@@ -84,11 +83,14 @@ public class SignUpActivity extends AppCompatActivity {
                             startActivity(intent);
                         }
                     });
+
+                }  else if (userName.length() < 6) {
+                    Toast.makeText(SignUpActivity.this, "THE USERNAME SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();
+                } else if (password.length() < 6) {
+                    Toast.makeText(SignUpActivity.this, "THE PASSWORD SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SignUpActivity.this, "PLEASE FILL IN ALL THE DETAILS", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
     }
