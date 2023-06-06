@@ -55,7 +55,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         });
     }
 
-    private void showPassword() {
+    public void showPassword() {
         showPassword.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -68,6 +68,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void checkingInputFields() {
         String username = inputUsername.getText().toString().trim();
@@ -83,7 +85,20 @@ public class ForgotPasswordActivity extends AppCompatActivity {
             updatingPassword(username, pass);
         }
     }
+    public void publiccheckingInputFields(String username, String pass) {
+        username = inputUsername.getText().toString().trim();
+        pass = inputPassword.getText().toString().trim();
 
+        if (username.isEmpty()) {
+            // Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+            inputUsername.setError("PLEASE ENTER YOUR USERNAME");
+        } else if (pass.isEmpty()) {
+            inputPassword.setError("PLEASE ENTER YOUR PASSWORD");
+            //Toast.makeText(ForgotPasswordActivity.this, "PLEASE ENTER YOUR NEW PASSWORD", Toast.LENGTH_SHORT).show();
+        } else {
+            updatingPassword(username, pass);
+        }
+    }
     public void updatingPassword(String userName, String password) {
         final DatabaseReference ref;
 
