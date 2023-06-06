@@ -1,17 +1,13 @@
 package com.example.bazaarbargains;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -24,28 +20,27 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.stripe.android.model.Card;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class showIT extends AppCompatActivity  {
+public class showIT extends AppCompatActivity {
 
-    private TextView desName,desPrice,quant,addtocartbut,textView3,cartTotal,description;
+    private TextView desName, desPrice, quant, addtocartbut, textView3, cartTotal, description, rateview, rateText;
     private String size;
+    private int ratingvalue;
 
     private CardView card;
-    private ImageView addbut,minusbut,imageitemView,book;
-    int  quantity = 1;
+    private ImageView addbut, minusbut, imageitemView, book, arrow;
+    int quantity = 1;
     double totalprice = 0;
     //private    String sizec;
 
-    String sizec ;
-    int rate ;
-    String data1, data2, data,data3,data4;
+    String sizec;
+    int rate;
+    String data1, data2, data, data3, data4;
 
     public static float myFloatVariable;
 
@@ -62,12 +57,6 @@ public class showIT extends AppCompatActivity  {
     String currentUser = loginActivity.currentUser;
 
 
-
-    //  DatabaseReference urlRef = FirebaseDatabase.getInstance().getReference().child("path/to/url/node");
-
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -81,11 +70,7 @@ public class showIT extends AppCompatActivity  {
     }
 
 
-
-
-
     private void getBundele() {
-
 
 
         //Hazeem part starts here
@@ -105,11 +90,11 @@ public class showIT extends AppCompatActivity  {
 
 
             desName.setText(data); //Setting the item name
-            textView3.setText("$"+data1); //setting the item price
+            textView3.setText("$" + data1); //setting the item price
             description.setText((data3));
             Glide.with(this).load(data2).into(imageitemView); //Loading and displaying the item page
             quant.setText(Integer.toString(quantity));
-            size=data4;
+            size = data4;
 
 
         }
@@ -118,18 +103,6 @@ public class showIT extends AppCompatActivity  {
             @Override
             public void onClick(View view) {
 
-
-                CardView card1 = view.findViewById(R.id.card);
-
-
-
-                TextView numberTextView = view.findViewById(R.id.sizeTitle);
-
-
-
-               // sizec = numberTextView.getText().toString();
-
-              //  Toast.makeText(view.getContext(), "Selected Size: " + sizec, Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -143,27 +116,19 @@ public class showIT extends AppCompatActivity  {
         ratingrecycler.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
 
 
-
-
         ratingAdapter = new ratingAdapter(ratingList);
         ratingrecycler.setAdapter(ratingAdapter);
-
-
 
 
         recyclerViewsize = findViewById(R.id.sizerecycler);
 
 
-
-        recyclerViewsize.setLayoutManager(new GridLayoutManager(this,3));
+        recyclerViewsize.setLayoutManager(new GridLayoutManager(this, 3));
 
         List<String> numbersList = Arrays.asList(size.split(","));
 
         sizeadapter = new sizeAdapter(numbersList, itemClickListener);
         recyclerViewsize.setAdapter(sizeadapter);
-
-
-
 
 
         quant.setText(Integer.toString(quantity));
@@ -179,6 +144,7 @@ public class showIT extends AppCompatActivity  {
             }
         });
 
+
         addbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,18 +153,59 @@ public class showIT extends AppCompatActivity  {
             }
         });
 
-        rate = ratingAdapter.numberStar1;
+        arrow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ratingRef = FirebaseDatabase.getInstance().getReference("rating");
+
+
+                ratingRef.orderByChild("name").equalTo(data).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (dataSnapshot.exists()) {
+                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                                int currentRating = snapshot.child("rating").getValue(Integer.class);
+
+
+                                int newRating = (currentRating + rate) / 2;
+
+
+                                snapshot.getRef().child("rating").setValue(newRating);
+                            }
+                        } else {
+
+                            DatabaseReference newRatingRef = ratingRef.push();
+                            newRatingRef.child("name").setValue(data);
+                            newRatingRef.child("rating").setValue(ratingAdapter.numberStar1);
+                        }
+
+
+                    }
+
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                ratingrecycler.setVisibility(View.GONE);
+                arrow.setVisibility(View.GONE);
+                rateText.setVisibility(View.GONE);
+
+                Toast.makeText(showIT.this, "Review Submitted ", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         addtocartbut.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String strNumber = Integer.toString(quantity);
                 double doubleValue = Double.parseDouble(data1);
-                // float numberAsFloat = Float.parseFloat(data1);
-                totalprice = quantity * doubleValue;
-                // String formattedNum = String.format("%.2f", totalprice);
-                //float num = Float.parseFloat(formattedNum);
 
-                //myFloatVariable = totalprice;
+                totalprice = quantity * doubleValue;
+
                 sizec = sizeadapter.sizec;
 
                 Log.d("Rate Value", String.valueOf(rate));
@@ -212,29 +219,6 @@ public class showIT extends AppCompatActivity  {
                     cartUserRef.child(itemId).setValue(checkoutItem);
 
 
-
-
-                    DatabaseReference cartUserRef1 = FirebaseDatabase.getInstance().getReference("Shoes");
-                    Query query = cartUserRef1.orderByChild("name").equalTo(data);
-                    query.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                                DatabaseReference ratingRef = snapshot.getRef().child("rating");
-                                ratingRef.setValue(rate);
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                        }
-                    });
-
-
-
-                    // cartTotal.setText((Float.toString(totalprice)));
-
                     Toast.makeText(showIT.this, "ITEM ADDED TO CART", Toast.LENGTH_SHORT).show();
 
                 } else {
@@ -245,93 +229,9 @@ public class showIT extends AppCompatActivity  {
         });
 
 
-        // imageitemView.setText(data);
-
-
     }
 
 
-    /*
-      Wishlist method
-      This method adds the item to the wishlist
-      1st approach
-    */
-
-//    private void wishListButton() {
-//
-//        // The shared prefernces concept has been used
-//        // to retrieve the current state of the item in the wishlist
-//        //Naming the preference and keeping it private so it stays only in this class
-//        SharedPreferences sharedPreferences = getSharedPreferences("wishlist", Context.MODE_PRIVATE);
-//
-//        //Also passing on the data (name of the item) and the status of it to see if it exists in wishlist
-//        boolean isInWishList = sharedPreferences.getBoolean("isInWishList_" + data, false);
-//
-//        // Set the heart image resource based on the isInWishList variable. if isInwishlist is true
-//        //the value is set to filled heart else its set to empty heart
-//        book.setImageResource(isInWishList ? R.drawable.filled_heart : R.drawable.empty_heart);
-//
-//        book.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//
-//                //Getting wishlist db reference
-//                DatabaseReference wishListRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/wishList");
-//
-//                //Reading the data from the database only once
-//                wishListRef.orderByChild("name").equalTo(data).addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                        boolean itemExists = dataSnapshot.exists();
-//                        boolean isInWishList = false;
-//
-//                        //If item exist in database then removing the value of the product
-//                        if (itemExists) {
-//                            for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()) {
-//
-//                                // Check if the item name matches exactly
-//                                if (itemSnapshot.child("name").getValue(String.class).equals(data)) {
-//                                    itemSnapshot.getRef().removeValue();
-//                                    isInWishList = false;
-//                                    break;
-//                                }
-//                            }
-//
-//                            //else adding the item to the wishlist when user clicks on the heart
-//                        } else {
-//                            String itemId = wishListRef.push().getKey();
-//                            itemShoe checkoutItem1 = new itemShoe(data, data1, data3, data2, data4);
-//                            wishListRef.child(itemId).setValue(checkoutItem1);
-//                            isInWishList = true;
-//                        }
-//
-//                        //The putBoolean() method is used to store the updated
-//                        // isInWishList value for the specific item in the wishlist.
-//                        SharedPreferences.Editor editor = sharedPreferences.edit();
-//                        editor.putBoolean("isInWishList_" + data, isInWishList);
-//                        editor.apply();
-//
-//                        // Set the heart image resource based on the isInWishList variable
-//                        book.setImageResource(isInWishList ? R.drawable.filled_heart : R.drawable.empty_heart);
-//
-//                        // Show appropriate toast message
-//                        Toast.makeText(showIT.this, isInWishList ? "ITEM ADDED TO WISHLIST" : "ITEM REMOVED FROM WISHLIST", Toast.LENGTH_SHORT).show();
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//                        // Handle error
-//                    }
-//                });
-//            }
-//        });
-//    }
-
-    /*
-      Wishlist method
-      This method adds the item to the wishlist
-      Second approach that works on every device and is not just limited to one device
-    */
     private void wishListButton() {
         DatabaseReference wishListRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/wishList");
 
@@ -387,7 +287,7 @@ public class showIT extends AppCompatActivity  {
                             // and adds it to the wishlist class
                         } else {
                             String itemId = wishListRef.push().getKey();
-                            itemShoe checkoutItem1 = new itemShoe(data, data1, data3, data2, data4);
+                            shopItem checkoutItem1 = new shopItem(data, data1, data3, data2, data4);
                             wishListRef.child(itemId).setValue(checkoutItem1);
                             isInWishList = true;
                         }
@@ -407,29 +307,20 @@ public class showIT extends AppCompatActivity  {
     }
 
 
-
-
-
-
-
     private void initView() {
-        desName=findViewById((R.id.desName));
-        desPrice=findViewById((R.id.desPrice));
-        quant=findViewById((R.id.quant));
-        addtocartbut=findViewById((R.id.addtocartbut));
-        addbut=findViewById((R.id.addbut));
-        minusbut=findViewById((R.id.minusbut));
-        imageitemView=findViewById((R.id.imageitemView));
-        //  cartTotal=findViewById((R.id.cartTota));
-        textView3=findViewById((R.id.textView3));
+        desName = findViewById((R.id.desName));
+        desPrice = findViewById((R.id.desPrice));
+        quant = findViewById((R.id.quant));
+        addtocartbut = findViewById((R.id.addtocartbut));
+        addbut = findViewById((R.id.addbut));
+        minusbut = findViewById((R.id.minusbut));
+        imageitemView = findViewById((R.id.imageitemView));
+        textView3 = findViewById((R.id.textView3));
         description = findViewById(R.id.descbox);
         book = findViewById(R.id.imageView4);
         ratingrecycler = findViewById(R.id.ratingrecycler);
-
-
-
-
-
+        arrow = findViewById(R.id.arrowimage);
+        rateText = findViewById(R.id.rateText);
 
 
     }

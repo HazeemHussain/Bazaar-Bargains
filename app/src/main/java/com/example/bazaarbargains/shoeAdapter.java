@@ -16,83 +16,45 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.veiwshoeholder>
+public class shoeAdapter extends FirebaseRecyclerAdapter<shopItem,shoeAdapter.veiwshoeholder>
 {
 
     private int j;
     View view;
 
 
-    public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options,int i) {
+    public shoeAdapter(@NonNull FirebaseRecyclerOptions<shopItem> options, int i) {
         super(options);
         j = i;
 
     }
 
-    public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options) {
+    public shoeAdapter(@NonNull FirebaseRecyclerOptions<shopItem> options) {
         super(options);
 
 
     }
 
     @Override
-    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
-        holder.name.setText(itemShoe.getName());
-        holder.price.setText("$" + itemShoe.getPrice());
-        Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-        Log.d("RecyclerView", "Item added: " + itemShoe.getName());
+    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull shopItem shopItem) {
+        holder.name.setText(shopItem.getName());
+        holder.price.setText("$" + shopItem.getPrice());
+        Glide.with(holder.image2.getContext()).load(shopItem.getImage()).into(holder.image2);
+        Log.d("RecyclerView", "Item added: " + shopItem.getName());
 
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
-                intent.putExtra("itemname", itemShoe.getName());
-                intent.putExtra("itemprice", itemShoe.getPrice());
-                intent.putExtra("itemimage", itemShoe.getImage());
-                intent.putExtra("itemdesc", itemShoe.getDescription());
-                intent.putExtra("itemsize", itemShoe.getSize());
+                intent.putExtra("itemname", shopItem.getName());
+                intent.putExtra("itemprice", shopItem.getPrice());
+                intent.putExtra("itemimage", shopItem.getImage());
+                intent.putExtra("itemdesc", shopItem.getDescription());
+                intent.putExtra("itemsize", shopItem.getSize());
                 holder.itemView.getContext().startActivity(intent);
             }
         });
     }
-//    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
-//
-//        int option = j; // can be 1 or 2
-//
-//        switch (option) {
-//            case 1:
-//                System.out.println("Option 1 selected.");
-//                break;
-//            case 2:
-//                holder.name.setText(itemShoe.getName());
-//                holder.price.setText("$"+ itemShoe.getPrice());
-//                Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-//                break;
-//            default:
-//                System.out.println("Invalid option selected.");
-//                break;
-//        }
-//
-//       holder.name.setText(itemShoe.getName());
-//        holder.price.setText("$"+ itemShoe.getPrice());
-//        Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-//
-//        holder.veiwbut.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
-//
-//                 intent.putExtra("itemname", itemShoe.getName());
-//                intent.putExtra("itemprice", itemShoe.getPrice());
-//                intent.putExtra("itemimage", itemShoe.getImage());
-//
-//                    holder.itemView.getContext().startActivity(intent);
-//
-//            }
-//        });
-//
-//    }
-
 
 
     @NonNull

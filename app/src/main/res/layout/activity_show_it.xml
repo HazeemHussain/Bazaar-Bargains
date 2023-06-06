@@ -78,22 +78,55 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     />
-                <TextView
 
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginStart="15dp"
-                    android:text="Rating"
-                    android:textColor="#222222"
-                    android:textStyle="bold"
-                    android:textSize="18sp" />
-
-                <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/ratingrecycler"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    />
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/rateText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="15dp"
+                        android:layout_marginBottom="15dp"
+                        android:layout_weight="0"
+                        android:text="Rating"
+                        android:textColor="#222222"
+                        android:textSize="18sp"
+                        android:textStyle="bold"
+                        android:visibility="visible" />
+
+
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/ratingrecycler"
+                        android:layout_width="0dp"
+                        android:visibility="visible"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1" />
+
+                    <ImageView
+                        android:id="@+id/arrowimage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        android:layout_marginLeft="10dp"
+                        android:scaleX=".5"
+                        android:scaleY=".5"
+                        android:src="@drawable/arrow" />
+
+                </LinearLayout>
+
+
 
 
                 <LinearLayout

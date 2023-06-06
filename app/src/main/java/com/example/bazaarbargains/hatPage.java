@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,9 +52,9 @@ public class hatPage extends AppCompatActivity {
                 .child("Hats");
 
 
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(query, itemShoe.class)
+        FirebaseRecyclerOptions<shopItem> options =
+                new FirebaseRecyclerOptions.Builder<shopItem>()
+                        .setQuery(query, shopItem.class)
                         .build();
 
         adapter = new shoeAdapter(options, 1);
@@ -71,9 +70,9 @@ public class hatPage extends AppCompatActivity {
                         .child("Hats").orderByChild("brand").equalTo(brandString);
 
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -97,9 +96,9 @@ public class hatPage extends AppCompatActivity {
                         .orderByChild(sizeString)
                         .equalTo(true);
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -126,9 +125,9 @@ public class hatPage extends AppCompatActivity {
                     query = query.orderByChild("price2");
                 }
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);

@@ -103,66 +103,7 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-    /*
-    This method stores the profile picture user selects to the database under that user's node
-     */
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//
-//        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-//            Uri imageUri = data.getData();
-//            DatabaseReference usersRef = FirebaseDatabase.getInstance().getReference("Users");
-//
-//            // Get the current user's username (replace "hhus" with the actual username)
-//
-//            // Create a new child reference under the username to store the image URI
-//            DatabaseReference userRef = usersRef.child(currentUser);
-//
-//            // Set the image URI value to the child reference
-//            userRef.child("imageUri").setValue(imageUri.toString());
-//
-//            newImage.setImageURI(imageUri);
-//
-//        }
-//
-//    }
 
-//    private void retrievingProfileImage() {
-//        if (currentUser != null && !currentUser.isEmpty()) {
-//            // Retrieve the data from the database
-//            final DatabaseReference dbref;
-//            dbref = FirebaseDatabase.getInstance().getReference("Users");
-//
-//            dbref.child(currentUser).child("imageUri").addListenerForSingleValueEvent(new ValueEventListener() {
-//                @Override
-//                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                    if (dataSnapshot.exists()) {
-//                        String imageUri = dataSnapshot.getValue(String.class);
-//                        if (imageUri != null) {
-//                            // Set the image URI to the image view
-//                            Glide.with(Dashboard.this).load(imageUri).into(newImage);
-//                            newImage.setVisibility(View.VISIBLE); // Make the ImageView visible
-//                        } else {
-//                            // If imageUri is null, hide the image view
-//                            newImage.setVisibility(View.INVISIBLE);
-//                        }
-//                    } else {
-//                        // If dataSnapshot doesn't exist, hide the image view
-//                        newImage.setVisibility(View.INVISIBLE);
-//                    }
-//                }
-//
-//                @Override
-//                public void onCancelled(@NonNull DatabaseError error) {
-//
-//                }
-//            });
-//        } else {
-//            // If currentUser is null or empty, hide the image view
-//            newImage.setVisibility(View.INVISIBLE);
-//        }
-//    }
 
 
     /* This method will delete the user account if user clicks on

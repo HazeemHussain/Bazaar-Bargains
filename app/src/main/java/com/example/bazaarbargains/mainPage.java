@@ -14,11 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListAdapter;
 import android.widget.ListView;
-
-import android.widget.RelativeLayout;
 
 import android.widget.TextView;
 import androidx.annotation.NonNull;
@@ -27,16 +24,10 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
@@ -44,18 +35,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.List;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.MenuItem;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class mainPage  extends AppCompatActivity  {
@@ -206,9 +188,9 @@ public class mainPage  extends AppCompatActivity  {
 
         recyview.setItemAnimator(null);
 
-        FirebaseRecyclerOptions<itemShoe> options =
-        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                .setQuery(FirebaseDatabase.getInstance().getReference().child("Trending"), itemShoe.class)
+        FirebaseRecyclerOptions<shopItem> options =
+        new FirebaseRecyclerOptions.Builder<shopItem>()
+                .setQuery(FirebaseDatabase.getInstance().getReference().child("Trending"), shopItem.class)
                 .build();
 
         adapter = new shoeAdapter(options,1);

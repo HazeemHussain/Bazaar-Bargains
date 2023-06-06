@@ -7,10 +7,37 @@
     android:layout_height="match_parent"
     >
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <TextView
+                android:id="@+id/backbutton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/back1"
+                android:scaleX=".7"
+                android:scaleY=".7"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/returnText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingStart="8dp"
+                android:paddingTop="13dp"
+                android:text="Return to Main"
+                android:textSize="30sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
         <TextView
             android:id="@+id/textInvoice"
@@ -59,19 +86,5 @@
 
     </LinearLayout>
 
-    <nl.joery.animatedbottombar.AnimatedBottomBar
-        android:id="@+id/navBar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-
-        android:background="#FFF"
-        app:abb_indicatorAppearance="round"
-        app:abb_indicatorHeight="4dp"
-        app:abb_indicatorMargin="16dp"
-        app:abb_selectedIndex="1"
-        app:abb_selectedTabType="icon"
-
-        app:abb_tabs="@menu/navigation_menu" />
 
 </RelativeLayout>

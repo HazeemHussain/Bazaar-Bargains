@@ -46,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
 
     private void startLoadingAnimation() {
 
-//        appLogo.setVisibility(View.INVISIBLE);
-//        loadingBar.setVisibility(View.VISIBLE);
 
         // Displaying the logo and the loading simulatenously
         appLogo.setAlpha(1.0f);

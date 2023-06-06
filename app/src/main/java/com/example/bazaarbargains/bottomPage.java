@@ -13,21 +13,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class bottomPage extends AppCompatActivity {
+    //declaring instance variables used
     RecyclerView rec;
-
+    //spinner for each filter type
     private Spinner sizeSpinner;
     private Spinner brandSpinner;
     private Spinner priceSpinner;
     private TextView filterReset;
     private String sizeString, brandString, priceString;
 
+    //ShopAdapter variable
     shoeAdapter adapter;
 
 
@@ -36,7 +37,7 @@ public class bottomPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bottom_page);
 
-
+        //Initialising the variables by using findViewById to corresponding component in xml file
         filterReset = findViewById(R.id.resetbutton);
         sizeSpinner = findViewById(R.id.brandSpinner1);
         brandSpinner = findViewById(R.id.brandSpinner);
@@ -44,24 +45,26 @@ public class bottomPage extends AppCompatActivity {
 
 
         rec = findViewById(R.id.hatrec);
-
+    //setting layout to grid with two columns
         rec.setLayoutManager(new GridLayoutManager(this, 2));
 
         rec.setItemAnimator(null);
-
+    //creating query to retrieve items from child Bottoms
         Query query = FirebaseDatabase.getInstance()
                 .getReference()
                 .child("Bottoms");
 
-
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(query, itemShoe.class)
+    // creating options which is used to bind data to recyclerView
+        FirebaseRecyclerOptions<shopItem> options =
+                new FirebaseRecyclerOptions.Builder<shopItem>()
+                        .setQuery(query, shopItem.class)
                         .build();
-
+//passing options and switch case choice int 1 into shoeAdapter
         adapter = new shoeAdapter(options, 1);
+        //setting adapter to recyclerview
         rec.setAdapter(adapter);
 
+        //if brand selected in filter than
         brandSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -72,9 +75,9 @@ public class bottomPage extends AppCompatActivity {
                         .child("Bottoms").orderByChild("brand").equalTo(brandString);
 
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -98,9 +101,9 @@ public class bottomPage extends AppCompatActivity {
                         .orderByChild(sizeString)
                         .equalTo(true);
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -127,9 +130,9 @@ public class bottomPage extends AppCompatActivity {
                     query = query.orderByChild("price2");
                 }
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);

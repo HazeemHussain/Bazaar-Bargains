@@ -1,17 +1,18 @@
 package com.example.bazaarbargains;
 
-public class itemShoe {
+
+public class shopItem {
     String name;
     String price;
     String image;
     String description;
     String size;
 
-    public itemShoe()
+    public shopItem()
     {
 
     }
-    public itemShoe(String name, String price, String image) {
+    public shopItem(String name, String price, String image) {
         this.name = name;
         this.price = price;
         this.image = image;
@@ -56,7 +57,7 @@ public class itemShoe {
     public void setImage(String image) {
         this.image = image;
     }
-    public itemShoe(String name, String price, String description, String image, String size) {
+    public shopItem(String name, String price, String description, String image, String size) {
         this.name = name;
         this.price = price;
         this.image = image;

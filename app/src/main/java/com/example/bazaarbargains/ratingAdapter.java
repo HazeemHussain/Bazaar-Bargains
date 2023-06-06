@@ -15,8 +15,8 @@ public class ratingAdapter extends RecyclerView.Adapter<ratingAdapter.NumberView
 
     private List<Integer> ratingList;
     private int clickedPosition = -1;
-    public int numberStar = 0;
-    public static int numberStar1 = 0 ;
+    public  int numberStar = 0;
+    public static int numberStar1 ;
 
 
     public ratingAdapter(List<Integer> ratingList) {
@@ -43,7 +43,7 @@ public class ratingAdapter extends RecyclerView.Adapter<ratingAdapter.NumberView
 
         if (position <= clickedPosition) {
             holder.star.setImageResource(R.drawable.starfill);
-            numberStar1=clickedPosition+1;
+
 
 
         } else {
@@ -56,8 +56,8 @@ public class ratingAdapter extends RecyclerView.Adapter<ratingAdapter.NumberView
                 clickedPosition = holder.getAdapterPosition();
                 Log.d("NumberStar Value", String.valueOf(numberStar));
                 Log.d("NumberStar Value", String.valueOf(clickedPosition));
-
-                Log.d("NumberStar Value", String.valueOf(clickedPosition));
+                numberStar1=clickedPosition+1;
+                Log.d("NumberStar Value", String.valueOf(numberStar1));
 
 
                 notifyDataSetChanged();

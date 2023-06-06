@@ -335,11 +335,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             }
         });
 
-        //  float f=toalprice;
-        //cartTotal.setText((Float.toString(value+cartAdapter.myFloat)));
-
-      //  totaltot.setText("3");
-
     }
 
 
@@ -357,8 +352,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             )));
         } catch (NullPointerException e) {
             Toast.makeText(cartRecList.this,"Cannot Checkout With Nothing", Toast.LENGTH_SHORT).show();
-           // Intent intent = new Intent(cartRecList.this, cartRecList.class);
-          //  startActivity(intent);
+
         }
 
 
@@ -392,12 +386,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
     }
 
 });
-      //  showIT.myFloatVariable = 0;
 
-       //   DatabaseReference dbr = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-        //  dbr.removeValue();
-        //  DatabaseReference dbrs = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/amount");
-       //   dbrs.removeValue();
 
         Toast.makeText(this,"Payment Successful", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(cartRecList.this, invoicePage.class);
@@ -551,64 +540,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
 
-    /*   @Override
-       public void onRemoveItemClicked(int position) {
-           modelAddCart itemToRemove = list.get(position);
-           double itemPrice = Double.parseDouble(itemToRemove.getPerItemCost());
-   
-           // Remove the item from your data source
-           list.remove(position);
-           myAdapter.notifyItemRemoved(position);
-   
-           // Remove the item from the database
-           DatabaseReference cartRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("cart");
-           cartRef.addListenerForSingleValueEvent(new ValueEventListener() {
-               @Override
-               public void onDataChange(@NonNull DataSnapshot snapshot) {
-                   for (DataSnapshot cartItemSnapshot : snapshot.getChildren()) {
-                       modelAddCart cartItem = cartItemSnapshot.getValue(modelAddCart.class);
-                       if (cartItem != null && cartItem.getItemName().equals(itemToRemove.getItemName())) {
-                           cartItemSnapshot.getRef().removeValue().addOnCompleteListener(removeTask -> {
-                               if (removeTask.isSuccessful()) {
-                                   // Item removed successfully from the database
-   
-                                   // Access the "users/amount" instance and subtract the cost of the deleted item
-                                   DatabaseReference amountRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("amount");
-                                   amountRef.get().addOnCompleteListener(amountTask -> {
-                                       if (amountTask.isSuccessful() && amountTask.getResult().exists()) {
-                                           double currentAmount = amountTask.getResult().getValue(Double.class);
-                                           double newAmount = currentAmount - itemPrice;
-   
-                                           // Update the "users/amount" instance with the new amount
-                                           amountRef.setValue(newAmount).addOnCompleteListener(updateTask -> {
-                                               if (updateTask.isSuccessful()) {
-   
-                                               } else {
-   
-                                               }
-                                           });
-                                       } else {
-   
-                                       }
-                                   });
-                               } else {
-   
-                               }
-                           });
-                           break;
-                       }
-                   }
-               }
-   
-               @Override
-               public void onCancelled(@NonNull DatabaseError error) {
-                   // Error occurred while retrieving cart items
-                   // Handle the error or display an error message
-               }
-           });
-       }*/
-
-
     private float setTotalView() {
         float total = 0;
         for (modelAddCart item : list) {
@@ -616,12 +547,8 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
             total += itemPrice;
         }
 
-        // Update the total value in the TextView
-//        totaltot.setText(String.format("$%.2f", total));
-      //  gstTotal.setText(String.format("$%.2f", total * 0.15));
         textt.setText(String.format("$%.2f", total));
 
-       // Log.d("TotalValue", String.format("$%.2f", total));
 
         return total;
     }
@@ -634,14 +561,14 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         }
 
          return total;
-        // Log.d("TotalValue", String.format("$%.2f", total));
+
 
     }
 
     private String getTextFromTextView() {
         TextView textView = findViewById(R.id.textt);
         String text = textView.getText().toString();
-        text = text.replace("$", ""); // Remove the dollar sign
+        text = text.replace("$", "");
         return text;
     }
 

@@ -2,22 +2,15 @@ package com.example.bazaarbargains;
 
 
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
 
@@ -77,12 +70,10 @@ public class wishlist extends AppCompatActivity {
 
         recyview1.setItemAnimator(null);
 
-      //  FirebaseDatabase database = FirebaseDatabase.getInstance();
-      //  DatabaseReference wishlistRef = database.getReference("Users/"+currentUser+"/cart");
 
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("wishList"), itemShoe.class)
+        FirebaseRecyclerOptions<shopItem> options =
+                new FirebaseRecyclerOptions.Builder<shopItem>()
+                        .setQuery(FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser).child("wishList"), shopItem.class)
                         .build();
 
         adapter = new shoeAdapter(options,1);

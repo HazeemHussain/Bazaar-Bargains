@@ -23,14 +23,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class loginActivity extends AppCompatActivity {
 
-    private Button forgotPassword,  joinBtn, loginBtn;
+    private Button forgotPassword, joinBtn, loginBtn;
     private EditText inputUserName, inputPassword;
     private String parentDBName = "Users";
     private ProgressDialog loadingbar;
 
     private static String userloggedin = "name";
     public static String currentUser;
-   // public static String fullName;
+    // public static String fullName;
 
     private CheckBox showPassword;
 
@@ -90,7 +90,7 @@ public class loginActivity extends AppCompatActivity {
         joinBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(loginActivity.this, SignUpActivity.class );
+                Intent intent = new Intent(loginActivity.this, SignUpActivity.class);
                 startActivity(intent);
             }
         });
@@ -161,9 +161,7 @@ public class loginActivity extends AppCompatActivity {
                         loadingbar.dismiss();
                         Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else
-                {
+                } else {
                     //Displaying msg if user name doesnt exits in firebase
                     loadingbar.dismiss();
                     Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();

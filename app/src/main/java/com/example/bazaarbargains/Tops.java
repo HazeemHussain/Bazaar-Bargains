@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 
@@ -53,9 +52,9 @@ public class Tops extends AppCompatActivity {
                 .child("Tops");
 
 
-        FirebaseRecyclerOptions<itemShoe> options =
-                new FirebaseRecyclerOptions.Builder<itemShoe>()
-                        .setQuery(query, itemShoe.class)
+        FirebaseRecyclerOptions<shopItem> options =
+                new FirebaseRecyclerOptions.Builder<shopItem>()
+                        .setQuery(query, shopItem.class)
                         .build();
 
         adapter = new shoeAdapter(options,1);
@@ -70,11 +69,11 @@ public class Tops extends AppCompatActivity {
                 Query query = FirebaseDatabase.getInstance()
                         .getReference()
                         .child("Tops").orderByChild("brand").equalTo(brandString);
-              
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -97,9 +96,9 @@ public class Tops extends AppCompatActivity {
                         .orderByChild(sizeString)
                         .equalTo(true);
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
@@ -127,9 +126,9 @@ public class Tops extends AppCompatActivity {
                     query = query.orderByChild("price2");
                 }
 
-                FirebaseRecyclerOptions<itemShoe> options =
-                        new FirebaseRecyclerOptions.Builder<itemShoe>()
-                                .setQuery(query, itemShoe.class)
+                FirebaseRecyclerOptions<shopItem> options =
+                        new FirebaseRecyclerOptions.Builder<shopItem>()
+                                .setQuery(query, shopItem.class)
                                 .build();
 
                 adapter.updateOptions(options);
