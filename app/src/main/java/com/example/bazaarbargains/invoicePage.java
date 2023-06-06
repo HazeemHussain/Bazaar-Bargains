@@ -12,41 +12,19 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.firebase.ui.database.FirebaseRecyclerOptions;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
-import java.util.ArrayList;
-
-import nl.joery.animatedbottombar.AnimatedBottomBar;
 
 public class invoicePage extends AppCompatActivity {
-    RecyclerView rec;
 
     TextView backbutton;
-    ArrayList<modelAddCart> list = new ArrayList<>();
-    String currentUser = loginActivity.currentUser;
-
-    cartAdapter myAdapter;
     private int backButtonCount = 0;
     private static final int MAX_BACK_BUTTON_COUNT = 2;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_invoice_page);
-        rec = findViewById(R.id.invoiceRec);
-        DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
-
-        rec.setHasFixedSize(true);
-        rec.setLayoutManager(new LinearLayoutManager(this));
-        list = new ArrayList<>();
-        myAdapter = new cartAdapter(this, list);
-
-        rec.setAdapter(myAdapter);
 
         backbutton = findViewById(R.id.backbutton);
         backbutton.setOnClickListener(new View.OnClickListener() {
@@ -56,36 +34,9 @@ public class invoicePage extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
-        invoiceRef.addValueEventListener(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                list.clear();
-
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-
-
-                    modelAddCart shoe = dataSnapshot.getValue(modelAddCart.class);
-
-
-                    list.add(shoe);
-
-
-                }
-
-                myAdapter.notifyDataSetChanged();
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-
-            }
-        });
-
     }
+
+
     @Override
     public void onBackPressed() {
 
@@ -100,6 +51,4 @@ public class invoicePage extends AppCompatActivity {
 
         }
     }
-
 }
-

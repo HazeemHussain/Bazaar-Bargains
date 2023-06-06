@@ -104,7 +104,10 @@ public class SignUpActivity extends AppCompatActivity {
                         }
                     });
 
+
                 } else if (userName.length() < 6) {
+
+
                     Toast.makeText(SignUpActivity.this, "THE USERNAME SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();
                 } else if (password.length() < 6) {
                     Toast.makeText(SignUpActivity.this, "THE PASSWORD SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();

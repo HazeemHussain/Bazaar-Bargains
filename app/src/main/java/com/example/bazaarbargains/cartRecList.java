@@ -38,6 +38,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -254,9 +255,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
                 //Moving the user to payment options class
 
-                //    Intent intent = new Intent(cartRecList.this, payment_options.class);
-                //  startActivity(intent);
-
 
 
                 //Changing the total value to zero after user has clicked on paynow button
@@ -367,25 +365,33 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         //Getting database reference from firebase to delete the items from the cart once the user has clicked
         //on pay now button
         DatabaseReference databaseRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/cart");
-      //  DatabaseReference dataRef = FirebaseDatabase.getInstance().getReference().child("Order History");
         DatabaseReference invoiceRef = FirebaseDatabase.getInstance().getReference("Users/" + currentUser + "/invoice");
+
         databaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
-    @Override
-    public void onDataChange(@NonNull DataSnapshot snapshot) {
-        if(snapshot.exists()){
-            Object data = snapshot.getValue();
-           // dataRef.setValue(data);
-            invoiceRef.setValue(data);
-            databaseRef.removeValue();
-        }
-    }
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                if (snapshot.exists()) {
+                    for (DataSnapshot cartSnapshot : snapshot.getChildren()) {
+                        Object data = cartSnapshot.getValue();
 
-    @Override
-    public void onCancelled(@NonNull DatabaseError error) {
+                        // Generate a new unique key for each invoice item
+                        String invoiceItemKey = invoiceRef.push().getKey();
 
-    }
+                        // Create a new child node under the "invoice" node with the unique key and the item data
+                        invoiceRef.child(invoiceItemKey).setValue(data);
+                    }
 
-});
+
+                // Remove the cart data
+                    databaseRef.removeValue();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle cancellation if needed
+            }
+        });
 
 
         Toast.makeText(this,"Payment Successful", Toast.LENGTH_SHORT).show();
@@ -486,7 +492,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
     }
 
-    private void getClientSecret(String customerId, String ephericalKey) {
+    public void getClientSecret(String customerId, String ephericalKey) {
         StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents",
                 new Response.Listener<String>() {
                     @Override
@@ -513,13 +519,12 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 header.put( "Authorization", "Bearer " + SecretKey);
                 return header;
             }
-
-            protected Map<String,String> getParams() throws AuthFailureError{
+            public Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> param = new HashMap<>();
                 param.put("customer",CustomerId);
                 float total = setTotalView();
-               float totla1= total*10;
-           String totals = String.valueOf(totla1);
+                float total1= total*10;
+                String totals = String.valueOf(total1);
 
 
                 String[] parts = totals.split("\\.");
@@ -540,9 +545,25 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
 
-    private float setTotalView() {
+
+    public float setTotalView() {
+
         float total = 0;
         for (modelAddCart item : list) {
+            float itemPrice = Float.parseFloat(item.getPerItemCost());
+            total += itemPrice;
+        }
+
+        textt.setText(String.format("$%.2f", total));
+
+
+        return total;
+    }
+
+
+    public float setTotalView( List<modelAddCart> itemList) {
+        float total = 0;
+        for (modelAddCart item : itemList) {
             float itemPrice = Float.parseFloat(item.getPerItemCost());
             total += itemPrice;
         }

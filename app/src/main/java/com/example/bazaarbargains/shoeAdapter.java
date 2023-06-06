@@ -65,7 +65,7 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<shopItem,shoeAdapter.ve
 
         switch (option) {
             case 1:
-               view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemviewlayout,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemviewlayout,parent,false);
 
                 break;
             case 2:

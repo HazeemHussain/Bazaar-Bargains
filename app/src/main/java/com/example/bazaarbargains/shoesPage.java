@@ -65,7 +65,7 @@ public class shoesPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 brandString = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Selected item: " + brandString, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Selected item: " + brandString, Toast.LENGTH_SHORT).show();
 
                 Query query = FirebaseDatabase.getInstance()
                         .getReference()
@@ -89,7 +89,7 @@ public class shoesPage extends AppCompatActivity {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 sizeString = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Selected item: " + sizeString, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "Selected item: " + sizeString, Toast.LENGTH_SHORT).show();
 
                 Query query = FirebaseDatabase.getInstance()
                         .getReference()
@@ -108,14 +108,14 @@ public class shoesPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
             }
         });
         priceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 priceString = parent.getItemAtPosition(position).toString();
-                Toast.makeText(getApplicationContext(), "Selected item: " + priceString, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Selected item: " + priceString, Toast.LENGTH_SHORT).show();
 
                 Query query = FirebaseDatabase.getInstance()
                         .getReference()
@@ -138,7 +138,7 @@ public class shoesPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
             }
         });
 

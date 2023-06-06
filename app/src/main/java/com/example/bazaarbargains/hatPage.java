@@ -107,7 +107,7 @@ public class hatPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
             }
         });
         priceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -135,7 +135,7 @@ public class hatPage extends AppCompatActivity {
 
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
-                Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
             }
         });
 
