@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
@@ -30,6 +31,8 @@ public class invoicePage extends AppCompatActivity {
     String currentUser = loginActivity.currentUser;
 
     cartAdapter myAdapter;
+    private int backButtonCount = 0;
+    private static final int MAX_BACK_BUTTON_COUNT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +86,20 @@ public class invoicePage extends AppCompatActivity {
         });
 
     }
+    @Override
+    public void onBackPressed() {
 
+        backButtonCount++;
+
+        if (backButtonCount > MAX_BACK_BUTTON_COUNT) {
+            // Displaying the message when back button is pressed three or more times
+            Toast.makeText(this, "Click back button on top left to go back to main page", Toast.LENGTH_SHORT).show();
+            // Resetting the counter if back button is pressed more than three times
+            backButtonCount = 0;
+        } else {
+
+        }
+    }
 
 }
 
