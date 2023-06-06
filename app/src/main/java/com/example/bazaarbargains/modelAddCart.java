@@ -21,10 +21,9 @@ public class modelAddCart implements Serializable {
         this.perItemCost = perItemCost;
         this.sizec = sizec;
     }
+    public modelAddCart() {
 
-
-
-
+    }
     public String getSizec() {
         return sizec;
     }

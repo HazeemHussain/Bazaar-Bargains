@@ -62,7 +62,6 @@ public class bottomPage extends AppCompatActivity {
         adapter = new shoeAdapter(options, 1);
         rec.setAdapter(adapter);
 
-
         brandSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -88,8 +87,6 @@ public class bottomPage extends AppCompatActivity {
 
             }
         });
-
-
         sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -115,8 +112,6 @@ public class bottomPage extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "No items selected", Toast.LENGTH_SHORT).show();
             }
         });
-
-
         priceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -220,9 +215,6 @@ public class bottomPage extends AppCompatActivity {
         super.onStop();
         adapter.stopListening();
     }
-
-
-
 
 
 }

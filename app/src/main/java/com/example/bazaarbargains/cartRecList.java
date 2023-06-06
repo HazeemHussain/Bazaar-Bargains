@@ -38,7 +38,6 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
@@ -254,6 +253,9 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
 
                 //Moving the user to payment options class
+
+                //    Intent intent = new Intent(cartRecList.this, payment_options.class);
+                //  startActivity(intent);
 
 
 
@@ -525,7 +527,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
 
     }
 
-    public void getClientSecret(String customerId, String ephericalKey) {
+    private void getClientSecret(String customerId, String ephericalKey) {
         StringRequest request = new StringRequest(Request.Method.POST, "https://api.stripe.com/v1/payment_intents",
                 new Response.Listener<String>() {
                     @Override
@@ -552,12 +554,13 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
                 header.put( "Authorization", "Bearer " + SecretKey);
                 return header;
             }
-            public Map<String,String> getParams() throws AuthFailureError{
+
+            protected Map<String,String> getParams() throws AuthFailureError{
                 Map<String,String> param = new HashMap<>();
                 param.put("customer",CustomerId);
                 float total = setTotalView();
-                float total1= total*10;
-                String totals = String.valueOf(total1);
+               float totla1= total*10;
+           String totals = String.valueOf(totla1);
 
 
                 String[] parts = totals.split("\\.");
@@ -636,7 +639,7 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
        }*/
 
 
-    public float setTotalView() {
+    private float setTotalView() {
         float total = 0;
         for (modelAddCart item : list) {
             float itemPrice = Float.parseFloat(item.getPerItemCost());
@@ -649,21 +652,6 @@ public class cartRecList extends AppCompatActivity  implements cartAdapter.OnRem
         textt.setText(String.format("$%.2f", total));
 
        // Log.d("TotalValue", String.format("$%.2f", total));
-
-        return total;
-    }
-    public float setTotalView( List<modelAddCart> itemList) {
-        float total = 0;
-        for (modelAddCart item : itemList) {
-            float itemPrice = Float.parseFloat(item.getPerItemCost());
-            total += itemPrice;
-        }
-
-        // Update the total value in the TextView
-//        totaltot.setText(String.format("$%.2f", total));
-        //  gstTotal.setText(String.format("$%.2f", total * 0.15));
-        textt.setText(String.format("$%.2f", total));
-        // Log.d("TotalValue", String.format("$%.2f", total));
 
         return total;
     }

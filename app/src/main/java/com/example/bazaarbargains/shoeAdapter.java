@@ -16,31 +16,19 @@ import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.veiwshoeholder>
 {
 
     private int j;
     View view;
 
-    HashMap<String, List<Boolean>> childItemCheckedState;
-
 
     public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options,int i) {
         super(options);
         j = i;
 
-
     }
-    public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options,int i,HashMap<String, List<Boolean>> childItemCheckedState) {
-        super(options);
-        j = i;
-        this.childItemCheckedState = childItemCheckedState;
 
-    }
     public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options) {
         super(options);
 
@@ -49,8 +37,6 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
 
     @Override
     protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
-
-
         holder.name.setText(itemShoe.getName());
         holder.price.setText("$" + itemShoe.getPrice());
         Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
