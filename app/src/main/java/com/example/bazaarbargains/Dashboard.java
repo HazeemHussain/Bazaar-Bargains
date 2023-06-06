@@ -191,47 +191,51 @@ public class Dashboard extends AppCompatActivity {
                 final String newUserName = userNameEditText.getText().toString();
 
                 if (currentUser != null && !currentUser.isEmpty() && !newUserName.isEmpty()) {
-                    final DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
+                    if (newUserName.equals(currentUser)) {
+                        // If the new username is the same as the current username
+                        Toast.makeText(Dashboard.this, "Please enter a different username", Toast.LENGTH_SHORT).show();
+                    } else {
+                        final DatabaseReference oldRef = FirebaseDatabase.getInstance().getReference().child("Users").child(currentUser);
 
-                    oldRef.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.exists()) {
-                                // Get the data from the old node
-                                Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
-                                if (data != null) {
-                                    // Create a new node with the new username
-                                    DatabaseReference newRef = FirebaseDatabase.getInstance().getReference().child("Users").child(newUserName);
+                        oldRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                            @Override
+                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                if (snapshot.exists()) {
+                                    // Get the data from the old node
+                                    Map<String, Object> data = (Map<String, Object>) snapshot.getValue();
+                                    if (data != null) {
+                                        // Create a new node with the new username
+                                        DatabaseReference newRef = FirebaseDatabase.getInstance().getReference().child("Users").child(newUserName);
 
-                                    // Transfer the data from the old node to the new node
-                                    newRef.setValue(data);
+                                        // Transfer the data from the old node to the new node
+                                        newRef.setValue(data);
 
-                                    // Delete the old node
-                                    oldRef.removeValue();
+                                        // Delete the old node
+                                        oldRef.removeValue();
 
-                                    //setting the user name child to the updated user name
-                                    newRef.child("userName").setValue(newUserName);
+                                        //setting the user name child to the updated user name
+                                        newRef.child("userName").setValue(newUserName);
 
-                                    //Updating the user name and the full name on accounts page
-                                    currentUser = newUserName;
-                                    retrievingFullName();
-                                    retrievingUserName();
+                                        //Updating the user name and the full name on accounts page
+                                        currentUser = newUserName;
+                                        retrievingFullName();
+                                        retrievingUserName();
 
-                                    // Displaying the success message
-                                    Toast.makeText(Dashboard.this, "Username has been changed", Toast.LENGTH_SHORT).show();
+                                        // Displaying the success message
+                                        Toast.makeText(Dashboard.this, "Username has been changed", Toast.LENGTH_SHORT).show();
+                                    }
+                                } else {
+                                    // If the old node does not exist
+                                    Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
                                 }
-                            } else {
-                                // If the old node does not exist
-                                Toast.makeText(Dashboard.this, "User does not exist", Toast.LENGTH_SHORT).show();
                             }
-                        }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            // Handle onCancelled
-                        }
-                    });
-
+                            @Override
+                            public void onCancelled(@NonNull DatabaseError error) {
+                                // Handle onCancelled
+                            }
+                        });
+                    }
                 } else if (newUserName.isEmpty()) {
                     Toast.makeText(Dashboard.this, "Please enter your new username", Toast.LENGTH_SHORT).show();
                 } else {
@@ -242,6 +246,7 @@ public class Dashboard extends AppCompatActivity {
                 dialog.dismiss();
             }
         });
+
 
 
         // Set negative button and its click listener
