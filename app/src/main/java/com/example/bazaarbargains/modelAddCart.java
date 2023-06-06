@@ -11,7 +11,9 @@ public class modelAddCart implements Serializable {
 
     private String perItemCost;
 
+    public modelAddCart() {
 
+    }
 
     public modelAddCart(String itemName, String quantity, String itemPrice, String url, String perItemCost,String sizec) {
         this.itemPrice = itemPrice;

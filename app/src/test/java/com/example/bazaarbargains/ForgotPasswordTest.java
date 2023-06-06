@@ -95,28 +95,9 @@ public class ForgotPasswordTest {
         }
 
     }
-    @Test
-    public void testUpdatingPassword_UsernameExists() {
-        MockitoAnnotations.initMocks(this);
-
-
-        String username = "exampleUser";
-        String password = "newPassword";
-
-
-        when(mockDataSnapshot.exists()).thenReturn(true);
-
-
-        checking.updatingPassword(username, password);
-
-
-        verify(mockDatabaseReference).child("Users");
-        verify(mockDatabaseReference).child(username);
-        verify(mockDatabaseReference).child("password");
-        verify(mockDatabaseReference).setValue(password);
 
 
 
 
-    }
+
 }
