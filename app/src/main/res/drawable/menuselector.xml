@@ -3,9 +3,7 @@
 
     <item
         android:color="@color/white"
-        android:state_selected="true" />
-    <item
-        android:state_selected="false"
-        android:color="@color/black"/>
+       />
+
 
 </selector>

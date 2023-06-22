@@ -1,6 +1,7 @@
 package com.example.bazaarbargains;
 
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,64 +9,52 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
 
-public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.veiwshoeholder>
+public class shoeAdapter extends FirebaseRecyclerAdapter<shopItem,shoeAdapter.veiwshoeholder>
 {
 
     private int j;
     View view;
 
 
-    public shoeAdapter(@NonNull FirebaseRecyclerOptions<itemShoe> options,int i) {
+    public shoeAdapter(@NonNull FirebaseRecyclerOptions<shopItem> options, int i) {
         super(options);
         j = i;
 
     }
 
-    @Override
-    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull itemShoe itemShoe) {
+    public shoeAdapter(@NonNull FirebaseRecyclerOptions<shopItem> options) {
+        super(options);
 
-        int option = j; // can be 1 or 2
-
-        switch (option) {
-            case 1:
-                System.out.println("Option 1 selected.");
-                break;
-            case 2:
-                holder.name.setText(itemShoe.getName());
-                holder.price.setText("$"+ itemShoe.getPrice());
-                Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-                break;
-            default:
-                System.out.println("Invalid option selected.");
-                break;
-        }
-
-       holder.name.setText(itemShoe.getName());
-        holder.price.setText("$"+ itemShoe.getPrice());
-        Glide.with(holder.image2.getContext()).load(itemShoe.getImage()).into(holder.image2);
-
-        holder.veiwbut.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                 Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
-
-                 intent.putExtra("itemname", itemShoe.getName());
-                intent.putExtra("itemprice", itemShoe.getPrice());
-                intent.putExtra("itemimage", itemShoe.getImage());
-
-                    holder.itemView.getContext().startActivity(intent);
-
-            }
-        });
 
     }
 
+    @Override
+    protected void onBindViewHolder(@NonNull veiwshoeholder holder, int position, @NonNull shopItem shopItem) {
+        holder.name.setText(shopItem.getName());
+        holder.price.setText("$" + shopItem.getPrice());
+        Glide.with(holder.image2.getContext()).load(shopItem.getImage()).into(holder.image2);
+        Log.d("RecyclerView", "Item added: " + shopItem.getName());
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(holder.itemView.getContext(), showIT.class);
+                intent.putExtra("itemname", shopItem.getName());
+                intent.putExtra("itemprice", shopItem.getPrice());
+                intent.putExtra("itemimage", shopItem.getImage());
+                intent.putExtra("itemdesc", shopItem.getDescription());
+                intent.putExtra("itemsize", shopItem.getSize());
+                holder.itemView.getContext().startActivity(intent);
+            }
+        });
+    }
 
 
     @NonNull
@@ -76,7 +65,7 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
 
         switch (option) {
             case 1:
-               view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemviewlayout,parent,false);
+                view = LayoutInflater.from(parent.getContext()).inflate(R.layout.itemviewlayout,parent,false);
 
                 break;
             case 2:
@@ -94,14 +83,22 @@ public class shoeAdapter extends FirebaseRecyclerAdapter<itemShoe,shoeAdapter.ve
     class veiwshoeholder extends RecyclerView.ViewHolder
     {
         ImageView image2;
-        TextView name, price, veiwbut;
+        TextView name, price, veiwbut,description;
+        CardView cardView;
 
         public veiwshoeholder(@NonNull View itemView) {
             super(itemView);
-            image2=(ImageView) itemView.findViewById(R.id.checkImage);
-            name = (TextView)itemView.findViewById(R.id.itemName);
-            price = (TextView)itemView.findViewById(R.id.itemPrice);
-            veiwbut = (TextView)itemView.findViewById(R.id.viewbutton);
+            image2= itemView.findViewById(R.id.checkImage);
+            name = itemView.findViewById(R.id.itemName);
+            price = itemView.findViewById(R.id.itemPrice);
+            description = itemView.findViewById(R.id.descbox);
+
+
+
+            //veiwbut = itemView.findViewById(R.id.viewbutton);
+            cardView = itemView.findViewById(R.id.shoecard);
+
+
 
 
         }

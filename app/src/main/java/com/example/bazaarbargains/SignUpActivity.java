@@ -16,8 +16,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.bazaarbargains.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class SignUpActivity extends AppCompatActivity {
 
@@ -35,9 +38,9 @@ public class SignUpActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivitySignUpBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
-        getPassword = (EditText) findViewById(R.id.password);
-        haveAnAccount = (Button) findViewById(R.id.haveAnAccountBtn);
+        showPassword = findViewById(R.id.showPassword_checkbox);
+        getPassword = findViewById(R.id.password);
+        haveAnAccount = findViewById(R.id.haveAnAccountBtn);
 
         showPassword(); //Calling show password method
         sendingDataToFirebase();
@@ -65,29 +68,56 @@ public class SignUpActivity extends AppCompatActivity {
                 userName = binding.userName.getText().toString();
                 password = binding.password.getText().toString();
 
-
-                if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty()) {
+                if (!firstName.isEmpty() && !lastName.isEmpty() && !userName.isEmpty() && !password.isEmpty() && !(password.length() < 6) && !(userName.length() < 6)) {
                     Users users = new Users(firstName, lastName, userName, password);
                     db = FirebaseDatabase.getInstance();
                     reference = db.getReference("Users");
-                    reference.child(userName).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                    // Check if the username already exists
+                    reference.child(userName).addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            binding.firstName.setText("");
-                            binding.lastName.setText("");
-                            binding.userName.setText("");
-                            binding.password.setText("");
-                            Toast.makeText(SignUpActivity.this, "SUCCESSFULLY REGISTERED", Toast.LENGTH_SHORT).show();
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if (dataSnapshot.exists()) {
+                                Toast.makeText(SignUpActivity.this, "Username already exists", Toast.LENGTH_SHORT).show();
+                            } else {
+                                // Save the new user data
+                                reference.child(userName).setValue(users).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        binding.firstName.setText("");
+                                        binding.lastName.setText("");
+                                        binding.userName.setText("");
+                                        binding.password.setText("");
+                                        Toast.makeText(SignUpActivity.this, "SUCCESSFULLY REGISTERED", Toast.LENGTH_SHORT).show();
+
+                                        // IF THE SIGNUP IS SUCCESSFUL, IT TAKES USERS TO THE LOGIN PAGE
+                                        Intent intent = new Intent(SignUpActivity.this, loginActivity.class);
+                                        startActivity(intent);
+                                    }
+                                });
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                            // Handle onCancelled event if needed
                         }
                     });
+
+
+                } else if (userName.length() < 6) {
+
+
+                    Toast.makeText(SignUpActivity.this, "THE USERNAME SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();
+                } else if (password.length() < 6) {
+                    Toast.makeText(SignUpActivity.this, "THE PASSWORD SHOULD BE MORE THAN 6 CHARACTERS", Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(SignUpActivity.this, "PLEASE FILL IN ALL THE DETAILS", Toast.LENGTH_SHORT).show();
                 }
-
-
             }
         });
     }
+
 
     //Showing the password when user click on show password button
     private void showPassword() {

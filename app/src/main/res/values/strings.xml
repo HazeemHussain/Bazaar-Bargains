@@ -1,6 +1,88 @@
 <resources>
     <string name="app_name">Bazaar Bargains</string>
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_payment_options">PaymentOptions</string>
+
+
+    <!--  iphone_14___1 strings  -->
+
+    <string name="ek_img_content">ExportKit Image</string>
+    <string name="login_string">Login</string>
+    <string name="password_string">Password</string>
+    <string name="username_string">Username</string>
+    <string name="title_activity_filter">Filter</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">Android Studio</string>
+    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="menu_home">Home</string>
+    <string name="menu_gallery">Gallery</string>
+    <string name="menu_slideshow">Slideshow</string>
+
+    <string-array name="brand_items">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan</item>
+        <item>Adidas</item>
+        <item>TJM</item>
+    </string-array>
+
+    <string-array name="brand_items_hats">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>New Era</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_bottoms">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_shoes">
+        <item>Select Brand</item>
+        <item>Jordan</item>
+        <item>Nike</item>
+        <item>Adidas</item>
+
+    </string-array>
+    <string-array name="brand_items_tops">
+        <item>Select Brand</item>
+        <item>Nike</item>
+        <item>Jordan  </item>
+        <item>Adidas</item>
+
+        <item>Rats Get Fat</item>
+        <item>Nautica</item>
+        <item>Champion</item>
+        <item>TJM</item>
+
+    </string-array>
+
+    <string-array name="sizes">
+        <item>Select size</item>
+        <item>sizeXL</item>
+        <item>sizeL</item>
+        <item>sizeM</item>
+    </string-array>
+
+    <string-array name="sizes_shoes">
+        <item>Select size</item>
+        <item>sizeXL</item>
+        <item>sizeL</item>
+        <item>sizeM</item>
+    </string-array>
+
+
+    <string-array name="price">
+        <item>Select Price</item>
+        <item>Low To High</item>
+        <item>High To Low</item>
+    </string-array>
+
+
 </resources>

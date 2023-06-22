@@ -1,47 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/shoecard"
     android:layout_width="wrap_content"
-    android:orientation="vertical"
-    android:layout_marginLeft="20dp"
+    android:layout_height="wrap_content"
 
-    android:layout_height="wrap_content">
+    android:layout_margin="8dp"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp">
 
-    <ImageView
-        android:id="@+id/checkImage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_weight="1"
-        android:contentDescription="shoe"
-        android:src="@drawable/it1" />
-
-    <TextView
-        android:id="@+id/viewbutton"
-        android:layout_width="150dp"
-        android:layout_height="50dp"
-        android:layout_gravity="start"
-        android:layout_weight="1"
-        android:background="@drawable/newbut"
-
-        android:textSize="26sp"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/itemName"
-        android:layout_width="150dp"
-        android:layout_height="60dp"
-        android:layout_weight="1"
-
-        android:text="name"
-        android:textColor="#222222"
-        android:textAlignment="center" />
-
-    <TextView
-        android:id="@+id/itemPrice"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:layout_weight="1"
-        android:textColor="#222222"
-        android:text="price" />
-</LinearLayout>
+        android:orientation="vertical"
+        android:paddingStart="16dp"
+        android:paddingTop="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp">
+
+
+        <ImageView
+            android:id="@+id/checkImage"
+            android:layout_width="150dp"
+
+            android:layout_height="150dp"
+            android:layout_weight="1"
+            android:contentDescription="shoe"
+            android:src="@drawable/it1" />
+
+
+
+        <TextView
+            android:id="@+id/itemName"
+            android:layout_width="150dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:text="name"
+            android:textAlignment="textStart"
+            android:textColor="#222222" />
+
+        <TextView
+            android:id="@+id/itemPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="price"
+            android:textAlignment="textStart"
+            android:textColor="#222222" />
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

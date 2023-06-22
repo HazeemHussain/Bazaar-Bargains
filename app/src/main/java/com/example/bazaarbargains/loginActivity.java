@@ -23,28 +23,39 @@ import com.google.firebase.database.ValueEventListener;
 
 public class loginActivity extends AppCompatActivity {
 
-    private Button forgotPassword;
+    private Button forgotPassword, joinBtn, loginBtn;
     private EditText inputUserName, inputPassword;
     private String parentDBName = "Users";
     private ProgressDialog loadingbar;
 
     private static String userloggedin = "name";
     public static String currentUser;
+    // public static String fullName;
 
-    CheckBox showPassword;
+    private CheckBox showPassword;
 
+    private Button mainPagebutton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        mainPagebutton = findViewById(R.id.mainpageBtn);
+        mainPagebutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(loginActivity.this, mainPage.class);
+                startActivity(intent);
+            }
+        });
 
         //Variables
-        Button loginBtn = (Button) findViewById(R.id.login_Btn);
+        loginBtn = (Button) findViewById(R.id.login_Btn);
         forgotPassword = (Button) findViewById(R.id.forgotPasswordBtn);
         inputUserName = (EditText) findViewById(R.id.userName);
         inputPassword = (EditText) findViewById(R.id.password);
+        joinBtn = (Button) findViewById(R.id.join_Btn);
         showPassword = (CheckBox) findViewById(R.id.showPassword_checkbox);
         loadingbar = new ProgressDialog(this);
 
@@ -75,16 +86,25 @@ public class loginActivity extends AppCompatActivity {
             }
         });
 
+        //Signup Button
+        joinBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(loginActivity.this, SignUpActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     //Checking if the user name and passwords field are empty
     private void checkingLoginFields() {
-        String userName = inputUserName.getText().toString();
-        String password = inputPassword.getText().toString();
+        String userName = inputUserName.getText().toString().trim();
+        String password = inputPassword.getText().toString().trim();
 
         if (userName.isEmpty()) {
             inputUserName.setError("ENTER YOUR USERNAME");
-           // Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(loginActivity.this, "PLEASE ENTER YOUR USERNAME", Toast.LENGTH_SHORT).show();
 
         } else if (password.isEmpty()) {
             inputPassword.setError("ENTER YOUR PASSWORD");
@@ -108,6 +128,7 @@ public class loginActivity extends AppCompatActivity {
 
         final DatabaseReference dbref;
         dbref = FirebaseDatabase.getInstance().getReference();
+
         dbref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
 
@@ -117,16 +138,19 @@ public class loginActivity extends AppCompatActivity {
                 if (snapshot.child(parentDBName).child(userName).exists()) {
                     Users userData = snapshot.child(parentDBName).child(userName).getValue(Users.class);
 
+
                     //Checking if the username and password are correct by searching through firebase
                     if (userData.getUserName().equals(userName)) {
                         if (userData.getPassword().equals(password)) {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "LOGIN SUCCESSFUL", Toast.LENGTH_SHORT).show();
+                            //Passing on the current user to other classes
                             currentUser = userName;
+
                             //IF THE LOGIN IS SUCCESSFUL IT TAKES USERS TO THE LOGIN PAGE
                             Intent intent = new Intent(loginActivity.this, mainPage.class);
                             startActivity(intent);
-                            
+
                         } else if (!userData.getPassword().equals(password)) {
                             loadingbar.dismiss();
                             Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
@@ -137,13 +161,11 @@ public class loginActivity extends AppCompatActivity {
                         loadingbar.dismiss();
                         Toast.makeText(loginActivity.this, "INCORRECT PASSWORD", Toast.LENGTH_SHORT).show();
                     }
-                }
-                else
-                {
+                } else {
                     //Displaying msg if user name doesnt exits in firebase
                     loadingbar.dismiss();
                     Toast.makeText(loginActivity.this, "USERNAME DOESN'T EXIST", Toast.LENGTH_SHORT).show();
-                   // Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
+                    // Toast.makeText(loginActivity.this, "PLEASE CREATE A NEW ACCOUNT", Toast.LENGTH_SHORT).show();
 
                 }
             }
